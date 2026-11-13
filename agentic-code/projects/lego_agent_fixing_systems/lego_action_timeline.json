@@ -1,0 +1,51 @@
+{
+  "total_duration": 55.71,
+  "sample_rate": 44100,
+  "scenes": [
+    {
+      "id": 1,
+      "name": "act1_lego_alarm_approach",
+      "action": "lego_walk_to_server",
+      "start": 0.3,
+      "end": 9.95,
+      "duration": 9.65,
+      "text": "Critical alert on the brick grid! Server Blade zero-one connection pool crashed. Autonomous LEGO agent dispatched to station one."
+    },
+    {
+      "id": 2,
+      "name": "act2_lego_scan_server",
+      "action": "lego_scan_and_patch",
+      "start": 10.45,
+      "end": 21.17,
+      "duration": 10.72,
+      "text": "Scanning hardware. Memory leak detected in brick cluster. Snapping in a hotfix brick. Daemon rebooted, status solid cyan!"
+    },
+    {
+      "id": 3,
+      "name": "act3_lego_console_tests",
+      "action": "lego_walk_and_type",
+      "start": 21.67,
+      "end": 31.37,
+      "duration": 9.7,
+      "text": "Waddling over to the cyber slope terminal. Rapid-fire typing with C-clamp hands. All forty-two regression unit tests pass!"
+    },
+    {
+      "id": 4,
+      "name": "act4_lego_lever_deploy",
+      "action": "lego_pull_technic_lever",
+      "start": 31.87,
+      "end": 41.69,
+      "duration": 9.82,
+      "text": "Approaching the Technic master deployment lever. Locking yellow grip into place, pulling down. Hundred percent power locked in!"
+    },
+    {
+      "id": 5,
+      "name": "act5_lego_victory_ship",
+      "action": "lego_victory_celebration",
+      "start": 42.19,
+      "end": 51.71,
+      "duration": 9.52,
+      "text": "Autonomous code shipped to production while humans sleep. Build your own AI brick workforce. Subscribe for more agentic workflows!"
+    }
+  ]
+}

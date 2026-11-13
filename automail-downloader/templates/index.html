@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AutoMail Downloader — Email-Powered File Manager</title>
+  <meta name="description" content="Automatically read emails, extract URLs, and download files from the web with smart caching."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <span class="logo-icon">📬</span>
+      <span>Auto<span class="logo-accent">Mail</span></span>
+    </div>
+
+    <!-- Nav -->
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" data-view="emails" id="navEmails">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <span>Emails</span>
+      </button>
+      <button class="nav-btn" data-view="downloads" id="navDownloads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Downloads</span>
+        <span class="nav-badge" id="dlBadge" style="display:none">0</span>
+      </button>
+      <button class="nav-btn" data-view="cache" id="navCache">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>
+        <span>Cache</span>
+      </button>
+    </nav>
+
+    <!-- Connection Panel -->
+    <div class="conn-panel" id="connPanel">
+      <div class="conn-panel-title">📡 Mailbox Connection</div>
+
+      <div id="connFormWrap">
+        <div class="field-group">
+          <label class="field-label">Email Address</label>
+          <input type="email" id="fieldEmail" class="field-input" placeholder="you@gmail.com" autocomplete="username"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Password / App Password</label>
+          <input type="password" id="fieldPassword" class="field-input" placeholder="••••••••••••••••" autocomplete="current-password"/>
+        </div>
+        <div class="row-2">
+          <div class="field-group">
+            <label class="field-label">IMAP Host</label>
+            <input type="text" id="fieldHost" class="field-input" placeholder="imap.gmail.com"/>
+          </div>
+          <div class="field-group" style="width:90px;flex:0 0 90px">
+            <label class="field-label">Port</label>
+            <input type="number" id="fieldPort" class="field-input" value="993"/>
+          </div>
+        </div>
+        <div class="hint-box">
+          💡 Gmail: enable IMAP + use a 16-char <strong>App Password</strong> (Google Account → Security → App Passwords)
+        </div>
+        <button class="btn-connect" id="btnConnect">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          Connect
+        </button>
+      </div>
+
+      <div id="connStatus" class="conn-status" style="display:none">
+        <div class="conn-dot" id="connDot"></div>
+        <div>
+          <div class="conn-email" id="connEmail">—</div>
+          <div class="conn-host" id="connHost">—</div>
+        </div>
+        <button class="btn-disconnect" id="btnDisconnect" title="Disconnect">✕</button>
+      </div>
+    </div>
+
+    <!-- Auto-poll -->
+    <div class="autopoll-row" id="autopollRow" style="display:none">
+      <label class="toggle-label">
+        <input type="checkbox" id="autoPollToggle"/>
+        <span class="toggle-knob"></span>
+        Auto-refresh
+      </label>
+      <select class="poll-interval" id="pollInterval">
+        <option value="60">1 min</option>
+        <option value="300" selected>5 min</option>
+        <option value="600">10 min</option>
+        <option value="1800">30 min</option>
+      </select>
+    </div>
+
+    <!-- Sidebar stats -->
+    <div class="sidebar-stats">
+      <div class="stat-row"><span class="stat-lbl">Emails fetched</span><span class="stat-val" id="statEmails">0</span></div>
+      <div class="stat-row"><span class="stat-lbl">URLs found</span><span class="stat-val" id="statUrls">0</span></div>
+      <div class="stat-row"><span class="stat-lbl">Files downloaded</span><span class="stat-val" id="statFiles">0</span></div>
+      <div class="stat-row"><span class="stat-lbl">Cache hits</span><span class="stat-val green" id="statHits">0</span></div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main" id="main">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <button class="hamburger" id="hamburger">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar-title" id="topbarTitle">📬 Emails</div>
+      <div class="topbar-actions" id="topbarActions"></div>
+    </header>
+
+    <!-- ====== EMAIL VIEW ====== -->
+    <div class="view active" id="viewEmails">
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <select class="select-pill" id="folderSelect">
+            <option value="INBOX">INBOX</option>
+          </select>
+          <select class="select-pill" id="limitSelect">
+            <option value="10">10 emails</option>
+            <option value="30" selected>30 emails</option>
+            <option value="50">50 emails</option>
+            <option value="100">100 emails</option>
+          </select>
+          <label class="checkbox-label">
+            <input type="checkbox" id="unreadOnly"/> Unread only
+          </label>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn-refresh" id="btnFetch">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+            Fetch Emails
+          </button>
+        </div>
+      </div>
+
+      <!-- Email list -->
+      <div id="emailList" class="email-list">
+        <div class="empty-state" id="emailEmpty">
+          <div class="empty-icon">📭</div>
+          <div class="empty-title">No emails loaded</div>
+          <p>Connect your mailbox and click <strong>Fetch Emails</strong> to get started.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== DOWNLOADS VIEW ====== -->
+    <div class="view" id="viewDownloads">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <span class="view-label">📁 Downloaded Files</span>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn-refresh" id="btnRefreshDl">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+      <div id="dlList" class="dl-list">
+        <div class="empty-state" id="dlEmpty">
+          <div class="empty-icon">📥</div>
+          <div class="empty-title">No files downloaded yet</div>
+          <p>Open an email, expand its URLs, and click <strong>Download</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== CACHE VIEW ====== -->
+    <div class="view" id="viewCache">
+      <div class="toolbar">
+        <div class="toolbar-left"><span class="view-label">🗄️ Cache Statistics</span></div>
+        <div class="toolbar-right">
+          <button class="btn-danger" id="btnClearCache">🗑️ Clear Cache</button>
+        </div>
+      </div>
+      <div class="cache-grid" id="cacheGrid">
+        <div class="cache-card">
+          <div class="cc-icon">📧</div>
+          <div class="cc-val" id="ccEmailsCached">—</div>
+          <div class="cc-lbl">Emails Cached</div>
+        </div>
+        <div class="cache-card">
+          <div class="cc-icon">📥</div>
+          <div class="cc-val" id="ccDlCached">—</div>
+          <div class="cc-lbl">Downloads Cached</div>
+        </div>
+        <div class="cache-card">
+          <div class="cc-icon" style="color:var(--green)">✅</div>
+          <div class="cc-val green" id="ccEmailHits">—</div>
+          <div class="cc-lbl">Email Cache Hits</div>
+        </div>
+        <div class="cache-card">
+          <div class="cc-icon" style="color:var(--orange)">⚡</div>
+          <div class="cc-val" id="ccEmailMisses">—</div>
+          <div class="cc-lbl">Email Cache Misses</div>
+        </div>
+        <div class="cache-card">
+          <div class="cc-icon" style="color:var(--green)">✅</div>
+          <div class="cc-val green" id="ccDlHits">—</div>
+          <div class="cc-lbl">Download Hits</div>
+        </div>
+        <div class="cache-card">
+          <div class="cc-icon" style="color:var(--orange)">⚡</div>
+          <div class="cc-val" id="ccDlMisses">—</div>
+          <div class="cc-lbl">Download Misses</div>
+        </div>
+        <div class="cache-card wide">
+          <div class="cc-icon">💾</div>
+          <div class="cc-val" id="ccTotalMb">—</div>
+          <div class="cc-lbl">Total Cached Size (MB)</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{
+  "total_duration": 51.01,
+  "sample_rate": 44100,
+  "scenes": [
+    {
+      "id": 1,
+      "name": "beat1_hook",
+      "card_badge": "\ud83d\udea8 3 DAYS VS 12 MINS",
+      "card_title": "STOP MANUAL CONFIG",
+      "card_sub": "Full-Stack SaaS Built in 12 Minutes",
+      "start": 0.2,
+      "end": 10.9,
+      "duration": 10.7,
+      "text": "Stop spending three days configuring Docker, Webpack, and database migrations. Watch this: I just built a production full-stack web app in under twelve minutes using Bolt dot new."
+    },
+    {
+      "id": 2,
+      "name": "beat2_webcontainer",
+      "card_badge": "\u26a1 ZERO LOCAL SETUP",
+      "card_title": "WEBCONTAINER ENGINE",
+      "card_sub": "No Node.js or Local Tools Required",
+      "start": 11.25,
+      "end": 22.14,
+      "duration": 10.88,
+      "text": "You do not even need Node dot js installed. Inside a single browser tab, Bolt spins up a full WebContainer runtime with Vite, React, and Tailwind directly in memory."
+    },
+    {
+      "id": 3,
+      "name": "beat3_codegen",
+      "card_badge": "\ud83e\udd16 FULL-STACK AI CODEGEN",
+      "card_title": "PROMPT TO ARCHITECTURE",
+      "card_sub": "React 19 + Supabase Auth + API Routes",
+      "start": 22.49,
+      "end": 31.58,
+      "duration": 9.09,
+      "text": "Type what you want in plain English. It creates the database schemas, writes the authentication hooks, and live previews your application in real-time."
+    },
+    {
+      "id": 4,
+      "name": "beat4_deploy",
+      "card_badge": "\ud83d\ude80 PRODUCTION LIVE",
+      "card_title": "ONE-CLICK CLOUD DEPLOY",
+      "card_sub": "Global CDN + Instant SSL in 60s",
+      "start": 31.93,
+      "end": 40.22,
+      "duration": 8.29,
+      "text": "One click, and your entire application is deployed live to Netlify or Cloudflare Pages with SSL certificates, ready for real users."
+    },
+    {
+      "id": 5,
+      "name": "beat5_cta",
+      "card_badge": "\ud83c\udfc6 10X SPEED BOOST",
+      "card_title": "WHAT WILL YOU BUILD?",
+      "card_sub": "Subscribe for Daily AI Dev Hacks",
+      "start": 40.57,
+      "end": 48.66,
+      "duration": 8.1,
+      "text": "What will you build first? Drop your project idea in the comments, and subscribe to TechStack AI for daily developer breakthroughs!"
+    }
+  ]
+}

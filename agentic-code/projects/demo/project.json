@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "style": "B1",
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+  "voice": {
+    "path": "narration.wav",
+    "lead": 0,
+    "tail": 0
+  },
+  "captions": [],
+  "shots": [],
+  "sfx": []
+}

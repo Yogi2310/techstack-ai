@@ -1,0 +1,22 @@
+{
+  "name": "office-walk-animation",
+  "version": "1.0.0",
+  "description": "5-second Remotion animation: office worker walks with paper stack",
+  "scripts": {
+    "start": "npx remotion studio",
+    "build": "npx remotion render OfficeWalk out/office-walk.mp4",
+    "preview": "npx remotion studio"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remotion": "^4.0.0"
+  },
+  "remotion": {
+    "entryPoint": "src/Root.tsx"
+  }
+}

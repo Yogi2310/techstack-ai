@@ -1,0 +1,51 @@
+# YouTube & Google OAuth Secrets (CRITICAL: NEVER COMMIT TO GIT)
+client_secrets.json
+youtube_token.pickle*
+*.pickle
+*.bak
+last_scheduled_video.txt
+last_uploaded_video.txt
+auth_url.txt
+upload.log
+ffmpeg_render.log
+.git_backup/
+**/.git_backup/
+
+# Environment & Credentials
+.env*
+*.key
+*.pem
+
+# Large Binaries & Packages
+*.vsix
+*.lnk
+
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Node.js
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Scraped Temporary Channel Data
+channel_*_data.json
+channel_*_now.json
+channel_*_audit*.json
+channel_initial_data.json
+parsed_channel_audit.json
+
+# OS Artifacts
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ViewMax Pro — AI Video & Studio Suite</title>
+    <meta name="description" content="ViewMax Pro is the AI-powered tool suite for creating viral videos. Scripts, voiceovers, captions, templates — all in one place." />
+    <meta property="og:title" content="ViewMax Pro — AI Video & Studio Suite" />
+    <meta property="og:description" content="Create viral videos with AI-powered scripts, voiceovers, captions, and templates." />
+    <meta name="theme-color" content="#6C5CE7" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="app-shell" id="appShell">
+        <!-- =========================================================
+             SIDEBAR
+        ========================================================== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-icon">V</div>
+                <span class="sidebar-logo-text">ViewMax Pro</span>
+                <button class="sidebar-toggle" id="sidebarToggleBtn" aria-label="Toggle sidebar">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+            </div>
+
+            <button class="sidebar-create-btn" id="btnCreateNew">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Create New Video</span>
+            </button>
+
+            <nav class="sidebar-nav">
+                <div class="sidebar-nav-group">
+                    <div class="sidebar-nav-group-title">Dashboard</div>
+                    <a href="#" class="sidebar-nav-item active" data-page="home">
+                        <div class="sidebar-nav-item-icon">🏠</div>
+                        <span class="sidebar-nav-item-label">Home</span>
+                    </a>
+                    <a href="#" class="sidebar-nav-item" data-page="video-editor">
+                        <div class="sidebar-nav-item-icon">🪄</div>
+                        <span class="sidebar-nav-item-label">AI Studio</span>
+                    </a>
+                    <a href="#" class="sidebar-nav-item" data-page="scene-editor">
+                        <div class="sidebar-nav-item-icon">🎬</div>
+                        <span class="sidebar-nav-item-label">Timeline Editor</span>
+                    </a>
+                    <a href="#" class="sidebar-nav-item" data-page="script-generator">
+                        <div class="sidebar-nav-item-icon">✍️</div>
+                        <span class="sidebar-nav-item-label">Scripts</span>
+                    </a>
+                    <a href="#" class="sidebar-nav-item" data-page="voiceover">
+                        <div class="sidebar-nav-item-icon">🎙️</div>
+                        <span class="sidebar-nav-item-label">Voiceover</span>
+                    </a>
+                    <a href="#" class="sidebar-nav-item" data-page="captions">
+                        <div class="sidebar-nav-item-icon">💬</div>
+                        <span class="sidebar-nav-item-label">Captions</span>
+                    </a>
+                    <a href="#" class="sidebar-nav-item" data-page="templates">
+                        <div class="sidebar-nav-item-icon">🗂️</div>
+                        <span class="sidebar-nav-item-label">Templates</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-nav-group">
+                    <div class="sidebar-nav-group-title">Preferences</div>
+                    <a href="#" class="sidebar-nav-item" data-page="settings">
+                        <div class="sidebar-nav-item-icon">⚙️</div>
+                        <span class="sidebar-nav-item-label">Settings</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-user-avatar">YS</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">Yogesh</div>
+                        <div class="sidebar-user-role">Unlimited Credits</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- SIDEBAR OVERLAY (mobile) -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- =========================================================
+             MAIN APP WRAPPER
+        ========================================================== -->
+        <div class="app-main">
+            <!-- HEADER -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="header-hamburger" id="hamburgerBtn" aria-label="Open menu">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <div class="header-breadcrumb">
+                        <span>ViewMax Pro</span>
+                        <span class="header-breadcrumb-sep">/</span>
+                        <span class="header-breadcrumb-current" id="pageTitle">Home</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-icon-btn" id="notifBtn" aria-label="Notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <div class="header-avatar" id="userAvatar">YS</div>
+                </div>
+            </header>
+
+            <!-- SCROLLABLE CONTENT -->
+            <main class="main-content">
+
+                <!-- ===================== HOME PAGE ===================== -->
+                <div class="page active" id="page-home">
+                    <!-- STATS ROW -->
+                    <div class="section">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-card-icon stat-card-icon-primary">🎬</div>
+                                <div class="stat-card-value">12</div>
+                                <div class="stat-card-label">Videos Created</div>
+                                <div class="stat-card-change stat-card-change-up">↑ 24% this week</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-icon stat-card-icon-secondary">✍️</div>
+                                <div class="stat-card-value">34</div>
+                                <div class="stat-card-label">AI Scripts</div>
+                                <div class="stat-card-change stat-card-change-up">↑ 12% this week</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-icon stat-card-icon-warning">⚡</div>
+                                <div class="stat-card-value">Unlimited</div>
+                                <div class="stat-card-label">Creations Plan</div>
+                                <div class="stat-card-change stat-card-change-down">Unlimited access</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-icon stat-card-icon-primary">⏱️</div>
+                                <div class="stat-card-value">4.2h</div>
+                                <div class="stat-card-label">Rendering Time Saved</div>
+                                <div class="stat-card-change stat-card-change-up">Efficient rendering</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOOLS SECTION -->
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">AI Video Studio Tools</h2>
+                            <p class="section-subtitle">AI-powered generative studio to create content in seconds</p>
+                        </div>
+                        <div class="tools-grid">
+                            <div class="tool-card" data-page="video-editor">
+                                <div class="tool-card-thumb" style="background: var(--gradient-primary);">
+                                    <span class="tool-card-thumb-icon">🪄</span>
+                                </div>
+                                <div class="tool-card-body">
+                                    <h3 class="tool-card-title">AI Video Studio</h3>
+                                    <p class="tool-card-desc">Generate realistic animated cartoon videos from prompts and reference images using Kling & Sora.</p>
+                                    <button class="tool-card-cta">Open Studio →</button>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-page="scene-editor">
+                                <div class="tool-card-thumb" style="background: var(--gradient-secondary);">
+                                    <span class="tool-card-thumb-icon">🎬</span>
+                                </div>
+                                <div class="tool-card-body">
+                                    <h3 class="tool-card-title">Timeline Editor</h3>
+                                    <p class="tool-card-desc">Assemble scenes, overlay text, customize color gradients, and structure your final exported videos.</p>
+                                    <button class="tool-card-cta">Open Editor →</button>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-page="script-generator">
+                                <div class="tool-card-thumb" style="background: var(--gradient-warm);">
+                                    <span class="tool-card-thumb-icon">✍️</span>
+                                </div>
+                                <div class="tool-card-body">
+                                    <h3 class="tool-card-title">AI Script Writer</h3>
+                                    <p class="tool-card-desc">Generate engaging scripts for any platform — TikTok, YouTube Shorts, Reels, and more.</p>
+                                    <button class="tool-card-cta">Write Script →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== AI VIDEO STUDIO PAGE (Cuty.ai style) ===================== -->
+                <div class="page" id="page-video-editor">
+                    <div class="page-script-generator" style="grid-template-columns: 350px 1fr; gap: var(--space-6);">
+                        <!-- LEFT OPTIONS PANEL -->
+                        <div class="script-input-card" style="height: fit-content; position: sticky; top: 80px;">
+                            <div class="script-card-header">
+                                <h2 class="script-card-header-title">Generate Video</h2>
+                            </div>
+                            <div class="script-card-body">
+                                <!-- Studio Mode Selector -->
+                                <div class="template-filters controls-tabs" style="margin-bottom: var(--space-5); display: flex;">
+                                    <button class="filter-chip active" id="btnTabTxt2Vid" style="flex: 1; text-align: center;">Text to Video</button>
+                                    <button class="filter-chip" id="btnTabImg2Vid" style="flex: 1; text-align: center;">Image to Video</button>
+                                </div>
+
+                                <!-- Text Prompt Group -->
+                                <div class="form-group" id="groupTxtPrompt">
+                                    <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span>Prompt / Description</span>
+                                        <button class="text-primary" id="btnSurpriseMe" style="font-size: var(--font-xs); font-weight: 700; cursor: pointer; background:none; border:none; padding:0;">✨ Surprise Me</button>
+                                    </label>
+                                    <textarea id="studioPrompt" class="form-textarea" rows="5" placeholder="e.g. A cute cartoon astronaut floating in space with neon twinkling starfields, 3d vector style"></textarea>
+                                </div>
+
+                                <!-- Image-to-Video Drag & Drop Group -->
+                                <div class="form-group" id="groupImgPrompt" style="display: none;">
+                                    <label class="form-label">Reference Image</label>
+                                    <div style="border: 2px dashed var(--color-border-dark); border-radius: var(--radius-md); padding: var(--space-6); text-align: center; cursor: pointer; background: var(--color-bg);" id="dropZone">
+                                        <span style="font-size: 24px;">📁</span>
+                                        <div class="form-hint" style="margin-top: 5px;">Drag & drop or click to upload</div>
+                                        <input type="file" id="studioImageUpload" accept="image/*" style="display: none;" />
+                                    </div>
+                                    <div id="imagePreviewContainer" style="display: none; margin-top: 10px; position: relative;">
+                                        <img id="uploadedImagePreview" style="width: 100%; border-radius: var(--radius-md); max-height: 120px; object-fit: cover;" />
+                                        <button id="btnRemoveUploadedImage" style="position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.6); color: #fff; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer;">✕</button>
+                                    </div>
+                                </div>
+
+                                <!-- Advanced Settings -->
+                                <div class="form-group">
+                                    <label class="form-label">AI Model</label>
+                                    <select id="studioModel" class="form-select">
+                                        <option value="kling">Kling 2.5 Turbo (Fast)</option>
+                                        <option value="sora">Sora 2 (High Quality)</option>
+                                        <option value="hailuo">Hailuo 2.3 (Action)</option>
+                                        <option value="veo">Veo 3.1 (Google Premium)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Aspect Ratio</label>
+                                    <div class="template-filters" style="margin-bottom: 0; display: flex; gap: var(--space-2);">
+                                        <button class="filter-chip active btn-studio-aspect" data-aspect="16:9" style="flex: 1; text-align: center;">16:9</button>
+                                        <button class="filter-chip btn-studio-aspect" data-aspect="9:16" style="flex: 1; text-align: center;">9:16</button>
+                                        <button class="filter-chip btn-studio-aspect" data-aspect="1:1" style="flex: 1; text-align: center;">1:1</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Duration</label>
+                                    <div class="template-filters" style="margin-bottom: 0; display: flex; gap: var(--space-2);">
+                                        <button class="filter-chip active btn-studio-dur" data-dur="5" style="flex: 1; text-align: center;">5s</button>
+                                        <button class="filter-chip btn-studio-dur" data-dur="10" style="flex: 1; text-align: center;">10s</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Resolution</label>
+                                    <div class="template-filters" style="margin-bottom: 0; display: flex; gap: var(--space-2);">
+                                        <button class="filter-chip btn-studio-res" data-res="720p" style="flex: 1; text-align: center;">720p</button>
+                                        <button class="filter-chip active btn-studio-res" data-res="1080p" style="flex: 1; text-align: center;">1080p (FHD)</button>
+                                        <button class="filter-chip btn-studio-res" data-res="4K" style="flex: 1; text-align: center;">4K (UHD)</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Camera Motion</label>
+                                    <select id="studioMotion" class="form-select">
+                                        <option value="static">Static (Default)</option>
+                                        <option value="zoom-in">Zoom In</option>
+                                        <option value="pan-left">Pan Left</option>
+                                        <option value="tilt-up">Tilt Up</option>
+                                    </select>
+                                </div>
+
+                                <button class="btn-export w-full" id="btnGenerateStudioVideo" style="border: none; margin-top: var(--space-4);">
+                                    Generate Video
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT MAIN PANEL: CREATIONS GRID -->
+                        <div class="flex flex-col gap-6">
+                            <div class="section-header" style="margin-bottom: 0;">
+                                <h2 class="section-title">My Creations</h2>
+                                <p class="section-subtitle">Manage, play, and compile your AI cartoon animations</p>
+                            </div>
+                            <div class="templates-grid" id="studioCreationsGrid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                                <!-- Loaded dynamically via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== TIMELINE EDITOR PAGE ===================== -->
+                <div class="page" id="page-scene-editor">
+                    <div class="page-video-editor">
+                        <div class="editor-workspace">
+                            <!-- PREVIEW CANVAS PANEL -->
+                            <div class="editor-canvas-wrapper">
+                                <div class="editor-canvas-container" id="canvasWrapper">
+                                    <canvas id="videoCanvas" width="1920" height="1080"></canvas>
+                                </div>
+                                <div class="editor-playback-bar">
+                                    <button class="playback-btn" id="prevSceneBtn" title="Previous Scene">⏮</button>
+                                    <button class="playback-btn playback-btn-play" id="playBtn" title="Play/Pause">
+                                        <span class="play-icon">▶</span>
+                                        <span class="pause-icon" style="display:none">▮▮</span>
+                                    </button>
+                                    <button class="playback-btn" id="nextSceneBtn" title="Next Scene">⏭</button>
+                                    <div class="playback-time" id="timeDisplay">0:00 / 0:00</div>
+                                    <div class="playback-progress" id="playbackProgress">
+                                        <div class="playback-progress-fill" id="progressBar"></div>
+                                    </div>
+                                    <div class="aspect-ratio-toggle" style="margin-left: 10px;">
+                                        <button class="filter-chip active aspect-btn" data-ratio="16:9" style="padding: 4px 10px;">16:9</button>
+                                        <button class="filter-chip aspect-btn" data-ratio="9:16" style="padding: 4px 10px;">9:16</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CONTROLS PANEL -->
+                            <div class="editor-controls">
+                                <div class="editor-controls-header">
+                                    <div class="template-filters controls-tabs" style="margin-bottom: 0;">
+                                        <button class="filter-chip active tab-btn" data-tab="script">AI Script</button>
+                                        <button class="filter-chip tab-btn" data-tab="background">Background</button>
+                                        <button class="filter-chip tab-btn" data-tab="text">Text</button>
+                                        <button class="filter-chip tab-btn" data-tab="scene">Scene</button>
+                                    </div>
+                                </div>
+                                <div class="editor-controls-body">
+                                    <!-- AI SCRIPT TAB -->
+                                    <div class="tab-content active" id="tab-script">
+                                        <div class="form-group">
+                                            <label class="form-label">Video Script / Scenes Text</label>
+                                            <textarea id="editorScriptText" class="form-textarea" rows="8" placeholder="Paste your script here. Each paragraph will become a separate scene.&#10;&#10;Example:&#10;Welcome to ViewMax Pro!&#10;&#10;Create scenes instantly from text.&#10;&#10;Export high-quality videos in WebM format."></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Scene Theme</label>
+                                            <select id="editorScriptTheme" class="form-select">
+                                                <option value="purple" selected>Vibrant Purple</option>
+                                                <option value="teal">Fresh Teal</option>
+                                                <option value="pink">Sunset Pink</option>
+                                                <option value="dark">Midnight Dark</option>
+                                                <option value="blue">Deep Blue</option>
+                                            </select>
+                                        </div>
+                                        <button class="btn-export" id="btnGenerateFromEditorScript" style="border:none; margin-top:10px;">
+                                            Generate Video Scenes
+                                        </button>
+                                    </div>
+
+                                    <!-- BACKGROUND TAB -->
+                                    <div class="tab-content" id="tab-background">
+                                        <div class="form-group">
+                                            <label class="form-label">Background Type</label>
+                                            <select id="bgType" class="form-select">
+                                                <option value="solid">Solid Color</option>
+                                                <option value="gradient" selected>Gradient</option>
+                                                <option value="image">Image</option>
+                                                <option value="cartoon">Cartoon Animation</option>
+                                                <option value="video">Video Clip</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="bgCartoonGroup" style="display:none">
+                                            <label class="form-label">Cartoon Theme</label>
+                                            <select id="bgCartoonTheme" class="form-select">
+                                                <option value="space" selected>Space Astronaut 🚀</option>
+                                                <option value="forest">Fantasy Forest 🌳</option>
+                                                <option value="ocean">Retro Ocean Sunset 🌅</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="bgVideoGroup" style="display:none">
+                                            <label class="form-label">Video URL (direct link)</label>
+                                            <input type="text" id="bgVideoUrl" class="form-input" placeholder="e.g. https://commondatastorage.googleapis.com/.../Sintel.mp4" />
+                                        </div>
+                                        <div class="form-group" id="bgSolidGroup" style="display:none">
+                                            <label class="form-label">Color</label>
+                                            <div class="form-color-wrapper">
+                                                <input type="color" id="bgSolidColor" class="form-color" value="#1a1a2e" />
+                                                <input type="text" id="bgSolidColorText" class="form-input" value="#1a1a2e" style="width: 100px;" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="bgGradientGroup">
+                                            <label class="form-label">Gradient Colors</label>
+                                            <div class="form-color-wrapper">
+                                                <input type="color" id="bgGradFrom" class="form-color" value="#6C5CE7" />
+                                                <span>to</span>
+                                                <input type="color" id="bgGradTo" class="form-color" value="#a855f7" />
+                                            </div>
+                                            <label class="form-label" style="margin-top: 15px;">Angle</label>
+                                            <input type="range" id="bgGradAngle" class="form-range" min="0" max="360" value="135" />
+                                            <span class="form-hint" id="bgGradAngleVal">135°</span>
+                                        </div>
+                                        <div class="form-group" id="bgImageGroup" style="display:none">
+                                            <label class="form-label">Upload Image</label>
+                                            <input type="file" id="bgImageUpload" class="form-input" accept="image/*" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Preset Gradients</label>
+                                            <div class="preset-grid">
+                                                <button class="preset-swatch" data-from="#6C5CE7" data-to="#a855f7" style="background:linear-gradient(135deg,#6C5CE7,#a855f7); width:32px; height:32px; border-radius:50%; margin:4px;"></button>
+                                                <button class="preset-swatch" data-from="#00b894" data-to="#00cec9" style="background:linear-gradient(135deg,#00b894,#00cec9); width:32px; height:32px; border-radius:50%; margin:4px;"></button>
+                                                <button class="preset-swatch" data-from="#fd79a8" data-to="#e84393" style="background:linear-gradient(135deg,#fd79a8,#e84393); width:32px; height:32px; border-radius:50%; margin:4px;"></button>
+                                                <button class="preset-swatch" data-from="#fdcb6e" data-to="#e17055" style="background:linear-gradient(135deg,#fdcb6e,#e17055); width:32px; height:32px; border-radius:50%; margin:4px;"></button>
+                                                <button class="preset-swatch" data-from="#74b9ff" data-to="#0984e3" style="background:linear-gradient(135deg,#74b9ff,#0984e3); width:32px; height:32px; border-radius:50%; margin:4px;"></button>
+                                                <button class="preset-swatch" data-from="#1a1a2e" data-to="#16213e" style="background:linear-gradient(135deg,#1a1a2e,#16213e); width:32px; height:32px; border-radius:50%; margin:4px;"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- TEXT TAB -->
+                                    <div class="tab-content" id="tab-text">
+                                        <div class="form-group">
+                                            <label class="form-label">Text Content</label>
+                                            <textarea id="textContent" class="form-textarea" rows="3" placeholder="Enter text...">Your Amazing Text</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Font Family</label>
+                                            <select id="textFont" class="form-select">
+                                                <option value="Inter">Inter</option>
+                                                <option value="Arial">Arial</option>
+                                                <option value="Georgia">Georgia</option>
+                                                <option value="Impact">Impact</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Font Size</label>
+                                            <input type="number" id="textSize" class="form-input" value="64" min="12" max="200" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Color</label>
+                                            <input type="color" id="textColor" class="form-color" value="#ffffff" />
+                                        </div>
+                                        <div class="form-group flex gap-6" style="margin-top: 15px;">
+                                            <label class="flex items-center gap-2">
+                                                <input type="checkbox" id="textBold" checked /> Bold
+                                            </label>
+                                            <label class="flex items-center gap-2">
+                                                <input type="checkbox" id="textItalic" /> Italic
+                                            </label>
+                                        </div>
+                                        <div class="form-group" style="margin-top: 15px;">
+                                            <label class="form-label">Text Align</label>
+                                            <select id="textAlign" class="form-select">
+                                                <option value="center" selected>Center</option>
+                                                <option value="left">Left</option>
+                                                <option value="right">Right</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Animation</label>
+                                            <select id="textAnimation" class="form-select">
+                                                <option value="none">None</option>
+                                                <option value="fadeIn" selected>Fade In</option>
+                                                <option value="typewriter">Typewriter</option>
+                                                <option value="slideUp">Slide Up</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Position Presets</label>
+                                            <div class="template-filters">
+                                                <button class="filter-chip pos-btn" data-x="0.5" data-y="0.2">Top</button>
+                                                <button class="filter-chip pos-btn active" data-x="0.5" data-y="0.5">Center</button>
+                                                <button class="filter-chip pos-btn" data-x="0.5" data-y="0.8">Bottom</button>
+                                            </div>
+                                        </div>
+                                        <button class="tool-card-cta w-full" id="addTextBtn" style="border: none; cursor: pointer;">Add Text Layer</button>
+                                    </div>
+
+                                    <!-- SCENE TAB -->
+                                    <div class="tab-content" id="tab-scene">
+                                        <div class="form-group">
+                                            <label class="form-label">Scene Duration (seconds)</label>
+                                            <input type="range" id="sceneDuration" class="form-range" min="1" max="30" value="5" />
+                                            <span class="form-hint" id="sceneDurationVal">5s</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Transition Effect</label>
+                                            <select id="sceneTransition" class="form-select">
+                                                <option value="none">None (Cut)</option>
+                                                <option value="fade" selected>Fade</option>
+                                                <option value="slideLeft">Slide Left</option>
+                                                <option value="slideRight">Slide Right</option>
+                                                <option value="zoomIn">Zoom In</option>
+                                            </select>
+                                        </div>
+                                        <button class="tool-card-cta" id="deleteSceneBtn" style="background:var(--gradient-danger); border:none; box-shadow:none; width: 100%;">Delete Scene</button>
+                                    </div>
+                                </div>
+                                <div style="padding: 20px; border-top: 1px solid var(--color-border);">
+                                    <button class="btn-export" id="exportBtn">Export Video</button>
+                                    <div class="form-group" id="exportProgress" style="display:none; margin-top:15px;">
+                                        <div class="playback-progress" style="height:12px;">
+                                            <div class="playback-progress-fill" id="exportProgressFill" style="width:0%"></div>
+                                        </div>
+                                        <span class="form-hint" id="exportProgressText">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TIMELINE -->
+                        <div class="editor-timeline" style="margin-top: 20px;">
+                            <div class="editor-timeline-title">Scene Timeline</div>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div class="editor-timeline-strip" id="sceneTimeline" style="flex: 1;">
+                                    <!-- Populated by JS -->
+                                </div>
+                                <button class="scene-thumb scene-thumb-add" id="addSceneBtn" style="height: 80px; width: 80px; display: flex; align-items: center; justify-content: center; font-size: 24px;">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== SCRIPT GENERATOR PAGE ===================== -->
+                <div class="page" id="page-script-generator">
+                    <div class="page-script-generator">
+                        <div class="script-input-card">
+                            <div class="script-card-header">
+                                <h2 class="script-card-header-title">AI Script Generator</h2>
+                            </div>
+                            <div class="script-card-body">
+                                <div class="form-group">
+                                    <label class="form-label">Topic / Idea</label>
+                                    <input type="text" id="scriptTopic" class="form-input" placeholder="e.g., 5 habits of highly successful people" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Style</label>
+                                    <select id="scriptStyle" class="form-select">
+                                        <option value="educational">Educational</option>
+                                        <option value="entertaining">Entertaining</option>
+                                        <option value="promotional">Promotional</option>
+                                        <option value="storytelling">Storytelling</option>
+                                        <option value="tutorial">Tutorial</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Platform</label>
+                                    <select id="scriptPlatform" class="form-select">
+                                        <option value="tiktok">TikTok</option>
+                                        <option value="youtube-shorts">YouTube Shorts</option>
+                                        <option value="instagram-reels">Instagram Reels</option>
+                                        <option value="youtube">YouTube</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Duration</label>
+                                    <select id="scriptDuration" class="form-select">
+                                        <option value="15">15 seconds</option>
+                                        <option value="30" selected>30 seconds</option>
+                                        <option value="60">60 seconds</option>
+                                    </select>
+                                </div>
+                                <button class="btn-export" id="generateScriptBtn" style="border: none;">Generate Script</button>
+                            </div>
+                        </div>
+
+                        <div class="script-output-card" id="scriptOutputCard" style="display:none">
+                            <div class="script-card-header">
+                                <h2 class="script-card-header-title">Generated Script</h2>
+                                <div class="script-actions" style="margin-top:0;">
+                                    <button class="filter-chip" id="copyScriptBtn">Copy</button>
+                                    <button class="filter-chip active" id="useInVideoBtn">Use in Editor</button>
+                                </div>
+                            </div>
+                            <div class="script-card-body">
+                                <div class="script-output-text" id="scriptOutputBody"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== VOICEOVER PAGE ===================== -->
+                <div class="page" id="page-voiceover">
+                    <div class="page-voiceover">
+                        <div class="voiceover-input-card">
+                            <div class="voiceover-card-header">AI Voiceover Generator</div>
+                            <div class="voiceover-card-body">
+                                <div class="form-group">
+                                    <label class="form-label">Text to Speak</label>
+                                    <textarea id="voiceText" class="form-textarea" rows="5" placeholder="Enter text..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Voice Voice</label>
+                                    <select id="voiceSelect" class="form-select"></select>
+                                </div>
+                                <div class="slider-group">
+                                    <div class="slider-group-header">
+                                        <span class="slider-group-label">Speed</span>
+                                        <span class="slider-group-value" id="voiceSpeedVal">1.0x</span>
+                                    </div>
+                                    <input type="range" id="voiceSpeed" class="form-range" min="0.5" max="2" step="0.1" value="1" />
+                                </div>
+                                <div class="slider-group">
+                                    <div class="slider-group-header">
+                                        <span class="slider-group-label">Pitch</span>
+                                        <span class="slider-group-value" id="voicePitchVal">1.0</span>
+                                    </div>
+                                    <input type="range" id="voicePitch" class="form-range" min="0.5" max="2" step="0.1" value="1" />
+                                </div>
+                                <div class="voiceover-audio-actions">
+                                    <button class="btn-export" id="speakBtn" style="border:none; flex: 1;">Speak</button>
+                                    <button class="btn-export" id="stopSpeakBtn" style="border:none; background:var(--gradient-danger); display:none; flex: 1;">Stop</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="voiceover-output-card">
+                            <div class="voiceover-card-header">Voice Waveform</div>
+                            <div class="voiceover-card-body">
+                                <div class="voiceover-waveform">
+                                    <div class="voiceover-waveform-bars" id="waveformBars">
+                                        <!-- Animated by JS -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== CAPTIONS PAGE ===================== -->
+                <div class="page" id="page-captions">
+                    <div class="page-voiceover">
+                        <div class="voiceover-input-card">
+                            <div class="voiceover-card-header">Auto Captions</div>
+                            <div class="voiceover-card-body">
+                                <div class="form-group">
+                                    <label class="form-label">Caption Text (one line per scene)</label>
+                                    <textarea id="captionText" class="form-textarea" rows="4" placeholder="Scene 1 text&#10;Scene 2 text"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Font Size</label>
+                                    <input type="number" id="captionSize" class="form-input" value="36" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Color</label>
+                                    <input type="color" id="captionColor" class="form-color" value="#ffffff" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Style</label>
+                                    <select id="captionStyle" class="form-select">
+                                        <option value="classic">Classic</option>
+                                        <option value="boxed">Boxed</option>
+                                        <option value="highlight">Highlight</option>
+                                        <option value="karaoke">Karaoke</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Position</label>
+                                    <select id="captionPosition" class="form-select">
+                                        <option value="bottom">Bottom</option>
+                                        <option value="center">Center</option>
+                                        <option value="top">Top</option>
+                                    </select>
+                                </div>
+                                <button class="btn-export" id="applyCaptionsBtn" style="border: none;">Apply Captions</button>
+                            </div>
+                        </div>
+
+                        <div class="voiceover-output-card">
+                            <div class="voiceover-card-header">Caption Preview</div>
+                            <div class="voiceover-card-body">
+                                <div class="editor-canvas-container" style="border-radius: var(--radius-lg);">
+                                    <canvas id="captionCanvas" width="640" height="360"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== TEMPLATES PAGE ===================== -->
+                <div class="page" id="page-templates">
+                    <div class="page-templates">
+                        <div class="template-filters" id="templateFilters">
+                            <button class="filter-chip active" data-category="all">All</button>
+                            <button class="filter-chip" data-category="motivational">Motivational</button>
+                            <button class="filter-chip" data-category="educational">Educational</button>
+                            <button class="filter-chip" data-category="product">Product</button>
+                        </div>
+                        <div class="templates-grid" id="templatesGrid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===================== SETTINGS PAGE ===================== -->
+                <div class="page" id="page-settings">
+                    <div class="voiceover-input-card" style="max-width: 600px; margin: 0 auto;">
+                        <div class="voiceover-card-header">Settings</div>
+                        <div class="voiceover-card-body">
+                            <div class="form-group">
+                                <label class="form-label">Default Aspect Ratio</label>
+                                <select id="settingsRatio" class="form-select">
+                                    <option value="16:9">16:9 (Landscape)</option>
+                                    <option value="9:16">9:16 (Portrait / TikTok)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Default Scene Duration</label>
+                                <select id="settingsDuration" class="form-select">
+                                    <option value="3">3 seconds</option>
+                                    <option value="5" selected>5 seconds</option>
+                                    <option value="7">7 seconds</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Export Quality</label>
+                                <select id="settingsQuality" class="form-select">
+                                    <option value="high">High (5 Mbps)</option>
+                                    <option value="medium" selected>Medium (2.5 Mbps)</option>
+                                    <option value="low">Low (1 Mbps)</option>
+                                </select>
+                            </div>
+                            <button class="btn-export" style="border: none;" onclick="showToast('Settings saved!', 'success')">Save Settings</button>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         MOBILE BOTTOM NAV
+    ========================================================== -->
+    <nav class="bottom-nav" id="bottomNav">
+        <div class="bottom-nav-inner">
+            <button class="bottom-nav-item active" data-page="home">
+                <div class="bottom-nav-item-icon">🏠</div>
+                <span>Home</span>
+            </button>
+            <button class="bottom-nav-item" data-page="video-editor">
+                <div class="bottom-nav-item-icon">🎬</div>
+                <span>Video</span>
+            </button>
+            <button class="bottom-nav-item" data-page="script-generator">
+                <div class="bottom-nav-item-icon">✍️</div>
+                <span>Scripts</span>
+            </button>
+            <button class="bottom-nav-item" data-page="voiceover">
+                <div class="bottom-nav-item-icon">🎙️</div>
+                <span>Voice</span>
+            </button>
+            <button class="bottom-nav-item" data-page="templates">
+                <div class="bottom-nav-item-icon">🗂️</div>
+                <span>Templates</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- =========================================================
+         VIDEO PLAYER MODAL (Cuty.ai style popup)
+    ========================================================== -->
+    <div class="modal-overlay" id="playerModalOverlay" style="display: none; justify-content: center; align-items: center; z-index: 400; padding: 20px;">
+        <div class="modal-content" style="max-width: 900px; width: 95%; display: grid; grid-template-columns: 3fr 2fr; gap: var(--space-6); padding: 0; overflow: hidden; border-radius: var(--radius-xl); background: var(--color-surface); box-shadow: var(--shadow-2xl); animation: scaleIn 0.3s var(--ease-out);">
+            
+            <!-- Player Video (Left side) -->
+            <div style="background: #09090e; display: flex; align-items: center; justify-content: center; position: relative; aspect-ratio: 16/9; width: 100%;" id="modalPlayerContainer">
+                <video id="modalPlayerVideo" autoplay loop muted playsinline style="max-width: 100%; max-height: 100%; object-fit: contain; display: block; width: 100%; height: 100%;"></video>
+                
+                <!-- Playback controls -->
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 12px var(--space-4); background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%); display: flex; align-items: center; gap: 12px; z-index: 10;">
+                    <button id="btnModalPlay" style="color: #fff; font-size: 16px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px;">▶</button>
+                    <div style="flex: 1; height: 4px; background: rgba(255,255,255,0.25); border-radius: 2px; position: relative; cursor: pointer;" id="modalProgressBarContainer">
+                        <div id="modalProgressBar" style="height: 100%; width: 0%; background: var(--color-primary); border-radius: 2px; transition: width 0.1s linear;"></div>
+                    </div>
+                    <span id="modalTimeDisplay" style="color: #fff; font-size: 11px; font-variant-numeric: tabular-nums; font-family: monospace;">0:00 / 0:05</span>
+                    <button id="btnModalFullscreen" style="color: #fff; font-size: 16px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px;" title="Play in Full Screen / Big Screen">⛶</button>
+                </div>
+            </div>
+
+            <!-- Meta Details (Right side) -->
+            <div style="padding: var(--space-6); display: flex; flex-direction: column; justify-content: space-between; background: var(--color-surface); height: 100%; overflow-y: auto;">
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
+                        <h3 id="modalVideoTitle" style="font-size: var(--font-lg); font-weight: 800; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">AI Generated Video</h3>
+                        <button id="btnModalClose" style="font-size: var(--font-lg); font-weight: 700; color: var(--color-text-secondary); background: none; border: none; cursor: pointer; padding: 4px;">✕</button>
+                    </div>
+                    <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-5);">
+                        <span class="badge" id="modalBadgeModel" style="background: rgba(108,92,231,0.1); color: var(--color-primary);">Kling 2.5</span>
+                        <span class="badge" id="modalBadgeAspect">16:9</span>
+                        <span class="badge" id="modalBadgeDur">5s</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size: var(--font-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted);">Prompt Description</label>
+                        <p id="modalVideoPrompt" style="font-size: var(--font-sm); color: var(--color-text-secondary); line-height: 1.6; white-space: pre-wrap; background: var(--color-bg); padding: var(--space-4); border-radius: var(--radius-md); max-height: 150px; overflow-y: auto; border: 1px solid var(--color-border); margin: 0;"></p>
+                    </div>
+                    <div class="form-group" style="margin-top: 15px; display: flex; flex-direction: column; gap: 4px;">
+                        <div class="form-hint" style="margin:0;">Seed: <span id="modalVideoSeed" style="font-family: monospace; font-weight: 600; color: var(--color-text);">18274591</span></div>
+                        <div class="form-hint" style="margin:0;">Camera Motion: <span id="modalVideoMotion" style="text-transform: capitalize; font-weight: 600; color: var(--color-text);">static</span></div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-6);">
+                    <button class="btn-export" id="btnModalDownload" style="border: none; width: 100%; margin: 0; cursor: pointer;">
+                        Download Video (.webm)
+                    </button>
+                    <button class="tool-card-cta" id="btnModalEdit" style="background: none; border: 1px solid var(--color-primary); color: var(--color-primary); width: 100%; box-shadow: none; display: flex; align-items: center; justify-content: center; height: 44px; font-weight: 600; cursor: pointer; border-radius: var(--radius-lg); transition: all 0.2s;">
+                        Edit with Overlays / Text
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="video-engine.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

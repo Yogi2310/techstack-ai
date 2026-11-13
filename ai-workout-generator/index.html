@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Workout Shorts Generator Studio</title>
+  <meta name="description" content="Generate high-retention cybernetic workout shorts and reels for YouTube and Instagram monetization." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div id="app">
+    <!-- Header -->
+    <header class="header-bar">
+      <div class="brand">
+        <span class="brand-icon">⚡</span>
+        <h1 class="brand-text">CyberFit Studio</h1>
+      </div>
+      <div class="status-indicator">
+        <div class="status-dot"></div>
+        <span>Render Engine Active</span>
+      </div>
+    </header>
+
+    <!-- Workspace -->
+    <main class="workspace">
+      <!-- Canvas Preview Area -->
+      <section class="canvas-area">
+        <div class="canvas-container">
+          <div class="canvas-shell" id="previewShell">
+            <canvas id="workoutCanvas"></canvas>
+          </div>
+          <span class="canvas-aspect-hint">9:16 portrait preview</span>
+        </div>
+      </section>
+
+      <!-- Sidebar Control Panel -->
+      <aside class="panel">
+        
+        <!-- Presets Card -->
+        <div class="card">
+          <h2 class="card-title">🏋️ Presets & Exercises</h2>
+          <div class="preset-grid">
+            <button class="preset-btn active" id="btn-pushup" onclick="selectPreset('pushup')">
+              <span class="preset-icon">🤸</span>
+              <span class="preset-name">Push-Up</span>
+              <span class="preset-desc">Chest / Triceps</span>
+            </button>
+            <button class="preset-btn" id="btn-squat" onclick="selectPreset('squat')">
+              <span class="preset-icon">🦵</span>
+              <span class="preset-name">Squat</span>
+              <span class="preset-desc">Quads / Glutes</span>
+            </button>
+            <button class="preset-btn" id="btn-pullup" onclick="selectPreset('pullup')">
+              <span class="preset-icon">💪</span>
+              <span class="preset-name">Pull-Up</span>
+              <span class="preset-desc">Lats / Biceps</span>
+            </button>
+            <button class="preset-btn" id="btn-curl" onclick="selectPreset('curl')">
+              <span class="preset-icon">🏋️</span>
+              <span class="preset-name">Bicep Curl</span>
+              <span class="preset-desc">Bicep Peak</span>
+            </button>
+            <button class="preset-btn" id="btn-plank" onclick="selectPreset('plank')">
+              <span class="preset-icon">🧘</span>
+              <span class="preset-name">Core Plank</span>
+              <span class="preset-desc">Abs / Core</span>
+            </button>
+            <button class="preset-btn" id="btn-deadlift" onclick="selectPreset('deadlift')">
+              <span class="preset-icon">🔥</span>
+              <span class="preset-name">Deadlift</span>
+              <span class="preset-desc">Back / Hamstrings</span>
+            </button>
+            <button class="preset-btn" id="btn-shoulderpress" onclick="selectPreset('shoulderpress')">
+              <span class="preset-icon">🙌</span>
+              <span class="preset-name">Shoulder Press</span>
+              <span class="preset-desc">Delts / Triceps</span>
+            </button>
+            <button class="preset-btn" id="btn-lunge" onclick="selectPreset('lunge')">
+              <span class="preset-icon">🚶</span>
+              <span class="preset-name">Lunge</span>
+              <span class="preset-desc">Quads / Glutes</span>
+            </button>
+            <button class="preset-btn" id="btn-crunch" onclick="selectPreset('crunch')">
+              <span class="preset-icon">🫁</span>
+              <span class="preset-name">Crunch</span>
+              <span class="preset-desc">Upper Abs</span>
+            </button>
+            <button class="preset-btn" id="btn-jumpingjack" onclick="selectPreset('jumpingjack')">
+              <span class="preset-icon">⭐</span>
+              <span class="preset-name">Jumping Jack</span>
+              <span class="preset-desc">Full Body / Cardio</span>
+            </button>
+            <button class="preset-btn" id="btn-mountainclimber" onclick="selectPreset('mountainclimber')">
+              <span class="preset-icon">⛰️</span>
+              <span class="preset-name">Mountain Climber</span>
+              <span class="preset-desc">Core / Cardio</span>
+            </button>
+            <button class="preset-btn" id="btn-tricepdip" onclick="selectPreset('tricepdip')">
+              <span class="preset-icon">💺</span>
+              <span class="preset-name">Tricep Dip</span>
+              <span class="preset-desc">Triceps / Chest</span>
+            </button>
+            <button class="preset-btn" id="btn-lateralraise" onclick="selectPreset('lateralraise')">
+              <span class="preset-icon">🦅</span>
+              <span class="preset-name">Lateral Raise</span>
+              <span class="preset-desc">Side Delts</span>
+            </button>
+            <button class="preset-btn" id="btn-bentoverrow" onclick="selectPreset('bentoverrow')">
+              <span class="preset-icon">🚣</span>
+              <span class="preset-name">Bent-Over Row</span>
+              <span class="preset-desc">Back / Biceps</span>
+            </button>
+            <button class="preset-btn" id="btn-jumpsquat" onclick="selectPreset('jumpsquat')">
+              <span class="preset-icon">🦘</span>
+              <span class="preset-name">Jump Squat</span>
+              <span class="preset-desc">Legs / Explosive</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Content Card -->
+        <div class="card">
+          <h2 class="card-title">📝 Custom Text Overlays</h2>
+          
+          <label for="inp-title">Header Text</label>
+          <input type="text" id="inp-title" value="PERFECT PUSHUPS" oninput="updateText()" />
+          
+          <label for="inp-tip">Form Instruction / Subtitle</label>
+          <input type="text" id="inp-tip" value="KEEP BACK STRAIGHT & TUCK ELBOWS" oninput="updateText()" />
+          
+          <label for="inp-handle">Watermark / Handle</label>
+          <input type="text" id="inp-handle" value="@CYBERFITNESS" oninput="updateText()" />
+        </div>
+
+        <!-- Aesthetics Card -->
+        <div class="card">
+          <h2 class="card-title">🎨 Visual Customization</h2>
+          
+          <label>Character Neon Theme</label>
+          <div class="theme-row" id="theme-selectors">
+            <div class="color-swatch active" style="background:#facc15" data-color="#facc15" onclick="changeTheme(this)"></div>
+            <div class="color-swatch" style="background:#3b82f6" data-color="#3b82f6" onclick="changeTheme(this)"></div>
+            <div class="color-swatch" style="background:#f97316" data-color="#f97316" onclick="changeTheme(this)"></div>
+            <div class="color-swatch" style="background:#22c55e" data-color="#22c55e" onclick="changeTheme(this)"></div>
+            <div class="color-swatch" style="background:#a855f7" data-color="#a855f7" onclick="changeTheme(this)"></div>
+            <div class="color-swatch" style="background:#ef4444" data-color="#ef4444" onclick="changeTheme(this)"></div>
+          </div>
+          
+          <label>Background Contrast Intensity</label>
+          <div class="range-row">
+            <input type="range" id="rng-bg" min="10" max="95" value="45" oninput="updateAesthetics()" />
+            <span class="range-val" id="val-bg">45%</span>
+          </div>
+        </div>
+
+        <!-- Video Config Card -->
+        <div class="card">
+          <h2 class="card-title">⚙️ Video & Pace Configuration</h2>
+          
+          <label for="inp-duration">Duration (Seconds)</label>
+          <div class="range-row">
+            <input type="range" id="inp-duration" min="5" max="30" value="10" oninput="updateTiming()" />
+            <span class="range-val" id="val-duration">10s</span>
+          </div>
+
+          <label for="inp-reps">Target Reps</label>
+          <div class="range-row">
+            <input type="range" id="inp-reps" min="2" max="25" value="6" oninput="updateTiming()" />
+            <span class="range-val" id="val-reps">6</span>
+          </div>
+
+          <label for="inp-speed">Animation Speed Multiplier</label>
+          <div class="range-row">
+            <input type="range" id="inp-speed" min="5" max="25" value="10" step="1" oninput="updateTiming()" />
+            <span class="range-val" id="val-speed">1.0x</span>
+          </div>
+        </div>
+
+        <!-- Audio Settings Card -->
+        <div class="card">
+          <h2 class="card-title">🔊 Audio Synthesizer Controls</h2>
+          
+          <label for="inp-bpm">Music Beat Tempo (BPM)</label>
+          <div class="range-row">
+            <input type="range" id="inp-bpm" min="80" max="160" value="124" oninput="updateAudio()" />
+            <span class="range-val" id="val-bpm">124</span>
+          </div>
+          
+          <label for="inp-music-vol">Music Volume</label>
+          <div class="range-row">
+            <input type="range" id="inp-music-vol" min="0" max="100" value="40" oninput="updateAudio()" />
+            <span class="range-val" id="val-music-vol">40%</span>
+          </div>
+
+          <label for="inp-sfx-vol">SFX Volume</label>
+          <div class="range-row">
+            <input type="range" id="inp-sfx-vol" min="0" max="100" value="70" oninput="updateAudio()" />
+            <span class="range-val" id="val-sfx-vol">70%</span>
+          </div>
+        </div>
+
+        <!-- Export Card -->
+        <div class="card">
+          <h2 class="card-title">⚡ Video Export</h2>
+          
+          <button class="btn-primary" id="btn-export" onclick="startExport()">
+            <span>🎬 Export WebM Short</span>
+          </button>
+          
+          <div class="rec-bar" id="record-bar">
+            <div class="rec-dot"></div>
+            <span id="record-text">Recording 0s...</span>
+            <div class="rec-prog">
+              <div class="rec-fill" id="record-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagnostics Card -->
+        <div class="card">
+          <h2 class="card-title">🔍 Diagnostics & Live Tests</h2>
+          <button class="btn-primary" style="background: rgba(255,255,255,0.06); color: #fff; box-shadow: none; border: 1px solid var(--border-light);" onclick="runDiagnostics()">
+            🧪 Run Self-Test Suite
+          </button>
+          <div id="test-results" style="display: none; margin-top: 10px; font-size: 0.72rem; background: rgba(0,0,0,0.3); border-radius: var(--radius-md); padding: 10px; border: 1px solid var(--border-light); max-height: 200px; overflow-y: auto;">
+          </div>
+        </div>
+
+      </aside>
+    </main>
+  </div>
+
+  <!-- Load Sub-Engines -->
+  <script src="audio.js"></script>
+  <script src="animator.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

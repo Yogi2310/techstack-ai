@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KidsFlix — Cartoon & Maths Shorts for Kids</title>
+  <meta name="description" content="Discover, download & upload kids cartoon and educational YouTube Shorts. Safe content for kids." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <!-- ========== LEFT SIDEBAR ========== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="sidebar-logo-icon">🎨</span>
+      <span class="sidebar-logo-text">Kids<span class="logo-accent">Flix</span></span>
+    </div>
+    <nav class="sidebar-nav">
+      <!-- Generate is the PRIMARY view -->
+      <button class="nav-item active" id="navGenerate" data-view="generate">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>Generate</span>
+      </button>
+      <button class="nav-item" id="navDiscover" data-view="discover">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        <span>My Shorts</span>
+      </button>
+      <button class="nav-item" id="navSaved" data-view="saved">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span>Saved</span>
+      </button>
+      <button class="nav-item" id="navDownloads" data-view="downloads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Downloads</span>
+      </button>
+    </nav>
+    <div class="sidebar-stats">
+      <div class="stat-row"><span class="stat-label">Saved</span><span class="stat-val" id="sidebarSavedCount">0</span></div>
+      <div class="stat-row"><span class="stat-label">Category</span><span class="stat-val" id="sidebarCategory">Cartoon</span></div>
+      <div class="stat-row"><span class="stat-label">Content</span><span class="stat-val" id="sidebarType">Shorts</span></div>
+    </div>
+    <div class="sidebar-safety">
+      <div class="safety-dot"></div>
+      <span>Kid-Safe Content</span>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN PANEL ========== -->
+  <main class="main-panel" id="mainPanel">
+
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="search-wrap">
+        <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search cartoons, maths, stories, science..." autocomplete="off" />
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeToggle" title="Toggle theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ====== MY SHORTS VIEW (was Discover) ====== -->
+    <div class="view" id="viewDiscover"  style="display:none;">
+
+      <!-- Hero -->
+      <section class="hero-banner">
+        <div class="hero-glow hero-glow-1"></div>
+        <div class="hero-glow hero-glow-2"></div>
+        <div class="hero-text">
+          <div class="hero-badge">🎬 Your Generated Shorts</div>
+          <h1 class="hero-title">
+            All your <span class="accent-purple">Auto-Generated</span><br/>
+            <span class="accent-yellow">Kids Shorts</span> here!
+          </h1>
+          <p class="hero-sub">Videos you generate appear here. Pick a category &amp; hit <strong>Generate</strong> to create more! 🌟</p>
+          <button class="btn-goto-gen" id="btnHeroGenerate">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Create New Shorts
+          </button>
+        </div>
+        <div class="hero-emoji-row" aria-hidden="true">
+          <span>🐷</span><span>🔢</span><span>⭐</span><span>📚</span><span>🔬</span><span>💡</span>
+        </div>
+      </section>
+
+      <!-- Generated video gallery -->
+      <section class="videos-section">
+        <div class="section-head">
+          <h2 class="section-title">⚡ Your Generated Shorts</h2>
+          <span class="section-count" id="myShortCount">0 videos</span>
+        </div>
+        <div class="gen-queue-grid" id="myShortGrid"></div>
+        <div class="no-results" id="myShortEmpty">
+          <span>🎬</span>
+          <p>No shorts yet! Click <strong>Generate</strong> in the sidebar to create your first animated video.</p>
+          <button class="btn-goto-gen" id="btnEmptyGenerate" style="margin-top:16px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Generate Now
+          </button>
+        </div>
+      </section>
+
+    </div><!-- /viewDiscover -->
+
+
+    <!-- ====== MY VIDEOS VIEW ====== -->
+    <div class="view" id="viewSaved" style="display:none;">
+      <section class="videos-section">
+        <div class="section-head">
+          <h2 class="section-title">📁 My Saved Videos</h2>
+          <button class="pill" id="clearAllBtn" style="color:#f87171;border-color:#f87171;">🗑️ Clear All</button>
+        </div>
+        <div class="video-grid" id="savedGrid"></div>
+        <div class="no-results" id="savedEmpty" style="display:none;">
+          <span>📌</span><p>No videos saved yet. Bookmark any video from Discover!</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ====== DOWNLOADS VIEW ====== -->
+    <div class="view" id="viewDownloads" style="display:none;">
+      <section class="downloads-section">
+        <div class="section-head">
+          <h2 class="section-title">⬇️ Downloads</h2>
+          <span class="section-badge badge-green">LOCAL FILES</span>
+        </div>
+        <div class="dl-info-bar">
+          <p>💡 Click <strong>⬇️</strong> on any video card to download it. Then upload directly to YouTube as Shorts from this tab.</p>
+        </div>
+        <div class="setup-notice" id="setupNotice">
+          <div class="setup-icon">🔑</div>
+          <div class="setup-text">
+            <strong>First-time YouTube upload?</strong> You need a <code>client_secrets.json</code> from Google Cloud Console.
+            <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener" class="setup-link">Enable YouTube Data API →</a>
+          </div>
+        </div>
+        <div class="downloads-list" id="downloadsList"></div>
+        <div class="no-results" id="downloadsEmpty" style="display:none;">
+          <span>📥</span><p>No downloads yet. Click ⬇️ on any video to download it!</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ====== GENERATE VIEW ====== -->
+    <div class="view" id="viewGenerate" style="display:none;">
+      <section class="gen-section">
+
+        <!-- Header -->
+        <div class="section-head" style="margin-bottom:28px;">
+          <h2 class="section-title" style="font-size:1.5rem;">⚡ Auto-Generate Kids Shorts</h2>
+          <span class="section-badge badge-purple">AI POWERED</span>
+        </div>
+        <p style="color:var(--text-2);margin-bottom:28px;font-size:0.9rem;">Pick a category, count & duration — one click creates animated video Shorts with music you can download instantly!</p>
+
+        <!-- Category -->
+        <div class="gen-card">
+          <h3 class="filter-label">🎬 What type of Shorts?</h3>
+          <div class="gen-cat-grid">
+            <button class="gen-cat-btn active" data-gencat="cartoon">🎨<span>Cartoon</span></button>
+            <button class="gen-cat-btn" data-gencat="maths">🔢<span>Maths</span></button>
+            <button class="gen-cat-btn" data-gencat="stories">📚<span>Stories</span></button>
+            <button class="gen-cat-btn" data-gencat="science">🔬<span>Science</span></button>
+          </div>
+        </div>
+
+        <!-- Count -->
+        <div class="gen-card">
+          <h3 class="filter-label">🎬 How many videos?</h3>
+          <div class="gen-count-row">
+            <button class="gen-count-btn" data-gencount="1">1</button>
+            <button class="gen-count-btn active" data-gencount="3">3</button>
+            <button class="gen-count-btn" data-gencount="5">5</button>
+            <button class="gen-count-btn" data-gencount="10">10</button>
+          </div>
+        </div>
+
+        <!-- Duration -->
+        <div class="gen-card">
+          <h3 class="filter-label">⏱️ Video Duration</h3>
+          <div class="gen-count-row">
+            <button class="gen-dur-btn active" data-gendur="15">15 sec</button>
+            <button class="gen-dur-btn" data-gendur="30">30 sec</button>
+            <button class="gen-dur-btn" data-gendur="60">1 min</button>
+            <button class="gen-dur-btn" data-gendur="120">2 min</button>
+            <button class="gen-dur-btn" data-gendur="180">3 min</button>
+          </div>
+        </div>
+
+        <!-- Generate Button -->
+        <button class="gen-mega-btn" id="btnGenerate">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <div>
+            <span class="gen-mega-title">Generate & Download Shorts</span>
+            <span class="gen-mega-sub">Creates animated videos with music — ready to download!</span>
+          </div>
+        </button>
+
+        <!-- Progress -->
+        <div class="gen-progress hidden" id="genProgress">
+          <div class="gen-progress-header">
+            <span id="genProgressLabel">🎵 Generating music…</span>
+            <span id="genProgressCount">0/0</span>
+          </div>
+          <div class="gen-progress-bar-outer"><div class="gen-progress-bar-fill" id="genProgressFill"></div></div>
+          <!-- Live canvas preview -->
+          <div class="gen-live">
+            <div class="gen-phone">
+              <canvas id="genLiveCanvas" width="1080" height="1920"></canvas>
+            </div>
+            <div class="gen-live-info">
+              <div class="gen-live-badge" id="genLiveBadge">CARTOON</div>
+              <p id="genLiveText" style="color:var(--text-2);font-size:0.85rem;">Starting…</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Queue of generated videos -->
+        <div id="genQueue" class="gen-queue hidden">
+          <div class="section-head" style="margin-bottom:18px;">
+            <h3 class="section-title">✅ Generated Videos</h3>
+            <button class="pill" id="btnDownloadAll" style="background:var(--violet);color:#fff;border-color:var(--violet);">⬇️ Download All</button>
+          </div>
+          <div class="gen-queue-grid" id="genQueueGrid"></div>
+        </div>
+
+        <!-- Hidden render canvas -->
+        <canvas id="genRenderCanvas" width="1080" height="1920" style="display:none;"></canvas>
+
+      </section>
+    </div>
+
+  </main>
+
+  <!-- ========== VIDEO MODAL ========== -->
+  <div class="modal-overlay" id="videoModal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="modal-player">
+        <iframe id="modalPlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="modal-info">
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <div class="modal-meta">
+          <span id="modalChannel"></span>
+          <span>•</span><span id="modalViews"></span>
+          <span>•</span><span id="modalDate"></span>
+        </div>
+        <div class="modal-actions">
+          <a class="btn-yt" id="watchOnYT" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/><polygon points="9.545,15.568 15.818,12 9.545,8.432" fill="#fff"/></svg>
+            Watch on YouTube
+          </a>
+          <button class="btn-download-modal" id="modalDownloadBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+          <button class="btn-save" id="modalSaveBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span id="modalSaveText">Save</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-comments">
+        <h3>💬 Top Comments</h3>
+        <div id="commentsList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== VIDEO PREVIEW MODAL ========== -->
+  <div class="preview-overlay" id="previewModal">
+    <div class="preview-box">
+      <button class="preview-close" id="previewClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <!-- Phone-style frame -->
+      <div class="preview-phone">
+        <video id="previewVideo" playsinline controls autoplay loop></video>
+      </div>
+      <!-- Info + actions -->
+      <div class="preview-info">
+        <div class="preview-cat" id="previewCat">CARTOON</div>
+        <div class="preview-title" id="previewTitle">Loading…</div>
+        <div class="preview-actions">
+          <button class="gen-mega-btn preview-dl-btn" id="previewDownloadBtn" style="margin-bottom:0;padding:14px 28px;font-size:0.9rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <div>
+              <span class="gen-mega-title" style="font-size:0.95rem;">Download Short</span>
+              <span class="gen-mega-sub">Save .webm to your device</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+  <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

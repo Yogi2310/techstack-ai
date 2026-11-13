@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShortsCraft 2.0 — Trending Backgrounds YouTube Shorts Generator</title>
+  <meta name="description"
+    content="Auto-generate stunning YouTube Shorts with live trending photo backgrounds that match your topic — politics, science, sports, tech & more. Zero effort needed.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Dynamic Background Layer -->
+  <div id="bg-layer">
+    <div class="bg-slide" id="bg-slide-0"></div>
+    <div class="bg-slide" id="bg-slide-1"></div>
+    <div class="bg-particle-overlay"></div>
+    <div class="bg-gradient-overlay"></div>
+  </div>
+
+  <!-- Ambient glow orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div id="app">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>ShortsCraft</h1>
+          <span class="brand-version">2.0 · Trending BG</span>
+        </div>
+      </div>
+
+      <!-- Live BG Indicator -->
+      <div class="live-bg-indicator" id="live-bg-indicator">
+        <div class="live-dot"></div>
+        <span id="live-bg-label">Live Backgrounds Loading…</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-page="auto" id="nav-auto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+          </svg>
+          <span>Auto Generate</span>
+        </button>
+        <button class="nav-btn" data-page="gallery" id="nav-gallery">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
+          <span>My Videos</span>
+        </button>
+        <button class="nav-btn" data-page="preview" id="nav-preview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span>BG Preview</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="stats-card">
+          <div class="stat">
+            <span class="stat-value" id="stat-created">0</span>
+            <span class="stat-label">Created</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-exported">0</span>
+            <span class="stat-label">Exported</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-bg-loaded">0</span>
+            <span class="stat-label">Trending BG</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="main-content">
+
+      <!-- AUTO GENERATE PAGE -->
+      <section id="page-auto" class="page active">
+        <div class="page-header">
+          <h2>⚡ Auto Generate Shorts</h2>
+          <p class="page-subtitle">Select a topic → Get <strong>live trending backgrounds</strong> for that topic automatically.</p>
+        </div>
+
+        <!-- Topic/Category Selection -->
+        <div class="auto-section">
+          <h3 class="section-title">🔥 Select Topic — Backgrounds Auto-Change</h3>
+          <div class="category-grid" id="category-grid">
+            <label class="category-card active" data-cat="all" id="cat-all">
+              <input type="radio" name="category" value="all" checked>
+              <div class="cat-icon">🎲</div>
+              <span>Random Mix</span>
+              <div class="cat-bg-preview" id="prev-all"></div>
+            </label>
+            <label class="category-card" data-cat="cjp" id="cat-cjp">
+              <input type="radio" name="category" value="cjp">
+              <div class="cat-icon">⚖️</div>
+              <span>CJP Justice</span>
+              <div class="cat-bg-preview" id="prev-cjp"></div>
+            </label>
+            <label class="category-card" data-cat="bjp" id="cat-bjp">
+              <input type="radio" name="category" value="bjp">
+              <div class="cat-icon">🪳</div>
+              <span>BJP Watch</span>
+              <div class="cat-bg-preview" id="prev-bjp"></div>
+            </label>
+            <label class="category-card" data-cat="politics" id="cat-politics">
+              <input type="radio" name="category" value="politics">
+              <div class="cat-icon">🏛️</div>
+              <span>Politics</span>
+              <div class="cat-bg-preview" id="prev-politics"></div>
+            </label>
+            <label class="category-card" data-cat="motivation" id="cat-motivation">
+              <input type="radio" name="category" value="motivation">
+              <div class="cat-icon">💪</div>
+              <span>Motivation</span>
+              <div class="cat-bg-preview" id="prev-motivation"></div>
+            </label>
+            <label class="category-card" data-cat="science" id="cat-science">
+              <input type="radio" name="category" value="science">
+              <div class="cat-icon">🔬</div>
+              <span>Science</span>
+              <div class="cat-bg-preview" id="prev-science"></div>
+            </label>
+            <label class="category-card" data-cat="sports" id="cat-sports">
+              <input type="radio" name="category" value="sports">
+              <div class="cat-icon">⚽</div>
+              <span>Sports</span>
+              <div class="cat-bg-preview" id="prev-sports"></div>
+            </label>
+            <label class="category-card" data-cat="technology" id="cat-technology">
+              <input type="radio" name="category" value="technology">
+              <div class="cat-icon">💻</div>
+              <span>Tech & AI</span>
+              <div class="cat-bg-preview" id="prev-technology"></div>
+            </label>
+            <label class="category-card" data-cat="facts" id="cat-facts">
+              <input type="radio" name="category" value="facts">
+              <div class="cat-icon">🧠</div>
+              <span>Facts</span>
+              <div class="cat-bg-preview" id="prev-facts"></div>
+            </label>
+            <label class="category-card" data-cat="nature" id="cat-nature">
+              <input type="radio" name="category" value="nature">
+              <div class="cat-icon">🌿</div>
+              <span>Nature</span>
+              <div class="cat-bg-preview" id="prev-nature"></div>
+            </label>
+            <label class="category-card" data-cat="rights" id="cat-rights">
+              <input type="radio" name="category" value="rights">
+              <div class="cat-icon">🇮🇳</div>
+              <span>Citizen Rights</span>
+              <div class="cat-bg-preview" id="prev-rights"></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- How Many -->
+        <div class="auto-section">
+          <h3 class="section-title">How many videos?</h3>
+          <div class="count-selector">
+            <button class="count-btn" data-count="1">1</button>
+            <button class="count-btn" data-count="3">3</button>
+            <button class="count-btn active" data-count="5">5</button>
+            <button class="count-btn" data-count="10">10</button>
+          </div>
+        </div>
+
+        <!-- Duration Selector -->
+        <div class="auto-section">
+          <h3 class="section-title">⏱️ Video Duration</h3>
+          <div class="count-selector">
+            <button class="duration-btn active" data-duration="60">1 min</button>
+            <button class="duration-btn" data-duration="120">2 min</button>
+            <button class="duration-btn" data-duration="180">3 min</button>
+            <button class="duration-btn" data-duration="300">5 min</button>
+          </div>
+        </div>
+
+        <!-- THE BIG BUTTON -->
+        <button id="btn-auto-generate" class="mega-btn">
+          <div class="mega-btn-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+          </div>
+          <div class="mega-btn-text">
+            <span class="mega-btn-title">Generate & Export Videos</span>
+            <span class="mega-btn-sub" id="mega-btn-sub">Loading trending backgrounds…</span>
+          </div>
+        </button>
+
+        <!-- Progress Area -->
+        <div id="batch-progress" class="batch-progress hidden">
+          <div class="progress-header">
+            <span class="progress-label" id="progress-label">Generating...</span>
+            <span class="progress-count" id="progress-count">0/0</span>
+          </div>
+          <div class="progress-bar-outer">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
+          <!-- Live Preview -->
+          <div class="live-preview">
+            <div class="phone-frame-small">
+              <canvas id="live-canvas" width="1080" height="1920"></canvas>
+            </div>
+            <div class="current-info">
+              <h4 id="current-title">Rendering...</h4>
+              <p id="current-text" class="current-text"></p>
+              <span class="current-badge" id="current-badge">TOPIC</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Queue Preview -->
+        <div id="queue-preview" class="queue-preview hidden">
+          <h3 class="section-title">📋 Generated Queue — Preview Before Export</h3>
+          <div id="queue-list" class="queue-list"></div>
+          <div class="queue-actions">
+            <button id="btn-export-all" class="btn btn-primary btn-lg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Export All Videos
+            </button>
+            <button id="btn-regenerate" class="btn btn-secondary btn-lg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10" />
+                <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" />
+              </svg>
+              Regenerate
+            </button>
+          </div>
+        </div>
+
+        <!-- Done Area -->
+        <div id="done-area" class="done-area hidden">
+          <div class="done-icon">✅</div>
+          <h3>All Videos Exported!</h3>
+          <p><span id="done-count">0</span> videos downloaded to your device.</p>
+          <button id="btn-make-more" class="btn btn-primary btn-lg">Make More Shorts</button>
+        </div>
+      </section>
+
+      <!-- GALLERY PAGE -->
+      <section id="page-gallery" class="page">
+        <div class="page-header">
+          <h2>📁 My Videos</h2>
+          <p class="page-subtitle">History of all videos you've generated</p>
+        </div>
+        <div id="gallery-grid" class="gallery-grid">
+          <div class="gallery-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="48">
+              <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+              <line x1="7" y1="2" x2="7" y2="22" />
+              <line x1="17" y1="2" x2="17" y2="22" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <line x1="2" y1="7" x2="7" y2="7" />
+              <line x1="2" y1="17" x2="7" y2="17" />
+              <line x1="17" y1="17" x2="22" y2="17" />
+              <line x1="17" y1="7" x2="22" y2="7" />
+            </svg>
+            <p>No videos yet. Go to "Auto Generate" and create your first batch!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- BG PREVIEW PAGE -->
+      <section id="page-preview" class="page">
+        <div class="page-header">
+          <h2>🖼️ Trending Background Preview</h2>
+          <p class="page-subtitle">See all loaded trending backgrounds per topic. Backgrounds auto-rotate in videos.</p>
+        </div>
+        <div id="bg-preview-grid" class="bg-preview-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Hidden canvas for full-resolution rendering -->
+  <canvas id="render-canvas" width="1080" height="1920" style="display:none"></canvas>
+
+  <!-- Video Player Modal -->
+  <div id="video-modal" class="video-modal hidden">
+    <div class="video-modal-backdrop" id="modal-backdrop"></div>
+    <div class="video-modal-content">
+      <button class="modal-close" id="modal-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <div class="video-phone-frame">
+        <video id="video-player" controls playsinline></video>
+      </div>
+      <div class="video-info">
+        <span class="video-info-badge" id="video-info-badge">TOPIC</span>
+        <h3 id="video-info-title">Video Title</h3>
+        <p id="video-info-text" class="video-info-desc"></p>
+        <div class="video-info-actions">
+          <button id="btn-download-single" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="src/main.js?v=20260615-picsum"></script>
+</body>
+
+</html>

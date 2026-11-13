@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shorts Studio Pro · AI Video & YouTube Automation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #0B0F19; color: #F3F4F6; }
+    .glass-card { background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #111827; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #4B5563; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans custom-scroll">
+
+  <!-- Top Navbar -->
+  <header class="glass-card border-b border-gray-800 sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 text-white font-black text-xl">
+        <i class="fa-solid fa-play"></i>
+      </div>
+      <div>
+        <h1 class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+          Shorts Studio <span class="text-cyan-400">Pro</span>
+        </h1>
+        <p class="text-xs text-gray-400">Stickman Vertical Video & 1-Click YouTube Scheduler</p>
+      </div>
+    </div>
+
+    <!-- YouTube Auth Status Badge -->
+    <div class="flex items-center gap-4">
+      <div id="auth-status-badge" class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-950/80 border border-emerald-500/30 text-emerald-300">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <i class="fa-brands fa-youtube text-red-500"></i> YouTube API: Connected
+      </div>
+      <a href="https://studio.youtube.com" target="_blank" class="text-xs text-gray-400 hover:text-white transition flex items-center gap-1.5 py-1 px-2.5 rounded-lg border border-gray-800 hover:border-gray-700">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> YouTube Studio
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="flex-1 p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-[1700px] w-full mx-auto">
+    
+    <!-- LEFT 7 COLS: Scene Editor & Generator -->
+    <section class="lg:col-span-7 flex flex-col gap-6">
+      
+      <!-- Preset Selector Bar -->
+      <div class="glass-card rounded-2xl p-5 shadow-xl">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2 text-sm font-semibold text-gray-200">
+            <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i> Viral Presets & Templates
+          </div>
+          <span class="text-xs text-gray-400">Instant full scripts & animations</span>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5" id="presets-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Video Details & Scenes List -->
+      <div class="glass-card rounded-2xl p-6 shadow-xl flex flex-col gap-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-800">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-layer-group text-indigo-400"></i> Scene Sequence & Narration
+            </h2>
+            <p class="text-xs text-gray-400">Each scene is automatically synthesized, animated, and watermarked.</p>
+          </div>
+          <button onclick="addScene()" class="self-start sm:self-auto px-3.5 py-1.5 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/40 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-plus"></i> Add Scene
+          </button>
+        </div>
+
+        <!-- Project Title -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-400 mb-1.5">Short Title (For File & YouTube)</label>
+          <input type="text" id="video-title" value="90% of People Use AI Wrong (Use This 3-Step Formula Instead) #shorts" class="w-full bg-gray-900/90 border border-gray-700/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500 transition">
+        </div>
+
+        <!-- Scenes Scrollable Container -->
+        <div id="scenes-list" class="space-y-4 max-h-[580px] overflow-y-auto pr-1 custom-scroll">
+          <!-- Scenes rendered here -->
+        </div>
+
+        <!-- Action Button -->
+        <div class="pt-2">
+          <button id="btn-generate" onclick="generateVideo()" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-bold text-sm shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2.5 transition active:scale-[0.99]">
+            <i class="fa-solid fa-film"></i>
+            <span>Render Stickman Short (Voiceover + Animations + Logo)</span>
+          </button>
+          
+          <div id="generate-progress" class="hidden mt-3 p-3 rounded-xl bg-gray-900 border border-cyan-500/30 flex items-center gap-3">
+            <div class="animate-spin text-cyan-400"><i class="fa-solid fa-circle-notch text-lg"></i></div>
+            <div class="flex-1">
+              <div class="text-xs font-semibold text-cyan-300" id="progress-status-text">Synthesizing Voiceover & Drawing Stickman Frames...</div>
+              <div class="w-full bg-gray-800 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                <div id="progress-bar-fill" class="bg-cyan-400 h-full w-1/3 transition-all duration-300 animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RIGHT 5 COLS: Video Player & YouTube Scheduler -->
+    <section class="lg:col-span-5 flex flex-col gap-6">
+      
+      <!-- Video Preview Card -->
+      <div class="glass-card rounded-2xl p-5 shadow-xl">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-mobile-screen text-cyan-400"></i> Video Preview
+          </h2>
+          <span id="player-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-950 border border-cyan-800 text-cyan-300">
+            Vertical 9:16 · Ready
+          </span>
+        </div>
+
+        <!-- Vertical Video Container -->
+        <div class="bg-black/90 rounded-xl overflow-hidden border border-gray-800 flex justify-center items-center shadow-inner relative" style="height: 480px;">
+          <video id="main-video-player" controls autoplay loop playsinline class="h-full w-auto object-contain">
+            <source id="video-source" src="/videos/ai_prompting_framework.mp4" type="video/mp4">
+            Your browser does not support video playback.
+          </video>
+        </div>
+
+        <div class="mt-3 flex items-center justify-between text-xs text-gray-400 px-1">
+          <span id="video-meta-filename" class="font-mono truncate max-w-[240px]">ai_prompting_framework.mp4</span>
+          <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-badge-check"></i> Logo Watermarked</span>
+        </div>
+      </div>
+
+      <!-- YouTube Publisher & Scheduler Card -->
+      <div class="glass-card rounded-2xl p-6 shadow-xl flex flex-col gap-4">
+        <div class="flex items-center justify-between pb-3 border-b border-gray-800">
+          <div>
+            <h2 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-brands fa-youtube text-red-500"></i> YouTube Launchpad
+            </h2>
+            <p class="text-xs text-gray-400">Publish immediately or schedule for optimal reach.</p>
+          </div>
+        </div>
+
+        <!-- Schedule Options -->
+        <div class="space-y-3">
+          <label class="block text-xs font-semibold text-gray-300">Publishing Mode</label>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-gray-700 bg-gray-900/60 cursor-pointer hover:border-cyan-500 transition">
+              <input type="radio" name="publish_mode" value="schedule" checked onchange="togglePublishMode()" class="text-cyan-500 focus:ring-0">
+              <span class="font-medium text-white">📅 Schedule for Later</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-gray-700 bg-gray-900/60 cursor-pointer hover:border-cyan-500 transition">
+              <input type="radio" name="publish_mode" value="now" onchange="togglePublishMode()" class="text-cyan-500 focus:ring-0">
+              <span class="font-medium text-white">⚡ Publish Immediately</span>
+            </label>
+          </div>
+
+          <!-- Schedule Time Picker -->
+          <div id="schedule-picker-box" class="p-3.5 rounded-xl bg-gray-900/90 border border-gray-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-300">Target Time (IST)</span>
+              <!-- Quick presets -->
+              <div class="flex gap-1.5">
+                <button type="button" onclick="setTomorrowTime('11:00')" class="px-2 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-[11px] text-cyan-300 border border-gray-700">Tmw 11 AM</button>
+                <button type="button" onclick="setTomorrowTime('12:00')" class="px-2 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-[11px] text-cyan-300 border border-gray-700">Tmw 12 PM</button>
+                <button type="button" onclick="setTomorrowTime('18:00')" class="px-2 py-0.5 rounded bg-gray-800 hover:bg-gray-700 text-[11px] text-cyan-300 border border-gray-700">Tmw 6 PM</button>
+              </div>
+            </div>
+            <input type="datetime-local" id="schedule-datetime" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500">
+            <p class="text-[11px] text-gray-400">YouTube will keep video private and release publicly at this exact minute.</p>
+          </div>
+        </div>
+
+        <!-- Description & Tags (Collapsible) -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-400 mb-1">Description & Hashtags</label>
+          <textarea id="yt-description" rows="3" class="w-full bg-gray-900/90 border border-gray-700/80 rounded-xl px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-cyan-500 custom-scroll font-mono"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-400 mb-1">Tags (Comma separated)</label>
+          <input type="text" id="yt-tags" value="shorts, ai, productivity, promptengineering, youtube shorts" class="w-full bg-gray-900/90 border border-gray-700/80 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 font-mono">
+        </div>
+
+        <!-- Upload Button -->
+        <button id="btn-upload" onclick="uploadToYouTube()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-pink-600 hover:from-red-500 hover:to-pink-500 text-white font-bold text-sm shadow-lg shadow-red-500/20 flex items-center justify-center gap-2.5 transition active:scale-[0.99]">
+          <i class="fa-brands fa-youtube"></i>
+          <span id="btn-upload-text">Schedule Upload to YouTube</span>
+        </button>
+
+        <!-- Result Box -->
+        <div id="upload-result" class="hidden p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/40 text-xs space-y-2">
+          <div class="flex items-center gap-2 font-bold text-emerald-300 text-sm">
+            <i class="fa-solid fa-circle-check"></i>
+            <span id="upload-result-title">Successfully Scheduled!</span>
+          </div>
+          <div class="text-gray-300" id="upload-result-body"></div>
+          <div class="pt-1 flex gap-2">
+            <a id="upload-result-link" href="#" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-500 transition flex items-center gap-1.5">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Open YouTube Shorts
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    // Templates Database
+    const PRESETS = [
+      {
+        id: "prompting",
+        title: "AI Prompt Formula",
+        badge: "Viral #1",
+        ytTitle: "90% of People Use AI Wrong (Use This 3-Step Formula Instead) #shorts",
+        scenes: [
+          { tag: "THE MISTAKE", script: "90 percent of people use AI completely wrong. They treat it like a search engine.", headline: "90% USE AI WRONG", subtext: "Searching != Prompting\nStop Asking Questions", action: "confused", color: "#EF4444" },
+          { tag: "ROBOT SLOP", script: "You type: write me a script, and it gives you robotic, boring garbage.", headline: "THE LAZY PROMPT", subtext: "'Write me a script'\n-> Generic Robot Slop", action: "shrug", color: "#F59E0B" },
+          { tag: "THE FORMULA", script: "Top creators use a simple 3-part formula: Role, Rule, Result.", headline: "THE WINNING FORMULA", subtext: "1. ROLE (Persona)\n2. RULE (Constraints)\n3. RESULT (1 Example)", action: "point_right", color: "#10B981" },
+          { tag: "STEP 1: ROLE", script: "Step 1: Role. Do not say write a hook. Say: you are a viral editor who hates fluff.", headline: "STEP 1: ROLE", subtext: "Don't: 'Write a hook'\nDo: 'Viral editor who hates fluff'", action: "point_right", color: "#3B82F6" },
+          { tag: "STEP 2: RULES", script: "Step 2: Negative Rules. Ban words like delve, revolutionize, and pleasantries.", headline: "STEP 2: NEGATIVE RULES", subtext: "Banned: Delve\nBanned: Revolutionize\nBanned: In today's world", action: "confused", color: "#EF4444" },
+          { tag: "STEP 3: EXAMPLE", script: "Step 3: One Example. Feed one winning reference so it matches your exact rhythm.", headline: "STEP 3: ONE EXAMPLE", subtext: "Lock Voice Cadence\nZero Guesswork for AI", action: "triumph", color: "#10B981" },
+          { tag: "THE UPGRADE", script: "Your output instantly jumps from generic AI sludge to publish ready gold.", headline: "10X OUTPUT", subtext: "AI Sludge -> Published Gold", action: "triumph", color: "#F59E0B" },
+          { tag: "CALL TO ACTION", script: "Comment PROMPT below, and I will send you my complete prompt cheat sheet.", headline: "GET THE TEMPLATES", subtext: "COMMENT: PROMPT\n[x] 15 Ready Prompts\n[x] Negative Constraint Bank", action: "point_right", color: "#A855F7" }
+        ]
+      },
+      {
+        id: "cost_collapse",
+        title: "Cost Collapse (80%)",
+        badge: "Proven 1.4k/mo",
+        ytTitle: "I Cut Production Costs by 80% With Two AI Tools #shorts",
+        scenes: [
+          { tag: "HOOK · COSTS", script: "Three freelancers. Gone. I replaced them with two AI tools and cut costs by 80 percent.", headline: "THREE FREELANCERS GONE", subtext: "Cut Costs By 80%\nProduction Automated", action: "snap", color: "#EF4444" },
+          { tag: "THE MATH #1", script: "Here is the math. I was paying 200 dollars a video for voiceover.", headline: "VOICEOVER COST", subtext: "$200 / Video\n$800 / Month Leak", action: "confused", color: "#F59E0B" },
+          { tag: "THE MATH #2", script: "I was paying 150 dollars a batch for thumbnails.", headline: "DESIGN EXPENSE", subtext: "$150 / Batch\nConstant Freelancer Revisions", action: "shrug", color: "#EF4444" },
+          { tag: "AI TOOL #1", script: "Eleven Labs costs me 22 dollars a month now.", headline: "ELEVEN LABS", subtext: "$200/vid -> $22/month\nStudio Microphone Quality", action: "point_right", color: "#22D3EE" },
+          { tag: "AI TOOL #2", script: "Midjourney is 10 dollars a month.", headline: "MIDJOURNEY", subtext: "$150/batch -> $10/month\nUnlimited 4K Visuals", action: "point_right", color: "#10B981" },
+          { tag: "THE PAYOFF", script: "That is 350 dollars saved per video, which at four videos a month is 1,400 dollars back.", headline: "+$1,400 BACK IN POCKET", subtext: "Savings: $350 per video\nCompounded Monthly", action: "triumph", color: "#F59E0B" },
+          { tag: "THE TRUTH", script: "The creative decisions are still mine. The production cost is not.", headline: "THE REAL REFRAME", subtext: "Creative Direction: 100% You\nProduction Drag: 0%", action: "point_right", color: "#22D3EE" },
+          { tag: "CALL TO ACTION", script: "And the work got better. Comment TOOLS and test the exact stack yourself.", headline: "WANT THE STACK?", subtext: "COMMENT: TOOLS\nGet Prompt & Setting Sheet", action: "point_right", color: "#A855F7" }
+        ]
+      },
+      {
+        id: "three_sec_rule",
+        title: "3-Sec Hook Rule",
+        badge: "Retention",
+        ytTitle: "The 3-Second Rule That Fixes 90% of Boring Videos #shorts",
+        scenes: [
+          { tag: "THE RETENTION CLIFF", script: "95 percent of viewers scroll past your video in the first three seconds.", headline: "THE 3-SECOND CLIFF", subtext: "95% Drop Off Immediately\nIf Hook Is Soft", action: "confused", color: "#EF4444" },
+          { tag: "THE MISTAKE", script: "They leave because you opened with: Hey guys, today we are going to talk about.", headline: "THE FATAL INTRO", subtext: "'Hey guys, welcome back'\n= Instant Swipe Away", action: "shrug", color: "#F59E0B" },
+          { tag: "THE FIX", script: "Top creators do the opposite. They open a question the viewer cannot close.", headline: "OPEN A LOOP", subtext: "No Intro. No Pleasantries.\nStart Inside The Action.", action: "point_right", color: "#22D3EE" },
+          { tag: "FORMULA 1", script: "Formula 1: Contradiction. Say: everything you know about this topic is backwards.", headline: "CONTRADICTION", subtext: "'Everything you know\nabout X is backwards'", action: "snap", color: "#3B82F6" },
+          { tag: "FORMULA 2", script: "Formula 2: The Direct Consequence. Say: do this today, or lose your audience.", headline: "HIGH STAKES", subtext: "'Do this today, or\nwatch your views collapse'", action: "point_right", color: "#EF4444" },
+          { tag: "THE RESULT", script: "Notice how neither of those had an intro? That is why they hold retention.", headline: "ZERO FRICTION", subtext: "Instant Click Confirmation\nWatch Time Surges", action: "triumph", color: "#10B981" },
+          { tag: "CALL TO ACTION", script: "Comment HOOKS below and I will send you 21 proven hook formulas for free.", headline: "GET 21 FORMULAS", subtext: "COMMENT: HOOKS\nFull Viral Hook Swipe File", action: "point_right", color: "#A855F7" }
+        ]
+      },
+      {
+        id: "dev_tools",
+        title: "3 Dev AI Tools",
+        badge: "Coding",
+        ytTitle: "3 AI Extensions Every Developer Needs in 2026 #shorts",
+        scenes: [
+          { tag: "HOOK", script: "If you are still typing repetitive boilerplate by hand, stop.", headline: "STOP HAND TYPING", subtext: "Manual Boilerplate = Wasted Hours", action: "confused", color: "#EF4444" },
+          { tag: "THE ADVANTAGE", script: "These 3 free AI tools save senior developers 10 hours every single week.", headline: "SAVE 10 HOURS / WK", subtext: "The Elite Developer Stack", action: "point_right", color: "#22D3EE" },
+          { tag: "TOOL 1", script: "Tool 1: Claude Code. It turns full terminal tasks into autonomous agents.", headline: "TOOL 1: CLAUDE CODE", subtext: "Autonomous Terminal Workflows\nRefactor entire codebases", action: "snap", color: "#3B82F6" },
+          { tag: "TOOL 2", script: "Tool 2: Continue. Open source local code autocomplete inside your IDE.", headline: "TOOL 2: CONTINUE.DEV", subtext: "Local LLM Autocomplete\n100% Private Codebase", action: "point_right", color: "#10B981" },
+          { tag: "TOOL 3", script: "Tool 3: Supermaven. The fastest neural autocomplete on the market.", headline: "TOOL 3: SUPERMAVEN", subtext: "Instant 300,000 Token Context\nLightning fast suggestions", action: "triumph", color: "#F59E0B" },
+          { tag: "CALL TO ACTION", script: "Comment CODE below and I will send you the direct installation checklist.", headline: "GET SETUP GUIDE", subtext: "COMMENT: CODE\nFull Config & Shortcut Sheet", action: "point_right", color: "#A855F7" }
+        ]
+      }
+    ];
+
+    let currentScenes = [];
+    let currentVideoPath = "ai_prompting_framework.mp4";
+
+    function initPresets() {
+      const container = document.getElementById("presets-container");
+      container.innerHTML = "";
+      PRESETS.forEach(p => {
+        const btn = document.createElement("button");
+        btn.className = "flex flex-col text-left p-2.5 rounded-xl border border-gray-800 bg-gray-900/60 hover:border-cyan-500/50 hover:bg-gray-800/80 transition group";
+        btn.onclick = () => loadPreset(p.id);
+        btn.innerHTML = `
+          <div class="flex items-center justify-between w-full mb-1">
+            <span class="text-xs font-bold text-white group-hover:text-cyan-400 transition">${p.title}</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 font-mono">${p.badge}</span>
+          </div>
+          <span class="text-[11px] text-gray-400 truncate w-full">${p.scenes.length} Scenes · Stickman</span>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    function loadPreset(presetId) {
+      const p = PRESETS.find(x => x.id === presetId);
+      if (!p) return;
+      document.getElementById("video-title").value = p.ytTitle;
+      currentScenes = JSON.parse(JSON.stringify(p.scenes));
+      renderScenes();
+      updateDescription();
+    }
+
+    function renderScenes() {
+      const list = document.getElementById("scenes-list");
+      list.innerHTML = "";
+      currentScenes.forEach((sc, idx) => {
+        const card = document.createElement("div");
+        card.className = "p-4 rounded-xl border border-gray-800 bg-gray-900/80 space-y-3 relative group";
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-cyan-950 border border-cyan-800 text-cyan-300 flex items-center justify-center text-xs font-bold font-mono">${idx + 1}</span>
+              <input type="text" value="${sc.tag}" onchange="updateScene(${idx}, 'tag', this.value)" class="bg-transparent border-b border-gray-700 text-xs font-bold text-cyan-400 focus:outline-none focus:border-cyan-400 px-1 py-0.5">
+            </div>
+            <div class="flex items-center gap-2">
+              <select onchange="updateScene(${idx}, 'action', this.value)" class="bg-gray-800 border border-gray-700 text-[11px] text-gray-200 rounded px-2 py-1 focus:outline-none">
+                <option value="idle" ${sc.action === 'idle' ? 'selected' : ''}>🚶 Idle Sway</option>
+                <option value="point_right" ${sc.action === 'point_right' ? 'selected' : ''}>👉 Point</option>
+                <option value="confused" ${sc.action === 'confused' ? 'selected' : ''}>❓ Confused (?)</option>
+                <option value="shrug" ${sc.action === 'shrug' ? 'selected' : ''}>🤷 Shrug</option>
+                <option value="triumph" ${sc.action === 'triumph' ? 'selected' : ''}>🙌 Triumph / Arms Up</option>
+                <option value="snap" ${sc.action === 'snap' ? 'selected' : ''}>⚡ Snap Glow</option>
+              </select>
+              <input type="color" value="${sc.color || '#22D3EE'}" onchange="updateScene(${idx}, 'color', this.value)" class="w-6 h-6 rounded border-0 bg-transparent cursor-pointer">
+              <button onclick="removeScene(${idx})" class="text-gray-500 hover:text-red-400 transition p-1"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-gray-400 mb-1">Spoken Narration (Speech Synthesizer)</label>
+            <textarea rows="2" onchange="updateScene(${idx}, 'script', this.value)" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-cyan-500 custom-scroll font-mono">${sc.script}</textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] text-gray-400 mb-0.5">Visual Headline</label>
+              <input type="text" value="${sc.headline || ''}" onchange="updateScene(${idx}, 'headline', this.value)" class="w-full bg-gray-950 border border-gray-800 rounded px-2.5 py-1 text-xs text-white">
+            </div>
+            <div>
+              <label class="block text-[10px] text-gray-400 mb-0.5">Visual Subtext / Bullets</label>
+              <input type="text" value="${(sc.subtext || '').replace(/\n/g, ' · ')}" onchange="updateScene(${idx}, 'subtext', this.value.replace(/ · /g, '\n'))" class="w-full bg-gray-950 border border-gray-800 rounded px-2.5 py-1 text-xs text-white">
+            </div>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function updateScene(idx, field, value) {
+      if (currentScenes[idx]) {
+        currentScenes[idx][field] = value;
+      }
+    }
+
+    function addScene() {
+      currentScenes.push({
+        tag: "NEW SCENE",
+        script: "Type your spoken voiceover lines here.",
+        headline: "KEY TAKEAWAY",
+        subtext: "Bullet point description",
+        action: "point_right",
+        color: "#22D3EE"
+      });
+      renderScenes();
+    }
+
+    function removeScene(idx) {
+      if (currentScenes.length <= 1) {
+        alert("A video must have at least one scene.");
+        return;
+      }
+      currentScenes.splice(idx, 1);
+      renderScenes();
+    }
+
+    function updateDescription() {
+      const title = document.getElementById("video-title").value;
+      const desc = `${title}\n\nHere is the step-by-step framework top creators use to produce 10x better content in minutes.\n\nDrop a comment below to get the full free template library!\n\n#shorts #ai #productivity #creators #automation`;
+      document.getElementById("yt-description").value = desc;
+    }
+
+    function togglePublishMode() {
+      const mode = document.querySelector('input[name="publish_mode"]:checked').value;
+      const picker = document.getElementById("schedule-picker-box");
+      const btnText = document.getElementById("btn-upload-text");
+      if (mode === "schedule") {
+        picker.classList.remove("hidden");
+        btnText.innerText = "Schedule Upload to YouTube";
+      } else {
+        picker.classList.add("hidden");
+        btnText.innerText = "Publish Live to YouTube Now";
+      }
+    }
+
+    function setTomorrowTime(hhmm) {
+      const now = new Date();
+      const tmw = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const [h, m] = hhmm.split(":");
+      tmw.setHours(parseInt(h), parseInt(m), 0, 0);
+      
+      const pad = (n) => String(n).padStart(2, '0');
+      const formatted = `${tmw.getFullYear()}-${pad(tmw.getMonth()+1)}-${pad(tmw.getDate())}T${pad(tmw.getHours())}:${pad(tmw.getMinutes())}`;
+      document.getElementById("schedule-datetime").value = formatted;
+    }
+
+    async function generateVideo() {
+      const title = document.getElementById("video-title").value;
+      const btn = document.getElementById("btn-generate");
+      const progressBox = document.getElementById("generate-progress");
+      const progressBar = document.getElementById("progress-bar-fill");
+      const statusText = document.getElementById("progress-status-text");
+
+      btn.disabled = true;
+      btn.classList.add("opacity-50", "cursor-not-allowed");
+      progressBox.classList.remove("hidden");
+      progressBar.style.width = "25%";
+      statusText.innerText = "Synthesizing voiceover audio with SAPI...";
+
+      try {
+        const res = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: title,
+            scenes: currentScenes
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          progressBar.style.width = "100%";
+          statusText.innerText = "Complete! Loading in player...";
+          
+          currentVideoPath = data.filename;
+          document.getElementById("video-meta-filename").innerText = data.filename;
+          
+          const player = document.getElementById("main-video-player");
+          const source = document.getElementById("video-source");
+          source.src = `/videos/${data.filename}?t=${new Date().getTime()}`;
+          player.load();
+          player.play().catch(e => console.log("Autoplay:", e));
+
+          setTimeout(() => {
+            progressBox.classList.add("hidden");
+            btn.disabled = false;
+            btn.classList.remove("opacity-50", "cursor-not-allowed");
+          }, 1200);
+        } else {
+          alert("Error generating video: " + data.error);
+          progressBox.classList.add("hidden");
+          btn.disabled = false;
+          btn.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+      } catch (err) {
+        alert("Failed to connect to backend: " + err.message);
+        progressBox.classList.add("hidden");
+        btn.disabled = false;
+        btn.classList.remove("opacity-50", "cursor-not-allowed");
+      }
+    }
+
+    async function uploadToYouTube() {
+      const btn = document.getElementById("btn-upload");
+      const title = document.getElementById("video-title").value;
+      const description = document.getElementById("yt-description").value;
+      const tags = document.getElementById("yt-tags").value.split(",").map(t => t.trim());
+      const mode = document.querySelector('input[name="publish_mode"]:checked').value;
+      
+      let publishAtUtc = null;
+      if (mode === "schedule") {
+        const dtVal = document.getElementById("schedule-datetime").value;
+        if (!dtVal) {
+          alert("Please select a date and time to schedule!");
+          return;
+        }
+        const localDate = new Date(dtVal);
+        publishAtUtc = localDate.toISOString(); // e.g. 2026-10-31T06:30:00.000Z
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Uploading to YouTube API...`;
+
+      try {
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            video_filename: currentVideoPath,
+            title: title,
+            description: description,
+            tags: tags,
+            publish_at: publishAtUtc
+          })
+        });
+
+        const data = await res.json();
+        const resultBox = document.getElementById("upload-result");
+        
+        if (data.success) {
+          resultBox.classList.remove("hidden");
+          document.getElementById("upload-result-title").innerText = publishAtUtc ? "Successfully Scheduled on YouTube!" : "Live on YouTube!";
+          document.getElementById("upload-result-body").innerHTML = `
+            <div><strong>Video ID:</strong> <code class="bg-black/40 px-1 py-0.5 rounded">${data.video_id}</code></div>
+            <div><strong>Mode:</strong> ${publishAtUtc ? `Scheduled for ${new Date(publishAtUtc).toLocaleString()}` : "Published Publicly"}</div>
+            <div><strong>Title:</strong> ${title}</div>
+          `;
+          const link = document.getElementById("upload-result-link");
+          link.href = data.shorts_url;
+        } else {
+          alert("YouTube Upload Error: " + data.error);
+        }
+      } catch (err) {
+        alert("Upload Request Failed: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-brands fa-youtube"></i> <span id="btn-upload-text">${mode === 'schedule' ? 'Schedule Upload to YouTube' : 'Publish Live to YouTube Now'}</span>`;
+      }
+    }
+
+    // Initialize defaults on load
+    window.onload = () => {
+      initPresets();
+      loadPreset("prompting");
+      setTomorrowTime("12:00");
+    };
+  </script>
+</body>
+</html>

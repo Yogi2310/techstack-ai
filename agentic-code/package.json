@@ -1,0 +1,15 @@
+{
+  "name": "agentic-stickman-code",
+  "version": "1.0.0",
+  "description": "Agentic Stickman Video Director & Autopilot Video Generator",
+  "private": true,
+  "scripts": {
+    "doctor": "node skills/directing-stickman-videos/scripts/autopilot.mjs doctor",
+    "init:project": "node skills/directing-stickman-videos/scripts/autopilot.mjs init",
+    "validate": "node skills/directing-stickman-videos/scripts/autopilot.mjs validate",
+    "preview": "node skills/directing-stickman-videos/scripts/autopilot.mjs preview",
+    "approve": "node skills/directing-stickman-videos/scripts/autopilot.mjs approve",
+    "render": "node skills/directing-stickman-videos/scripts/autopilot.mjs render",
+    "test": "cd skills/directing-stickman-videos && npm test"
+  }
+}

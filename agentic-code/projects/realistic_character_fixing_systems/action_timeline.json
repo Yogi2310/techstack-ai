@@ -1,0 +1,45 @@
+{
+  "total_duration": 47.08004535147392,
+  "timeline": [
+    {
+      "id": 1,
+      "name": "act1_alarm_approach",
+      "start": 0.3,
+      "end": 8.578095238095239,
+      "duration": 8.278095238095238,
+      "action": "walk_to_server"
+    },
+    {
+      "id": 2,
+      "name": "act2_fix_server",
+      "start": 9.078095238095239,
+      "end": 17.176145124716555,
+      "duration": 8.098049886621315,
+      "action": "scan_and_patch"
+    },
+    {
+      "id": 3,
+      "name": "act3_console_tests",
+      "start": 17.676145124716555,
+      "end": 26.009297052154196,
+      "duration": 8.333151927437642,
+      "action": "walk_and_type"
+    },
+    {
+      "id": 4,
+      "name": "act4_deploy",
+      "start": 26.509297052154196,
+      "end": 34.65229024943311,
+      "duration": 8.142993197278912,
+      "action": "walk_and_deploy"
+    },
+    {
+      "id": 5,
+      "name": "act5_victory_cta",
+      "start": 35.15229024943311,
+      "end": 46.58004535147393,
+      "duration": 11.427755102040816,
+      "action": "victory_pose"
+    }
+  ]
+}

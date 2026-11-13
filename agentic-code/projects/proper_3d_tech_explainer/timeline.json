@@ -1,0 +1,88 @@
+{
+  "total_duration": 75.28503401360544,
+  "timeline": [
+    {
+      "id": 1,
+      "name": "scene1_catastrophe",
+      "start": 0.4,
+      "end": 10.34780045351474,
+      "duration": 9.94780045351474,
+      "sfx": [
+        [
+          "clock_tick.wav",
+          0.5,
+          0.4
+        ],
+        [
+          "horror_sting.wav",
+          5.5,
+          0.6
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "name": "scene2_team_myth",
+      "start": 10.89780045351474,
+      "end": 23.46011337868481,
+      "duration": 12.562312925170067,
+      "sfx": [
+        [
+          "vine_boom.wav",
+          9.5,
+          0.8
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "name": "scene3_agent_enters",
+      "start": 24.01011337868481,
+      "end": 36.17777777777778,
+      "duration": 12.16766439909297,
+      "sfx": [
+        [
+          "anime_riser.wav",
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "name": "scene4_zero_handoff",
+      "start": 36.727777777777774,
+      "end": 48.830408163265304,
+      "duration": 12.102630385487528,
+      "sfx": [
+        [
+          "sparkle_chime.wav",
+          8.0,
+          0.6
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "name": "scene5_ten_x_shift",
+      "start": 49.3804081632653,
+      "end": 61.74253968253968,
+      "duration": 12.362131519274376,
+      "sfx": [
+        [
+          "dbz_aura.wav",
+          1.0,
+          0.5
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "name": "scene6_cta",
+      "start": 62.292539682539676,
+      "end": 74.73503401360543,
+      "duration": 12.44249433106576,
+      "sfx": []
+    }
+  ]
+}

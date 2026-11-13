@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-4">
+  <div class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-3xl p-5 shadow-2xl max-w-md mx-auto space-y-4">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-amber-500 animate-pulse"></span>
+        <h2 class="font-bold text-base text-[var(--foreground)]">👶 3D AI Baby Comedy Video</h2>
+      </div>
+      <span class="text-xs px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-500 font-mono font-bold">7M Views Formula</span>
+    </div>
+
+    <!-- Video Tab Switcher -->
+    <div class="grid grid-cols-2 gap-2 p-1 bg-[var(--background)] rounded-xl border border-[var(--border)]">
+      <button id="btnDemo" onclick="switchVideo('demo_cute_baby_comedy_short.mp4', 'btnDemo', 'btnShort', '28s Demo Reel with SFX + BGM')" class="py-2 px-3 rounded-lg text-xs font-bold bg-amber-500 text-black shadow transition">
+        🎬 28s Demo Reel
+      </button>
+      <button id="btnShort" onclick="switchVideo('cute_baby_golgappa_comedy.mp4', 'btnShort', 'btnDemo', '23s Primary YouTube Short')" class="py-2 px-3 rounded-lg text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition">
+        🤣 23s YouTube Short
+      </button>
+    </div>
+
+    <!-- Video Viewport -->
+    <div class="rounded-2xl overflow-hidden bg-black flex justify-center items-center shadow-inner relative" style="max-height: 480px;">
+      <video id="player" controls autoplay loop playsinline class="w-full h-auto object-contain" style="max-height: 480px;">
+        <source id="videoSource" src="demo_cute_baby_comedy_short.mp4" type="video/mp4">
+        Your browser does not support inline video playback.
+      </video>
+    </div>
+
+    <!-- Current Video Info Tag -->
+    <div id="videoTag" class="text-center text-xs font-semibold text-amber-500 bg-amber-500/10 py-1.5 px-3 rounded-lg border border-amber-500/20">
+      ▶ Now Playing: 28s Demo Reel with SFX + BGM
+    </div>
+
+    <!-- Technical Specs -->
+    <div class="space-y-2 text-xs pt-1">
+      <div class="flex justify-between py-1 border-b border-[var(--border)]">
+        <span class="text-[var(--muted-foreground)]">Character Style:</span>
+        <span class="font-medium text-amber-500">3D Pixar / Disney Toddler</span>
+      </div>
+      <div class="flex justify-between py-1 border-b border-[var(--border)]">
+        <span class="text-[var(--muted-foreground)]">Audio Engineering:</span>
+        <span class="font-medium text-emerald-500">Pitch-Shifted Baby Voice + SFX</span>
+      </div>
+      <div class="flex justify-between py-1 border-b border-[var(--border)]">
+        <span class="text-[var(--muted-foreground)]">Aspect Ratio:</span>
+        <span class="font-medium text-cyan-500">9:16 Vertical (720×1280 @ 24fps)</span>
+      </div>
+      <div class="flex justify-between py-1">
+        <span class="text-[var(--muted-foreground)]">Subtitles:</span>
+        <span class="font-medium text-[var(--foreground)]">Hindi Devanagari + English</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchVideo(src, activeId, inactiveId, label) {
+      const player = document.getElementById('player');
+      const source = document.getElementById('videoSource');
+      const tag = document.getElementById('videoTag');
+      
+      source.src = src;
+      player.load();
+      player.play();
+      
+      tag.textContent = '▶ Now Playing: ' + label;
+
+      document.getElementById(activeId).className = 'py-2 px-3 rounded-lg text-xs font-bold bg-amber-500 text-black shadow transition';
+      document.getElementById(inactiveId).className = 'py-2 px-3 rounded-lg text-xs font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition';
+    }
+  </script>
+</body>
+</html>

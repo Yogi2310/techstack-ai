@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=/ShortsCraft/">
+  <title>ShortsCraft 2.0</title>
+  <script>
+    // GitHub Pages SPA redirect
+    var seg = window.location.pathname.replace('/ShortsCraft', '');
+    var query = window.location.search.slice(1);
+    var hash = window.location.hash.slice(1);
+    window.location.replace(
+      '/ShortsCraft/' +
+      (seg ? '?p=' + seg.replace(/&/g, '~and~') : '') +
+      (query ? (seg ? '&' : '?') + query : '') +
+      (hash ? '#' + hash : '')
+    );
+  </script>
+</head>
+<body>Redirecting…</body>
+</html>

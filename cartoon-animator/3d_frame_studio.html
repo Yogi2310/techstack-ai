@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Devotional & Mythological Frame-by-Frame AI Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Cinzel:wght@600;800;900&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#070913;--bg-card:#0e1222;--bg-card-hover:#161c36;--border:rgba(255,215,0,0.18);
+  --gold:#f59e0b;--gold-light:#fde047;--accent:#e11d48;--cyan:#06b6d4;
+  --text:#f8fafc;--muted:#94a3b8;
+}
+body{font-family:'Outfit','Noto Sans Devanagari',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px}
+header{text-align:center;max-width:900px;margin:0 auto 30px}
+.badge{display:inline-block;padding:6px 16px;background:rgba(245,158,11,0.15);border:1px solid var(--gold);color:var(--gold-light);border-radius:20px;font-size:0.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+h1{font-family:'Cinzel',serif;font-size:2.4rem;background:linear-gradient(135deg,#fde047,#f59e0b,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+p.subtitle{color:var(--muted);font-size:1rem}
+
+.container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:400px 1fr;gap:24px}
+@media(max-width:900px){.container{grid-template-columns:1fr}}
+
+.panel{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.panel h2{font-size:1.15rem;font-weight:800;color:var(--gold-light);display:flex;align-items:center;gap:8px}
+textarea{width:100%;height:220px;background:#05070e;border:1px solid var(--border);border-radius:10px;padding:14px;color:#fff;font-family:inherit;font-size:0.92rem;line-height:1.6;resize:none;outline:none}
+textarea:focus{border-color:var(--gold)}
+
+.btn{padding:12px 20px;background:linear-gradient(135deg,var(--gold),#d97706);color:#000;font-weight:800;border:none;border-radius:10px;cursor:pointer;font-family:inherit;font-size:0.95rem;transition:0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(245,158,11,0.35)}
+
+.preset-pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{padding:6px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;font-size:0.78rem;cursor:pointer;color:var(--text);transition:0.2s}
+.pill:hover{background:rgba(245,158,11,0.2);border-color:var(--gold)}
+
+.results-area{display:flex;flex-direction:column;gap:16px}
+.frame-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;position:relative}
+.frame-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:10px}
+.frame-num{font-family:'Cinzel',serif;font-weight:800;color:var(--gold-light);font-size:1.05rem}
+.frame-time{font-size:0.75rem;padding:4px 10px;background:rgba(255,255,255,0.06);border-radius:12px;color:var(--cyan)}
+
+.prompt-box{background:#05070e;border-radius:8px;padding:12px;font-size:0.86rem;line-height:1.5;color:#e2e8f0;position:relative}
+.prompt-label{font-size:0.7rem;text-transform:uppercase;color:var(--gold);font-weight:800;letter-spacing:1px;margin-bottom:4px}
+.copy-btn{position:absolute;top:10px;right:10px;padding:4px 8px;background:rgba(255,255,255,0.1);border:none;border-radius:6px;color:#fff;font-size:0.7rem;cursor:pointer}
+.copy-btn:hover{background:var(--gold);color:#000}
+
+.motion-tag{display:inline-flex;align-items:center;gap:6px;font-size:0.8rem;color:#a5f3fc;background:rgba(6,182,212,0.1);padding:6px 12px;border-radius:8px;border:1px solid rgba(6,182,212,0.25)}
+.dialogue-tag{font-size:0.85rem;color:#fed7aa;background:rgba(245,158,11,0.08);padding:8px 12px;border-radius:8px;border-left:3px solid var(--gold)}
+
+.quick-links{display:flex;gap:8px;margin-top:6px}
+.link-btn{flex:1;text-align:center;padding:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-size:0.78rem;color:#fff;text-decoration:none;font-weight:600;transition:0.2s}
+.link-btn:hover{background:rgba(245,158,11,0.25);border-color:var(--gold)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">🔥 3D Mythological & Devotional Animation Pipeline</div>
+  <h1>Frame-by-Frame 3D Scene Prompt Studio</h1>
+  <p class="subtitle">Turn any devotional/cartoon story into exact high-end 3D Pixar/Disney style shot-by-shot prompts and camera motions (Same workflow as ShriLeelaverse & Lord Jagannath stories).</p>
+</header>
+
+<div class="container">
+  <div class="panel">
+    <h2>📜 Story Script Input</h2>
+    <div class="preset-pills">
+      <span class="pill" onclick="loadPreset('jagannath')">🕉️ Lord Jagannath Mahaprasad</span>
+      <span class="pill" onclick="loadPreset('krishna')">🦚 Little Krishna & Yashoda</span>
+      <span class="pill" onclick="loadPreset('hanuman')">🚩 Little Hanuman & Sun</span>
+    </div>
+    <textarea id="scriptInput" placeholder="Paste your story in Hindi or English..."></textarea>
+    
+    <button class="btn" onclick="generateFrames()">⚡ Generate Shot-by-Shot Prompts</button>
+    
+    <div style="font-size:0.82rem;color:var(--muted);line-height:1.6;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px">
+      <strong style="color:var(--gold-light)">💡 How creators use this:</strong><br>
+      1. Copy the <b>Image Prompt</b> into <b>Bing Image Creator</b> (100% Free DALL-E 3).<br>
+      2. Upload the result to <b>Hailuo AI</b> or <b>Kling AI</b> with the <b>Camera Motion</b> prompt.<br>
+      3. Drop generated 4s clips into <b>CapCut</b> with voiceover. Done!
+    </div>
+  </div>
+
+  <div class="results-area" id="resultsArea">
+    <!-- Populated by script -->
+  </div>
+</div>
+
+<script>
+const PRESETS = {
+  jagannath: `Scene 1: पुरी के भव्य श्री जगन्नाथ मंदिर के बाहर, अहंकारी पंडित भक्त अतिवादी जगन्नाथ दास को मंदिर में प्रवेश करने और महाप्रसाद लेने से रोकते हैं।
+Scene 2: दुखी होकर भक्त जगन्नाथ दास समुद्र तट के किनारे रोते हुए प्रभु जगन्नाथ से प्रार्थना करते हैं, "हे प्रभु, मुझे इन पंडितों से कोई महाप्रसाद नहीं चाहिए, बस आपका प्रेम चाहिए!"
+Scene 3: तभी स्वर्ण आभा के साथ एक नन्हा सुंदर बालक हाथ में गर्म भाप निकलता हुआ दिव्य महाप्रसाद की मटकी लेकर प्रकट होता है।
+Scene 4: बालक जगन्नाथ दास को अपने हाथों से दिव्य महाप्रसाद खिलाता है। भक्त के नेत्रों से भक्ति के प्रेमाश्रु बहने लगते हैं।
+Scene 5: बालक दिव्य चतुर्भुज रूप में भगवान जगन्नाथ, सुभद्रा और बलभद्र की अलौकिक ज्योति में विलीन हो जाता है, और पूरे आकाश में फूलों की वर्षा होती है।`,
+
+  krishna: `Scene 1: गोकुल के आंगन में माखन की मटकी के पास नटखट बाल कृष्ण घुटनों के बल मुस्कुराते हुए रेंगते हैं।
+Scene 2: माता यशोदा प्रेम भरी मुस्कान के साथ कान्हा को माखन चुराते हुए रंगे हाथों पकड़ लेती हैं।
+Scene 3: माता यशोदा जब कान्हा का मुंह खोलने को कहती हैं, तो कान्हा के नन्हे मुख में संपूर्ण ब्रह्मांड, सूर्य, चंद्रमा और तारे घूमने लगते हैं।
+Scene 4: माता यशोदा विस्मय और भक्ति से हाथ जोड़कर अपने प्रभु के चरणों में नतमस्तक हो जाती हैं।`,
+
+  hanuman: `Scene 1: प्रातःकाल सुमेरु पर्वत पर नन्हा बाल हनुमान उगते हुए लाल सूर्य को एक मीठा फल समझकर कौतूहल से देखते हैं।
+Scene 2: बाल हनुमान आकाश में ऊंची छलांग लगाते हैं, हवा में तैरते हुए बादलों को चीरते हुए सूर्य की ओर उड़ते हैं।
+Scene 3: इंद्रदेव अपने ऐरावत हाथी पर सवार होकर वज्र से वार करते हैं, और पवनदेव क्रोधित होकर पूरे संसार की वायु रोक लेते हैं।`
+};
+
+function loadPreset(key){
+  document.getElementById('scriptInput').value = PRESETS[key];
+  generateFrames();
+}
+
+function generateFrames(){
+  const text = document.getElementById('scriptInput').value.trim();
+  const resArea = document.getElementById('resultsArea');
+  if(!text){
+    alert('Please paste a story script or choose a preset above!');
+    return;
+  }
+
+  const lines = text.split('\n').filter(l => l.trim().length > 0);
+  resArea.innerHTML = '';
+
+  lines.forEach((line, index) => {
+    const shotNum = index + 1;
+    const cleanText = line.replace(/^Scene\s*\d+:\s*/i, '');
+
+    // Construct high-end 3D prompt
+    const imagePrompt = `3D Disney Pixar animation style, Indian devotional epic cinematic, ${cleanText}. Highly detailed 3D stylized character design, warm spiritual lighting, divine volumetric light rays, golden hour, Unreal Engine 5 render, octane render, 8k resolution, photorealistic cinematic cartoon, expressive big innocent eyes, rich textures on traditional Indian silk garments, bokeh background --ar 16:9`;
+
+    // Construct camera motion prompt for Kling / Hailuo
+    const motions = [
+      "Cinematic slow push-in shot, emotional facial expression, tear glistening in eye, soft fabric flutter, dust motes in golden light beam",
+      "Dynamic slow pedestal up, divine glowing aura gently radiating, character turning head in astonishment, 4k cinematic slow motion",
+      "Epic wide angle tracking shot, majestic divine light spreading across sky, slow motion, fluttering dhoti and flowers falling",
+      "Close-up character face, gentle blinking, overwhelming emotional smile, spiritual divine reflection in pupils"
+    ];
+    const motionPrompt = motions[index % motions.length];
+
+    const card = document.createElement('div');
+    card.className = 'frame-card';
+    card.innerHTML = `
+      <div class="frame-header">
+        <span class="frame-num">Shot #${shotNum}: Frame Sequence</span>
+        <span class="frame-time">Duration: 4.0 Seconds</span>
+      </div>
+
+      <div class="dialogue-tag">
+        <strong>📖 Story Beat / Scene:</strong> ${cleanText}
+      </div>
+
+      <div class="prompt-box">
+        <div class="prompt-label">🖼️ 3D Pixar Image Prompt (For Bing DALL-E / Leonardo):</div>
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(\`${imagePrompt.replace(/`/g, '\\`')}\`); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+        <div>${imagePrompt}</div>
+      </div>
+
+      <div class="motion-tag">
+        🎥 <strong>Video Motion Prompt (For Hailuo / Kling):</strong> ${motionPrompt}
+      </div>
+
+      <div class="quick-links">
+        <a class="link-btn" href="https://www.bing.com/create" target="_blank">🎨 1. Generate Image (Bing Free)</a>
+        <a class="link-btn" href="https://hailuoai.video" target="_blank">🎬 2. Animate Clip (Hailuo Free)</a>
+        <a class="link-btn" href="https://klingai.com" target="_blank">⚡ 3. Kling AI Free</a>
+      </div>
+    `;
+    resArea.appendChild(card);
+  });
+}
+
+// Auto load default
+window.onload = () => loadPreset('jagannath');
+</script>
+</body>
+</html>

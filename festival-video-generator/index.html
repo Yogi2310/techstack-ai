@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>मराठी Creator Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Noto+Serif+Devanagari:wght@300;400;600;700;900&family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@600;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--s1:#101010;--s2:#181818;--s3:#222;
+  --b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.12);--b3:rgba(255,255,255,.22);
+  --t1:#f0f0f0;--t2:#888;--t3:#444;
+  --gold:#d4a017;--saffron:#ff9933;--r:12px;
+}
+html,body{height:100%;background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;overflow:hidden}
+
+/* ── SPLASH ── */
+#splash{
+  position:fixed;inset:0;z-index:999;background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:50px;
+}
+.splash-logo h1{font-family:'Tiro Devanagari Marathi',serif;font-size:clamp(2.5rem,6vw,4rem);color:#fff;font-weight:400}
+.splash-logo h1 em{color:var(--gold);font-style:normal}
+.splash-logo p{margin-top:10px;font-size:.75rem;color:#444;letter-spacing:.2em;text-transform:uppercase}
+.mode-row{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;padding:0 20px}
+.mcard{
+  width:260px;border:1px solid rgba(255,255,255,.07);border-radius:20px;
+  padding:36px 28px;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  background:#0c0c0c;text-align:center;
+}
+.mcard:hover{transform:translateY(-8px);border-color:rgba(255,255,255,.25);box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.mcard .ico{font-size:3rem;display:block;margin-bottom:16px}
+.mcard h2{font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:8px}
+.mcard p{font-size:.78rem;color:#555;line-height:1.6}
+.mcard .tag{display:inline-block;margin-top:16px;padding:4px 14px;border-radius:20px;font-size:.68rem;font-weight:600;background:rgba(255,255,255,.06);color:#888;border:1px solid rgba(255,255,255,.1)}
+
+/* ── APP ── */
+#app{display:none;height:100vh;flex-direction:column}
+.topbar{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 20px;background:#000;border-bottom:1px solid var(--b1);
+  flex-shrink:0;
+}
+.back-btn{width:32px;height:32px;border-radius:8px;background:var(--s2);border:1px solid var(--b1);color:var(--t1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .2s}
+.back-btn:hover{background:var(--s3);border-color:var(--b2)}
+.brand{font-family:'Tiro Devanagari Marathi',serif;font-size:.95rem;color:#fff}
+.mpill{padding:3px 11px;border-radius:20px;font-size:.65rem;font-weight:700;letter-spacing:.05em}
+.mpill.image{background:rgba(255,255,255,.06);color:#aaa;border:1px solid rgba(255,255,255,.1)}
+.mpill.video{background:rgba(212,160,23,.1);color:var(--gold);border:1px solid rgba(212,160,23,.2)}
+.tspace{flex:1}
+.sw-btn{padding:6px 14px;border-radius:8px;background:var(--s2);border:1px solid var(--b1);color:var(--t2);font-size:.72rem;cursor:pointer;transition:all .2s}
+.sw-btn:hover{color:var(--t1);border-color:var(--b2)}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:340px 1fr;flex:1;overflow:hidden;height:calc(100vh - 55px)}
+
+/* ── PANEL ── */
+.panel{background:var(--s1);border-right:1px solid var(--b1);overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.panel::-webkit-scrollbar{width:3px}
+.panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);border-radius:2px}
+
+.pcard{background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);padding:14px}
+.plabel{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--t2);margin-bottom:10px}
+
+label{display:block;font-size:.72rem;color:var(--t2);margin-bottom:4px;margin-top:10px}
+label:first-of-type{margin-top:0}
+textarea,input[type=text],select{
+  width:100%;background:rgba(255,255,255,.03);border:1px solid var(--b1);border-radius:8px;
+  padding:9px 11px;color:var(--t1);font-size:.9rem;
+  font-family:'Noto Serif Devanagari','Tiro Devanagari Marathi',sans-serif;
+  outline:none;resize:vertical;transition:border-color .2s;
+}
+textarea{min-height:52px;line-height:1.6}
+textarea:focus,input:focus,select:focus{border-color:rgba(255,255,255,.2)}
+select{font-family:'Inter',sans-serif;cursor:pointer}
+select option{background:#181818}
+input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer;margin:3px 0}
+input[type=color]{width:30px;height:30px;border-radius:6px;border:1px solid var(--b1);background:none;cursor:pointer;padding:2px}
+
+/* Event grid */
+.evt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.evt-btn{
+  background:rgba(255,255,255,.03);border:1.5px solid var(--b1);border-radius:9px;
+  padding:9px 4px;cursor:pointer;text-align:center;transition:all .2s;
+}
+.evt-btn:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.05);transform:translateY(-1px)}
+.evt-btn.active{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.08)}
+.evt-btn .ei{font-size:1.4rem;display:block}
+.evt-btn .en{font-size:.58rem;color:var(--t2);margin-top:3px;display:block;line-height:1.3}
+
+/* Style buttons */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.gb{
+  background:rgba(255,255,255,.03);border:1px solid var(--b1);border-radius:7px;
+  padding:7px 5px;font-size:.68rem;color:var(--t2);cursor:pointer;text-align:center;transition:all .18s;
+}
+.gb:hover{border-color:rgba(255,255,255,.18);color:var(--t1)}
+.gb.active{border-color:rgba(255,255,255,.5);color:#fff;background:rgba(255,255,255,.07)}
+
+/* Color row */
+.crow{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.cs{
+  width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;
+  transition:all .18s;flex-shrink:0;
+}
+.cs:hover{transform:scale(1.2)}
+.cs.active{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.2)}
+
+/* Range row */
+.rr{display:flex;align-items:center;gap:8px}
+.rv{font-size:.75rem;color:var(--gold);min-width:32px;text-align:right;font-weight:600}
+
+/* Fmt row */
+.fr{display:flex;gap:5px}
+.fb{flex:1;padding:7px 2px;border-radius:7px;border:1px solid var(--b1);background:rgba(255,255,255,.02);color:var(--t2);font-size:.65rem;font-weight:600;cursor:pointer;text-align:center;transition:all .18s}
+.fb span{display:block;font-size:.55rem;margin-top:1px;opacity:.6}
+.fb:hover{border-color:rgba(255,255,255,.15);color:var(--t1)}
+.fb.active{border-color:rgba(255,255,255,.5);color:#fff;background:rgba(255,255,255,.06)}
+
+/* Generate button */
+.gen-btn{
+  width:100%;padding:14px;border-radius:10px;font-size:1rem;font-weight:700;
+  cursor:pointer;border:none;transition:all .25s;
+  background:linear-gradient(135deg,#fff,#d0d0d0);color:#000;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:4px;
+}
+.gen-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,255,255,.15)}
+.gen-btn:active{transform:translateY(0)}
+
+/* Dl & rec */
+.dl-btn{width:100%;padding:11px;border-radius:10px;font-size:.88rem;font-weight:600;cursor:pointer;border:1px solid var(--b2);background:transparent;color:var(--t1);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:6px}
+.dl-btn:hover{background:rgba(255,255,255,.06);border-color:var(--b3)}
+.dl-btn:disabled{opacity:.35;cursor:not-allowed}
+.gold-btn{background:linear-gradient(135deg,var(--gold),#a87a00)!important;color:#fff!important;border:none!important}
+.gold-btn:hover{box-shadow:0 6px 20px rgba(212,160,23,.3)!important;transform:translateY(-1px)}
+
+.recbar{display:none;align-items:center;gap:8px;padding:9px 12px;background:rgba(224,82,82,.1);border:1px solid rgba(224,82,82,.25);border-radius:8px;font-size:.75rem;color:#f99;margin-bottom:6px}
+.recbar.on{display:flex}
+.rdot{width:7px;height:7px;border-radius:50%;background:#e05252;animation:blink 1s infinite}
+.rprog{flex:1;height:2px;background:rgba(224,82,82,.2);border-radius:2px;overflow:hidden}
+.rfill{height:100%;background:#e05252;border-radius:2px;transition:width 1s linear;width:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ── CANVAS AREA ── */
+.canvas-area{
+  background:#030303;display:flex;align-items:center;justify-content:center;
+  padding:24px;overflow:hidden;position:relative;
+}
+.canvas-wrap{position:relative}
+.canvas-shell{border-radius:4px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.05),0 24px 80px rgba(0,0,0,.95)}
+canvas{display:block}
+.c-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:.6rem;color:#1e1e1e;white-space:nowrap}
+
+/* Preview empty state */
+.empty-state{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;pointer-events:none;
+}
+.empty-state .arrow{font-size:2rem;animation:bounce .8s infinite alternate}
+.empty-state p{font-size:.85rem;color:#333}
+@keyframes bounce{0%{transform:translateX(0)}100%{transform:translateX(-16px)}}
+
+/* Vid-only controls */
+#vidCtrl{display:none}
+
+/* sdiv */
+.sdiv{height:1px;background:var(--b1);margin:2px 0}
+
+/* Image upload zone */
+.upload-zone{
+  border:2px dashed rgba(255,255,255,.12);border-radius:10px;
+  padding:18px 12px;text-align:center;cursor:pointer;
+  transition:all .25s;position:relative;overflow:hidden;
+  background:rgba(255,255,255,.02);
+}
+.upload-zone:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
+.upload-zone.has-img{border-color:rgba(255,255,255,.25);border-style:solid;background:rgba(255,255,255,.03)}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-zone .uz-ico{font-size:1.8rem;display:block;margin-bottom:6px}
+.upload-zone .uz-txt{font-size:.72rem;color:var(--t2)}
+.upload-zone .uz-txt strong{color:var(--t1)}
+.uz-preview{
+  width:100%;height:80px;object-fit:cover;border-radius:7px;
+  display:none;margin-bottom:8px;
+}
+.uz-preview.show{display:block}
+.remove-img-btn{
+  width:100%;padding:6px;border-radius:7px;border:1px solid rgba(255,80,80,.25);
+  background:rgba(255,80,80,.06);color:#ff8888;font-size:.72rem;cursor:pointer;
+  transition:all .2s;margin-top:6px;display:none;
+}
+.remove-img-btn.show{display:block}
+.remove-img-btn:hover{background:rgba(255,80,80,.12);border-color:rgba(255,80,80,.4)}
+</style>
+</head>
+<body>
+
+<!-- ══ SPLASH ══ -->
+<div id="splash">
+  <div class="splash-logo">
+    <h1>मराठी <em>Creator</em></h1>
+    <p>Image &amp; Video Maker · Marathi · Hindi · English</p>
+  </div>
+  <div class="mode-row">
+    <div class="mcard" onclick="launch('image')">
+      <span class="ico">🖼️</span>
+      <h2>Image Creator</h2>
+      <p>Festival posts, Shiv Jayanti, Rajyabhishek, quotes — beautiful dark aesthetic images</p>
+      <span class="tag">📸 PNG Download</span>
+    </div>
+    <div class="mcard" onclick="launch('video')">
+      <span class="ico">🎬</span>
+      <h2>Video Creator</h2>
+      <p>Animated text reels with typewriter, fade &amp; cinematic effects — WhatsApp &amp; Reels ready</p>
+      <span class="tag">🎥 WebM Download</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+  <div class="topbar">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <span class="brand">मराठी Creator</span>
+    <span class="mpill" id="mpill">Image</span>
+    <div class="tspace"></div>
+    <button class="sw-btn" onclick="goBack()">⇄ Switch Mode</button>
+  </div>
+
+  <div class="layout">
+    <!-- PANEL -->
+    <aside class="panel">
+
+      <!-- EVENTS -->
+      <div class="pcard">
+        <div class="plabel">🗓️ Events & Festivals — सण व उत्सव</div>
+        <div class="evt-grid" id="evtGrid">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- TEXT -->
+      <div class="pcard">
+        <div class="plabel">📝 Text — मजकूर</div>
+        <label>मराठी — Main Text</label>
+        <textarea id="tMr" rows="3" placeholder="मराठी मजकूर..." oninput="if(generated)drawFrame(1,1,1)"></textarea>
+        <label>हिंदी — Secondary</label>
+        <textarea id="tHi" rows="2" placeholder="हिंदी अनुवाद..." oninput="if(generated)drawFrame(1,1,1)"></textarea>
+        <label>English (optional)</label>
+        <input type="text" id="tEn" placeholder="English..." oninput="if(generated)drawFrame(1,1,1)"/>
+        <label>Credit / @handle</label>
+        <input type="text" id="tCr" placeholder="@yourusername" oninput="if(generated)drawFrame(1,1,1)"/>
+      </div>
+
+      <!-- BACKGROUND IMAGE SOURCE -->
+      <div class="pcard">
+        <div class="plabel">🖼️ Background Image — पार्श्वभूमी</div>
+        
+        <!-- Tab Selectors -->
+        <div class="fr" style="margin-bottom:12px">
+          <button class="fb active" id="tabAiBtn" onclick="setBgTab('ai')">✨ AI Generator</button>
+          <button class="fb" id="tabUploadBtn" onclick="setBgTab('upload')">📷 Upload Photo</button>
+        </div>
+
+        <!-- Tab 1: AI Generator Content -->
+        <div id="tabAiContent">
+          <label>AI Prompt (English matches best)</label>
+          <textarea id="aiPrompt" rows="3" placeholder="Describe the background image you want..." oninput="if(generated) { /* optional manual redraw */ }"></textarea>
+          
+          <div style="display:flex;gap:6px;margin-top:6px">
+            <button class="dl-btn gold-btn" style="flex:1;margin-top:0;font-size:0.75rem;padding:8px" onclick="triggerAiGen()">✨ Generate Background</button>
+            <button class="dl-btn" style="margin-top:0;font-size:0.75rem;padding:8px;width:50px" onclick="randomizeSeed()" title="New Random Variation">🎲</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
+            <input type="checkbox" id="autoGenAi" checked onchange="toggleAutoAi(this)" style="width:14px;height:14px;accent-color:var(--gold)"/>
+            <label for="autoGenAi" style="margin:0;font-size:0.68rem;cursor:pointer">Auto-generate on event click</label>
+          </div>
+        </div>
+
+        <!-- Tab 2: Upload Photo Content -->
+        <div id="tabUploadContent" style="display:none">
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" accept="image/*" id="bgImgInput" onchange="loadBgImage(this)"/>
+            <img class="uz-preview" id="uzPreview" src="" alt="preview"/>
+            <span class="uz-ico" id="uzIco">📷</span>
+            <div class="uz-txt" id="uzTxt"><strong>Click to upload photo</strong><br/>or drag &amp; drop your image<br/><span style="font-size:.65rem;color:#444">JPG, PNG, WEBP supported</span></div>
+          </div>
+          <button class="remove-img-btn" id="removeImgBtn" onclick="removeBgImage()">✕ Remove Image</button>
+        </div>
+
+        <!-- Common Image Controls -->
+        <div id="imgControls" style="display:none;margin-top:10px;border-top:1px solid var(--b1);padding-top:10px">
+          <label>Dark Overlay Strength</label>
+          <div class="rr"><input type="range" id="overlayOpacity" min="0" max="90" value="55" oninput="document.getElementById('overlayOpVal').textContent=this.value+'%';if(generated)drawFrame(1,1,1)"/><span class="rv" id="overlayOpVal">55%</span></div>
+          <label>Image Position</label>
+          <div class="g3" id="imgPosGrid">
+            <button class="gb active" data-pos="center" onclick="setImgPos(this,'center')">⊡ Center</button>
+            <button class="gb" data-pos="top" onclick="setImgPos(this,'top')">⬆ Top</button>
+            <button class="gb" data-pos="bottom" onclick="setImgPos(this,'bottom')">⬇ Bottom</button>
+          </div>
+          <label>Image Filter</label>
+          <div class="g2" id="imgFilterGrid">
+            <button class="gb active" data-filt="none" onclick="setImgFilter(this,'none')">✕ None</button>
+            <button class="gb" data-filt="bw" onclick="setImgFilter(this,'bw')">⬛ B&amp;W</button>
+            <button class="gb" data-filt="blur" onclick="setImgFilter(this,'blur')">🌫 Blur</button>
+            <button class="gb" data-filt="warm" onclick="setImgFilter(this,'warm')">🔆 Warm</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESIGN -->
+      <div class="pcard">
+        <div class="plabel">🎨 Design Style</div>
+        <label>Background</label>
+        <div class="g3" id="bgGrid">
+          <button class="gb active" data-bg="black" onclick="pick(this,'bg')">⬛ Pure Black</button>
+          <button class="gb" data-bg="vignette" onclick="pick(this,'bg')">🌑 Vignette</button>
+          <button class="gb" data-bg="blue" onclick="pick(this,'bg')">🌊 Dark Blue</button>
+          <button class="gb" data-bg="brown" onclick="pick(this,'bg')">🍂 Dark Brown</button>
+          <button class="gb" data-bg="charcoal" onclick="pick(this,'bg')">🪨 Charcoal</button>
+          <button class="gb" data-bg="maroon" onclick="pick(this,'bg')">🟥 Maroon</button>
+        </div>
+        <label>Layout Style</label>
+        <div class="g3" id="layoutGrid">
+          <button class="gb active" data-layout="centered" onclick="pick(this,'layout')">⊡ Centered</button>
+          <button class="gb" data-layout="bottom" onclick="pick(this,'layout')">⬇ Bottom</button>
+          <button class="gb" data-layout="dramatic" onclick="pick(this,'layout')">✦ Dramatic</button>
+          <button class="gb" data-layout="minimal" onclick="pick(this,'layout')">— Minimal</button>
+          <button class="gb" data-layout="reel_quote" onclick="pick(this,'layout')">🔖 Reel Quote</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
+          <input type="checkbox" id="glassCard" checked onchange="toggleGlassCard(this)" style="width:14px;height:14px;accent-color:var(--gold)"/>
+          <label for="glassCard" style="margin:0;font-size:0.68rem;cursor:pointer">Apply Glass Card container</label>
+        </div>
+        <label>Divider</label>
+        <div class="g3" id="divGrid">
+          <button class="gb active" data-dv="line" onclick="pick(this,'dv')">— Line</button>
+          <button class="gb" data-dv="double" onclick="pick(this,'dv')">═ Double</button>
+          <button class="gb" data-dv="dots" onclick="pick(this,'dv')">· · · Dots</button>
+          <button class="gb" data-dv="none" onclick="pick(this,'dv')">✕ None</button>
+          <button class="gb" data-dv="star" onclick="pick(this,'dv')">✦ Star</button>
+          <button class="gb" data-dv="wavy" onclick="pick(this,'dv')">〜 Wavy</button>
+        </div>
+        <label>Text Overlay</label>
+        <div class="g2" id="overlayGrid">
+          <button class="gb" data-ov="none" onclick="pick(this,'ov')">✕ None</button>
+          <button class="gb active" data-ov="grain" onclick="pick(this,'ov')">📽 Film Grain</button>
+          <button class="gb" data-ov="glow" onclick="pick(this,'ov')">✨ Glow</button>
+          <button class="gb" data-ov="bokeh" onclick="pick(this,'ov')">🔵 Bokeh</button>
+        </div>
+      </div>
+
+      <!-- TYPOGRAPHY -->
+      <div class="pcard">
+        <div class="plabel">🔤 Typography</div>
+        <label>Font Style</label>
+        <div class="g3" id="fontGrid">
+          <button class="gb active" data-fn="tiro" onclick="pick(this,'fn')">Tiro Devanagari</button>
+          <button class="gb" data-fn="noto" onclick="pick(this,'fn')">Noto Serif</button>
+          <button class="gb" data-fn="sans" onclick="pick(this,'fn')">Noto Sans (Clean)</button>
+          <button class="gb" data-fn="light" onclick="pick(this,'fn')">Light / पातळ</button>
+          <button class="gb" data-fn="bold" onclick="pick(this,'fn')">Bold / ठळक</button>
+        </div>
+        <label>Text Alignment</label>
+        <div class="g3" id="alignGrid">
+          <button class="gb active" data-al="center" onclick="pick(this,'al')">≡ Center</button>
+          <button class="gb" data-al="left" onclick="pick(this,'al')">⫷ Left</button>
+          <button class="gb" data-al="right" onclick="pick(this,'al')">⫸ Right</button>
+        </div>
+        <label>Main Text Color</label>
+        <div class="crow" id="colorMrRow">
+          <div class="cs active" style="background:#ffffff" data-c="#ffffff" onclick="setClr(this,'mr')"></div>
+          <div class="cs" style="background:#f5e6c8" data-c="#f5e6c8" onclick="setClr(this,'mr')"></div>
+          <div class="cs" style="background:#d4a017" data-c="#d4a017" onclick="setClr(this,'mr')"></div>
+          <div class="cs" style="background:#ff9933" data-c="#ff9933" onclick="setClr(this,'mr')"></div>
+          <div class="cs" style="background:#7ec8e3" data-c="#7ec8e3" onclick="setClr(this,'mr')"></div>
+          <div class="cs" style="background:#a0ff80" data-c="#a0ff80" onclick="setClr(this,'mr')"></div>
+          <input type="color" value="#ffffff" oninput="clrs.mr=this.value" title="Custom color"/>
+        </div>
+        <label>Secondary Text Color</label>
+        <div class="crow" id="colorHiRow">
+          <div class="cs active" style="background:#888888" data-c="#888888" onclick="setClr(this,'hi')"></div>
+          <div class="cs" style="background:#aaaaaa" data-c="#aaaaaa" onclick="setClr(this,'hi')"></div>
+          <div class="cs" style="background:#cccccc" data-c="#cccccc" onclick="setClr(this,'hi')"></div>
+          <div class="cs" style="background:#d4a017" data-c="#d4a017" onclick="setClr(this,'hi')"></div>
+          <div class="cs" style="background:#ff9933" data-c="#ff9933" onclick="setClr(this,'hi')"></div>
+          <input type="color" value="#888888" oninput="clrs.hi=this.value" title="Custom color"/>
+        </div>
+        <label>Main Font Size</label>
+        <div class="rr"><input type="range" id="fsMr" min="20" max="110" value="58"/><span class="rv" id="fsMrV">58</span></div>
+        <label>Secondary Font Size</label>
+        <div class="rr"><input type="range" id="fsHi" min="12" max="50" value="28"/><span class="rv" id="fsHiV">28</span></div>
+        <label>Text Vertical Position</label>
+        <div class="rr"><input type="range" id="tY" min="15" max="82" value="45"/><span class="rv" id="tYV">45%</span></div>
+      </div>
+
+      <div class="pcard">
+        <div class="plabel">📐 Canvas Size</div>
+        <div class="fr" id="fmtRow">
+          <button class="fb active" data-fmt="portrait" onclick="setFmt(this,'portrait')">9:16<span>Story/Reel</span></button>
+          <button class="fb" data-fmt="square" onclick="setFmt(this,'square')">1:1<span>Post</span></button>
+          <button class="fb" data-fmt="landscape" onclick="setFmt(this,'landscape')">16:9<span>YouTube</span></button>
+        </div>
+      </div>
+
+      <!-- VIDEO CONTROLS -->
+      <div id="vidCtrl">
+        <div class="pcard">
+          <div class="plabel">🎬 Video Animation</div>
+          <div class="g2" id="animGrid">
+            <button class="gb active" data-anim="fadein" onclick="pick(this,'anim')">✦ Fade In</button>
+            <button class="gb" data-anim="typewriter" onclick="pick(this,'anim')">⌨ Typewriter</button>
+            <button class="gb" data-anim="slideup" onclick="pick(this,'anim')">↑ Slide Up</button>
+            <button class="gb" data-anim="reveal" onclick="pick(this,'anim')">▶ Reveal</button>
+          </div>
+          <label>Duration</label>
+          <div class="rr"><input type="range" id="vDur" min="5" max="30" value="10" oninput="document.getElementById('vDurV').textContent=this.value+'s'"/><span class="rv" id="vDurV">10s</span></div>
+          <label>Speed</label>
+          <div class="rr"><input type="range" id="vSpd" min="1" max="10" value="4" oninput="document.getElementById('vSpdV').textContent=this.value"/><span class="rv" id="vSpdV">4</span></div>
+        </div>
+      </div>
+
+      <!-- ✅ GENERATE + EXPORT -->
+      <div class="pcard">
+        <div class="plabel">⚡ Export</div>
+        <button class="gen-btn" id="genBtn" onclick="onRegenerateClick()">
+          🔄 Regenerate
+        </button>
+        <div class="recbar" id="recbar">
+          <div class="rdot"></div><span id="recTxt">Recording…</span>
+          <div class="rprog"><div class="rfill" id="recFill"></div></div>
+        </div>
+        <button class="dl-btn" id="dlBtn" onclick="doDownload()" disabled>
+          📥 Download PNG
+        </button>
+        <button class="dl-btn" onclick="doCopy()">📋 Copy to Clipboard</button>
+      </div>
+
+    </aside>
+
+    <!-- CANVAS -->
+    <main class="canvas-area" id="canvasArea">
+      <div class="canvas-wrap">
+        <div class="canvas-shell" id="cShell">
+          <canvas id="cv"></canvas>
+        </div>
+        <div class="c-label">मराठी Creator Studio · 2026</div>
+      </div>
+      <div class="empty-state" id="emptyState">
+        <span class="arrow">←</span>
+        <p>Select an event &amp; press <strong style="color:#fff">✦ Generate Image</strong></p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════
+// ALL EVENTS DATA
+// ════════════════════════════════════════════════════
+const EVENTS = [
+  // Maratha / Shivaji
+  {id:'shivjayanti',   emoji:'🚩', name:'Shiv Jayanti',      mr:'छत्रपती शिवाजी महाराज\nजन्मोत्सव!\nजय भवानी जय शिवाजी!',   hi:'शिवाजी महाराज जन्मोत्सव\nजय भवानी जय शिवाजी!',          en:'Chhatrapati Shivaji Maharaj Jayanti', prompt:'Cinematic Shivaji Maharaj Maratha warrior silhouette on horse, dramatic sunset over western ghats fort, golden and saffron lighting, photorealistic, high detail', colors:{bg:'#0a0200',acc:'#ff9933',tc:'#ffd700'}},
+  {id:'rajyabhishek',  emoji:'👑', name:'Rajyabhishek',       mr:'राज्याभिषेक सोहळा\nशिवराज्याभिषेक दिन\n— ६ जून',          hi:'शिवराज्याभिषेक दिवस\n6 जून',                                  en:'Rajyabhishek Sohala · 6 June',       prompt:'Cinematic golden royal Maratha throne, rajyabhishek durbar hall, warm royal lighting, epic atmosphere, high detail', colors:{bg:'#0d0500',acc:'#d4a017',tc:'#ffd700'}},
+  {id:'sambhajijayanti',emoji:'⚔️',name:'Sambhaji Jayanti',  mr:'छत्रपती संभाजी महाराज\nजयंती!',                             hi:'छत्रपती संभाजी महाराज जयंती',                                 en:'Chhatrapati Sambhaji Maharaj Jayanti', prompt:'Valiant Maratha warrior silhouette, stormy heavy rain background, holding sword, lightning flashes, epic cinematic', colors:{bg:'#0a0000',acc:'#cc2200',tc:'#ffaa44'}},
+  // Festivals
+  {id:'gudhi',         emoji:'🌅', name:'Gudi Padwa',         mr:'गुढीपाडव्याच्या\nहार्दिक शुभेच्छा!\nमराठी नवीन वर्ष',     hi:'गुड़ी पड़वा की हार्दिक शुभकामनाएं!\nमराठी नव वर्ष',          en:'Happy Gudi Padwa! Marathi New Year', prompt:'Gudi Padwa festival gudi pole decorated with neem leaves, marigold flowers and copper pot, beautiful morning sunrise sky, cinematic bokeh', colors:{bg:'#001200',acc:'#00cc44',tc:'#88ff66'}},
+  {id:'ganesh',        emoji:'🐘', name:'Ganesh Chaturthi',   mr:'गणपती बाप्पा मोरया!\nमंगलमूर्ती मोरया!',                   hi:'गणपती बप्पा मोरया!\nमंगलमूर्ती मोरया!',                       en:'Ganesh Chaturthi · Bappa Morya',     prompt:'Beautiful Lord Ganesha idol with flowers and marigold garlands, warm golden orange lighting, dark background, cinematic bokeh', colors:{bg:'#000a1a',acc:'#ff8800',tc:'#ffd700'}},
+  {id:'diwali',        emoji:'🪔', name:'Diwali',             mr:'दीपावलीच्या\nहार्दिक शुभेच्छा!',                          hi:'दीपावली की\nहार्दिक शुभकामनाएं!',                             en:'Happy Diwali! Festival of Lights',   prompt:'Traditional oil lamps diyas arrangement on floor, warm golden flames, glowing sparkles, dark moody background, cinematic bokeh', colors:{bg:'#0d0400',acc:'#ff8800',tc:'#ffcc00'}},
+  {id:'navratri',      emoji:'🌺', name:'Navratri',           mr:'नवरात्रीच्या\nहार्दिक शुभेच्छा!\nजय माता दी!',            hi:'नवरात्रि की शुभकामनाएं!\nजय माता दी!',                        en:'Happy Navratri · Jai Mata Di',       prompt:'Goddess Durga silhouette with trishul trident, holy flames, red and orange energy, festive dark background, cinematic', colors:{bg:'#150010',acc:'#cc00aa',tc:'#ff66dd'}},
+  {id:'dussehra',      emoji:'🏹', name:'Dussehra',           mr:'विजयादशमीच्या\nहार्दिक शुभेच्छा!',                        hi:'विजयादशमी की शुभकामनाएं!',                                     en:'Happy Dussehra · Vijaya Dashami',    prompt:'Lord Rama silhouette with golden bow and arrow aiming at sky, glowing arrow, sunset clouds, epic cinematic', colors:{bg:'#100000',acc:'#dd2200',tc:'#ffaa00'}},
+  {id:'holi',          emoji:'🎨', name:'Holi',               mr:'होळीच्या\nहार्दिक शुभेच्छा!\nरंगपंचमी',                  hi:'होली की हार्दिक\nशुभकामनाएं! रंगपंचमी',                       en:'Happy Holi · Festival of Colors',    prompt:'Explosion of colorful powder colors in air, dark moody background, dynamic splash, vibrant contrast, cinematic lighting', colors:{bg:'#0d001a',acc:'#ff00cc',tc:'#ff88ff'}},
+  {id:'makar',         emoji:'🪁', name:'Makar Sankranti',    mr:'मकर संक्रांतीच्या\nहार्दिक शुभेच्छा!\nतिळगूळ घ्या...',   hi:'मकर संक्रांति की शुभकामनाएं!\nतिल-गुड़ घ्या...',            en:'Happy Makar Sankranti',              prompt:'Colorful kites flying in beautiful sunny blue sky with soft white clouds, sunrays, festive Makar Sankranti, cinematic', colors:{bg:'#0a0800',acc:'#ff9900',tc:'#ffdd44'}},
+  {id:'akshay',        emoji:'✨', name:'Akshaya Tritiya',    mr:'अक्षय तृतीयेच्या\nशुभेच्छा!',                             hi:'अक्षय तृत्या की शुभकामनाएं!',                                  en:'Happy Akshaya Tritiya',              prompt:'Golden kalash pot with coconut and mango leaves, gold coins spilling, light rays, dark rich background, cinematic', colors:{bg:'#0a0800',acc:'#d4a017',tc:'#ffd700'}},
+  {id:'gokulashtami',  emoji:'🎶', name:'Gokulashtami',       mr:'गोकुळाष्टमीच्या\nहार्दिक शुभेच्छा!\nजय श्री कृष्ण!',    hi:'गोकुलाष्टमी की शुभकामनाएं!\nजय श्री कृष्ण!',                 en:'Happy Gokulashtami · Jai Shri Krishna', prompt:'Lord Krishna silhouette playing flute, peacock feather, night sky with stars and moon, cinematic soft lighting', colors:{bg:'#000a0a',acc:'#0088ff',tc:'#88ccff'}},
+  {id:'ramnavami',     emoji:'🌸', name:'Ram Navami',         mr:'रामनवमीच्या\nहार्दिक शुभेच्छा!\nजय श्री राम!',           hi:'राम नवमी की शुभकामनाएं!\nजय श्री राम!',                       en:'Happy Ram Navami · Jai Shri Ram',    prompt:'Lord Rama silhouette with bow, temple arch, saffron flags, morning golden hour sunrise, serene cinematic', colors:{bg:'#080000',acc:'#ff6600',tc:'#ffcc88'}},
+  {id:'hanuman',       emoji:'🏮', name:'Hanuman Jayanti',    mr:'हनुमान जयंतीच्या\nहार्दिक शुभेच्छा!\nजय हनुमान!',        hi:'हनुमान जयंती की शुभकामनाएं!\nजय हनुमान!',                     en:'Happy Hanuman Jayanti',              prompt:'Lord Hanuman silhouette meditating, glowing aura, dramatic mountain background, orange sky, epic cinematic', colors:{bg:'#0a0300',acc:'#ff6600',tc:'#ffaa44'}},
+  {id:'eid',           emoji:'🌙', name:'Eid Mubarak',        mr:'ईद मुबारक!\nशुभेच्छा आणि\nप्रेम!',                        hi:'ईद मुबारक!\nशुभकामनाएं और प्यार!',                            en:'Eid Mubarak · Peace & Joy',          prompt:'Crescent moon in dark blue starry night sky, silhouette of beautiful mosque, lanterns glowing, magical cinematic', colors:{bg:'#001a08',acc:'#00cc66',tc:'#88ffcc'}},
+  {id:'christmas',     emoji:'🎄', name:'Christmas',          mr:'नाताळाच्या\nहार्दिक शुभेच्छा!\nमेरी क्रिसमस!',           hi:'क्रिसमस की शुभकामनाएं!\nमेरी क्रिसमस!',                       en:'Merry Christmas! Happy New Year',    prompt:'Glow of Christmas tree lights in a dark cozy room, snow falling outside window, warm golden bokeh, cinematic', colors:{bg:'#000a00',acc:'#cc2200',tc:'#88ff88'}},
+  // National days
+  {id:'independence',  emoji:'🇮🇳', name:'Independence Day',  mr:'स्वातंत्र्य दिनाच्या\nहार्दिक शुभेच्छा!\nजय हिंद! 🇮🇳',  hi:'स्वतंत्रता दिवस की\nशुभकामनाएं! जय हिंद! 🇮🇳',            en:'Happy Independence Day · Jai Hind',  prompt:'Indian tricolor flag silhouette waving on a historic fort, dramatic golden sunrise sky, patriotic, cinematic', colors:{bg:'#001000',acc:'#ff9933',tc:'#ffffff'}},
+  {id:'republic',      emoji:'🏛️', name:'Republic Day',       mr:'प्रजासत्ताक दिनाच्या\nशुभेच्छा!\nजय हिंद!',              hi:'गणतंत्र दिवस की शुभकामनाएं!\nजय हिंद!',                       en:'Happy Republic Day · Jai Hind',      prompt:'Indian constitution book with tricolor background, ashoka chakra, subtle rays of light, dark premium background, cinematic', colors:{bg:'#001000',acc:'#ff9933',tc:'#ffffff'}},
+  {id:'constitution',  emoji:'📜', name:'Constitution Day',    mr:'संविधान दिनाच्या\nशुभेच्छा!',                             hi:'संविधान दिवस की शुभकामनाएं!',                                  en:'Constitution Day · 26 November',     prompt:'Indian national emblem, ashoka pillar, premium dark leather texture background, gold metallic details, cinematic', colors:{bg:'#000a14',acc:'#0066cc',tc:'#88aaff'}},
+  {id:'bhimjayanti',   emoji:'💙', name:'Dr. Ambedkar Jayanti',mr:'डॉ. बाबासाहेब आंबेडकर\nजयंती!',                          hi:'डॉ. बाबासाहेब आंबेडकर जयंती!',                                en:'Dr. Ambedkar Jayanti · 14 April',    prompt:'Dr. B. R. Ambedkar silhouette, blue background with chakra emblem, rays of light, peaceful elegant cinematic', colors:{bg:'#00000a',acc:'#0044ff',tc:'#88aaff'}},
+  // Special
+  {id:'womensday',     emoji:'👩', name:"Women's Day",        mr:'जागतिक महिला दिनाच्या\nशुभेच्छा!',                        hi:'अंतर्राष्ट्रीय महिला दिवस\nकी शुभकामनाएं!',                   en:"Happy Women's Day · 8 March",        prompt:'Abstract elegant silhouette of a woman surrounded by blooming flowers, soft pink and gold highlights, dark background, cinematic', colors:{bg:'#150015',acc:'#cc0066',tc:'#ff88cc'}},
+  {id:'motherday',     emoji:'💐', name:"Mother's Day",        mr:'आईसाठी...\nआई म्हणजे सर्वस्व!',                          hi:'माँ के लिए...\nमाँ मतलब सब कुछ!',                            en:"Happy Mother's Day",                 prompt:'Heartwarming silhouette of mother holding baby, warm soft golden glow, dark ambient background, emotional cinematic', colors:{bg:'#100010',acc:'#ff66aa',tc:'#ffccee'}},
+  {id:'newyear',       emoji:'🎆', name:'New Year',            mr:'नवीन वर्षाच्या\nहार्दिक शुभेच्छा!',                      hi:'नए साल की हार्दिक\nशुभकामनाएं!',                              en:'Happy New Year!',                    prompt:'Vibrant golden fireworks exploding in dark night sky, city skyline silhouette below, celebratory cinematic', colors:{bg:'#050510',acc:'#6644ff',tc:'#aaaaff'}},
+  {id:'birthday',      emoji:'🎂', name:'Birthday / वाढदिवस', mr:'वाढदिवसाच्या\nखूप खूप शुभेच्छा!',                       hi:'जन्मदिन की\nबहुत बहुत शुभकामनाएं!',                           en:'Happy Birthday!',                    prompt:'Single glowing candle on a premium dark chocolate cake, warm golden flame light, bokeh sparkles, dark cozy background, cinematic', colors:{bg:'#0a0010',acc:'#8844ff',tc:'#ccaaff'}},
+  {id:'custom',        emoji:'✏️', name:'Custom / स्वतःचा',   mr:'',                                                         hi:'',                                                             en:'',                                   prompt:'Beautiful dark abstract background with glowing particles, luxury, cinematic', colors:{bg:'#000',acc:'#ffffff',tc:'#ffffff'}},
+];
+
+// ════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════
+let MODE = 'image';
+let selEvt = null;
+let cfg = {
+  bg:'black', layout:'centered', dv:'line', ov:'grain',
+  fn:'tiro', al:'center', anim:'fadein', fmt:'portrait'
+};
+let bgImage = null;          // loaded Image object (from upload or AI)
+let imgPosition = 'center'; // top / center / bottom
+let imgFilter   = 'none';   // none / bw / blur / warm
+let bgImageLoading = false;  // loader animation state
+let aiSeed = 42;             // seed for generating unique variants
+let autoGenAiEnabled = true; // automatic generation toggle
+let activeBgTab = 'ai';      // 'ai' or 'upload'
+let localBgCache = {};       // cache for local pre-cooked background images
+let glassCardEnabled = true; // glassmorphic text box background
+let clrs = {mr:'#ffffff', hi:'#888888'};
+let generated = false;
+let isRec = false;
+let recMR = null;
+let recChunks = [];
+let recInt = null;
+let recElap = 0;
+let animFr = null;
+let animStart = null;
+let vidProgress = 0;         // current video loop progress factor (0 to 1)
+let grainCv = null;
+
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+
+const FMTS = {
+  portrait:  {w:1080, h:1920, sc:0.26},
+  square:    {w:1080, h:1080, sc:0.43},
+  landscape: {w:1920, h:1080, sc:0.32}
+};
+
+// ════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════
+function launch(mode) {
+  MODE = mode;
+  document.getElementById('splash').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('app').style.flexDirection = 'column';
+  const pill = document.getElementById('mpill');
+  pill.textContent = mode==='image' ? '🖼️ Image' : '🎬 Video';
+  pill.className = 'mpill '+mode;
+  document.getElementById('vidCtrl').style.display = mode==='video' ? 'contents' : 'none';
+  document.getElementById('genBtn').textContent = '🔄 Regenerate';
+  buildEvtGrid();
+  setCanvasSize();
+  makeGrain();
+  // Auto-select & generate first event immediately
+  const firstBtn = document.querySelector('.evt-btn');
+  if(firstBtn) firstBtn.click();
+}
+
+function goBack() {
+  if(animFr){cancelAnimationFrame(animFr);animFr=null}
+  if(isRec) stopRec();
+  document.getElementById('splash').style.display='flex';
+  document.getElementById('app').style.display='none';
+  generated = false;
+}
+
+// ════════════════════════════════════════════════════
+// BUILD EVENT GRID
+// ════════════════════════════════════════════════════
+function buildEvtGrid() {
+  const grid = document.getElementById('evtGrid');
+  grid.innerHTML = '';
+  EVENTS.forEach(ev => {
+    const btn = document.createElement('button');
+    btn.className = 'evt-btn';
+    btn.dataset.id = ev.id;
+    btn.innerHTML = `<span class="ei">${ev.emoji}</span><span class="en">${ev.name}</span>`;
+    btn.onclick = () => selectEvt(ev.id, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function selectEvt(id, btn) {
+  selEvt = EVENTS.find(e=>e.id===id);
+  document.querySelectorAll('.evt-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  // Load text
+  document.getElementById('tMr').value = selEvt.mr;
+  document.getElementById('tHi').value = selEvt.hi;
+  document.getElementById('tEn').value = selEvt.en;
+  
+  // Load AI Prompt
+  if (selEvt.prompt) {
+    document.getElementById('aiPrompt').value = selEvt.prompt;
+  } else {
+    document.getElementById('aiPrompt').value = '';
+  }
+  
+  // Scroll into view
+  btn.scrollIntoView({block:'nearest',behavior:'smooth'});
+  
+  // Try loading local pre-cooked high-quality image first
+  const localUrl = `bg/${selEvt.id}.png`;
+  
+  if (localBgCache[selEvt.id]) {
+    bgImage = localBgCache[selEvt.id];
+    bgImageLoading = false;
+    document.getElementById('imgControls').style.display = 'block';
+    generateNow();
+  } else {
+    // Try to load the local file
+    bgImageLoading = true;
+    drawFrame(1,1,1);
+    
+    const img = new Image();
+    // Do not set crossOrigin for relative paths on local file scheme
+    img.onload = () => {
+      localBgCache[selEvt.id] = img;
+      bgImage = img;
+      bgImageLoading = false;
+      document.getElementById('imgControls').style.display = 'block';
+      generateNow();
+    };
+    img.onerror = () => {
+      // Failed to load local asset (doesn't exist), fall back to AI generation or preset
+      if (activeBgTab === 'ai' && autoGenAiEnabled && selEvt.prompt) {
+        triggerAiGen();
+      } else {
+        bgImage = null;
+        bgImageLoading = false;
+        document.getElementById('imgControls').style.display = 'none';
+        generateNow();
+      }
+    };
+    img.src = localUrl;
+  }
+}
+
+// ════════════════════════════════════════════════════
+// CONTROLS
+// ════════════════════════════════════════════════════
+document.getElementById('fsMr').oninput = e => { document.getElementById('fsMrV').textContent = e.target.value; if(generated) drawFrame(1,1,1); };
+document.getElementById('fsHi').oninput = e => { document.getElementById('fsHiV').textContent = e.target.value; if(generated) drawFrame(1,1,1); };
+document.getElementById('tY').oninput    = e => { document.getElementById('tYV').textContent = e.target.value+'%'; if(generated) drawFrame(1,1,1); };
+
+function pick(btn, group) {
+  const g = document.getElementById({bg:'bgGrid',layout:'layoutGrid',dv:'divGrid',ov:'overlayGrid',fn:'fontGrid',al:'alignGrid',anim:'animGrid'}[group]);
+  if(g) g.querySelectorAll('.gb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  cfg[group] = btn.dataset[group==='bg'?'bg':group==='layout'?'layout':group==='dv'?'dv':group==='ov'?'ov':group==='fn'?'fn':group==='al'?'al':'anim'];
+  if(generated && MODE==='image') drawFrame(1,1,1);
+}
+
+function setClr(sw, who) {
+  clrs[who] = sw.dataset.c;
+  const row = document.getElementById('color'+who.charAt(0).toUpperCase()+who.slice(1)+'Row');
+  if(row) row.querySelectorAll('.cs').forEach(s=>s.classList.remove('active'));
+  sw.classList.add('active');
+  if(generated && MODE==='image') drawFrame(1,1,1);
+}
+
+function setFmt(btn, fmt) {
+  cfg.fmt = fmt;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  setCanvasSize();
+  if(generated) drawFrame(1,1,1);
+}
+
+function setCanvasSize() {
+  const f = FMTS[cfg.fmt];
+  cv.width = f.w; cv.height = f.h;
+  cv.style.width  = (f.w*f.sc)+'px';
+  cv.style.height = (f.h*f.sc)+'px';
+}
+
+// ════════════════════════════════════════════════════
+// GRAIN
+// ════════════════════════════════════════════════════
+function makeGrain() {
+  grainCv = document.createElement('canvas');
+  grainCv.width = grainCv.height = 256;
+  const gc = grainCv.getContext('2d');
+  const d = gc.createImageData(256,256);
+  for(let i=0;i<d.data.length;i+=4){
+    const v=Math.random()*25;
+    d.data[i]=d.data[i+1]=d.data[i+2]=v; d.data[i+3]=50;
+  }
+  gc.putImageData(d,0,0);
+}
+
+// ════════════════════════════════════════════════════
+// GENERATE  ← THE BIG BUTTON
+// ════════════════════════════════════════════════════
+function generateNow() {
+  if(!selEvt) selEvt = EVENTS[EVENTS.length-1];
+  if(animFr){cancelAnimationFrame(animFr);animFr=null}
+  animStart = null;
+  document.getElementById('emptyState').style.display = 'none';
+  generated = true;
+  document.getElementById('dlBtn').disabled = false;
+  document.getElementById('genBtn').textContent = MODE==='image' ? '🔄 Regenerate' : '🔄 Regenerate';
+  if(MODE==='image') {
+    drawFrame(1,1,1);
+    animFr = requestAnimationFrame(imgRefreshLoop);
+  } else {
+    animFr = requestAnimationFrame(vidLoop);
+  }
+}
+
+// ════════════════════════════════════════════════════
+// BACKGROUND DRAWING
+// ════════════════════════════════════════════════════
+function drawBg(w,h) {
+  const ev = selEvt||EVENTS[0];
+
+  // ── Animated Loader while AI image is generating ──
+  if(bgImageLoading) {
+    ctx.fillStyle = '#050505';
+    ctx.fillRect(0,0,w,h);
+    
+    // Draw rotating spinner
+    ctx.save();
+    ctx.translate(w/2, h/2 - 40);
+    const angle = (Date.now() / 150) % (Math.PI * 2);
+    ctx.rotate(angle);
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(0, 0, 30, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    ctx.strokeStyle = '#d4a017';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(0, 0, 30, 0, Math.PI / 2);
+    ctx.stroke();
+    ctx.restore();
+
+    // Text
+    ctx.save();
+    ctx.fillStyle = '#888888';
+    ctx.font = `500 ${Math.round(h*.018)}px 'Inter',sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Generating AI background...', w/2, h/2 + 25);
+    ctx.font = `300 ${Math.round(h*.012)}px 'Inter',sans-serif`;
+    ctx.fillStyle = '#444444';
+    ctx.fillText('Powered by Pollinations AI', w/2, h/2 + 50);
+    ctx.restore();
+    
+    // Draw film grain even while loading to look active
+    if(grainCv){
+      ctx.save(); ctx.globalAlpha=.15;
+      ctx.fillStyle=ctx.createPattern(grainCv,'repeat');
+      ctx.fillRect(0,0,w,h); ctx.restore();
+    }
+    return;
+  }
+
+  // ── If user uploaded an image, draw it as background ──
+  if(bgImage) {
+    // 1) draw plain black base
+    ctx.fillStyle='#000'; ctx.fillRect(0,0,w,h);
+
+    // 2) compute cover-fit dimensions with Ken Burns zoom effect in video mode
+    const iw=bgImage.naturalWidth, ih=bgImage.naturalHeight;
+    const zoomScale = (MODE === 'video') ? (1.0 + vidProgress * 0.10) : 1.0; // zoom in up to 10%
+    const scale=Math.max(w/iw, h/ih) * zoomScale;
+    const dw=iw*scale, dh=ih*scale;
+    const dx=(w-dw)/2;
+    let dy=(h-dh)/2;
+    if(imgPosition==='top')   dy=0;
+    if(imgPosition==='bottom') dy=h-dh;
+
+    // 3) apply filter if needed
+    ctx.save();
+    if(imgFilter==='bw'){
+      ctx.filter='grayscale(100%) contrast(1.1)';
+    } else if(imgFilter==='blur'){
+      ctx.filter='blur(6px) brightness(0.85)';
+    } else if(imgFilter==='warm'){
+      ctx.filter='sepia(40%) saturate(1.3) brightness(0.9)';
+    }
+    ctx.drawImage(bgImage, dx, dy, dw, dh);
+    ctx.restore();
+
+    // 4) dark overlay for text readability
+    const opacity = (parseInt(document.getElementById('overlayOpacity').value)||55)/100;
+    ctx.fillStyle=`rgba(0,0,0,${opacity})`;
+    ctx.fillRect(0,0,w,h);
+
+    // 5) strong vignette top & bottom
+    const topV=ctx.createLinearGradient(0,0,0,h*.45);
+    topV.addColorStop(0,'rgba(0,0,0,0.55)'); topV.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=topV; ctx.fillRect(0,0,w,h);
+    const botV=ctx.createLinearGradient(0,h*.55,0,h);
+    botV.addColorStop(0,'rgba(0,0,0,0)'); botV.addColorStop(1,'rgba(0,0,0,0.8)');
+    ctx.fillStyle=botV; ctx.fillRect(0,0,w,h);
+
+    // 6) draw selected texture overlays (glow/bokeh/grain) on top of image
+    if(cfg.ov==='grain'&&grainCv){
+      ctx.save();ctx.globalAlpha=.25;
+      ctx.fillStyle=ctx.createPattern(grainCv,'repeat');
+      ctx.fillRect(0,0,w,h);ctx.restore();
+    } else if(cfg.ov==='glow'){
+      ctx.save();
+      const pulse = (MODE === 'video') ? (1 + Math.sin(vidProgress * Math.PI * 2) * 0.15) : 1.0;
+      ctx.globalAlpha = 0.14 * pulse;
+      const glowSize = h * 0.4 * pulse;
+      const g = ctx.createRadialGradient(w/2, h*.4, 0, w/2, h*.4, glowSize);
+      g.addColorStop(0, ev.colors.acc);
+      g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,w,h);
+      ctx.restore();
+    } else if(cfg.ov==='bokeh'){
+      ctx.save();
+      ctx.globalAlpha = 0.08;
+      for (let i = 0; i < 25; i++) {
+        const seedX = Math.sin(i * 12.3) * 0.5 + 0.5;
+        const seedY = Math.cos(i * 37.7) * 0.5 + 0.5;
+        const r = (Math.sin(i * 9.1) * 0.5 + 0.5) * 35 + 15;
+        const baseX = seedX * w;
+        const timeOffset = (MODE === 'video') ? (vidProgress * h * 0.15) : 0;
+        let y = (seedY * h - timeOffset) % h;
+        if (y < 0) y += h;
+        
+        const g = ctx.createRadialGradient(baseX, y, 0, baseX, y, r);
+        g.addColorStop(0, 'rgba(255,255,255,0.75)');
+        g.addColorStop(1, 'transparent');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(baseX, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+    return; // skip solid bg
+  }
+
+  // ── Solid / gradient backgrounds ──
+  const bgMap = {
+    black:    ()=>{ctx.fillStyle='#000';ctx.fillRect(0,0,w,h)},
+    vignette: ()=>{
+      ctx.fillStyle='#080808';ctx.fillRect(0,0,w,h);
+      const v=ctx.createRadialGradient(w/2,h/2,h*.1,w/2,h/2,h*.75);
+      v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,0,0,.9)');
+      ctx.fillStyle=v;ctx.fillRect(0,0,w,h);
+    },
+    blue:    ()=>{
+      const g=ctx.createLinearGradient(0,0,w,h);
+      g.addColorStop(0,'#05050f');g.addColorStop(1,'#0b0b22');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    },
+    brown:   ()=>{
+      const g=ctx.createLinearGradient(0,0,0,h);
+      g.addColorStop(0,ev.colors.bg||'#0d0800');g.addColorStop(.6,'#1a1000');g.addColorStop(1,ev.colors.bg||'#080500');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    },
+    charcoal:()=>{
+      const g=ctx.createLinearGradient(0,0,w,h);
+      g.addColorStop(0,'#101010');g.addColorStop(1,'#1c1c1c');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    },
+    maroon:  ()=>{
+      const g=ctx.createLinearGradient(0,0,0,h);
+      g.addColorStop(0,'#100003');g.addColorStop(.5,'#1a0005');g.addColorStop(1,'#0a0002');
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    },
+  };
+  (bgMap[cfg.bg]||bgMap.black)();
+
+  // Event-themed subtle radial accent
+  const rc=ctx.createRadialGradient(w/2,h*.35,0,w/2,h*.35,h*.5);
+  rc.addColorStop(0,ev.colors.acc+'18');
+  rc.addColorStop(1,'transparent');
+  ctx.fillStyle=rc;ctx.fillRect(0,0,w,h);
+
+  // Texture overlay
+  if(cfg.ov==='grain'&&grainCv){
+    ctx.save();ctx.globalAlpha=.35;
+    const pat=ctx.createPattern(grainCv,'repeat');
+    ctx.fillStyle=pat;ctx.fillRect(0,0,w,h);
+    ctx.restore();
+  } else if(cfg.ov==='glow'){
+    ctx.save();
+    const pulse = (MODE === 'video') ? (1 + Math.sin(vidProgress * Math.PI * 2) * 0.15) : 1.0;
+    ctx.globalAlpha = 0.12 * pulse;
+    const glowSize = h * 0.4 * pulse;
+    const g = ctx.createRadialGradient(w/2, h*.4, 0, w/2, h*.4, glowSize);
+    g.addColorStop(0, ev.colors.acc);
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,w,h);
+    ctx.restore();
+  } else if(cfg.ov==='bokeh'){
+    ctx.save();
+    ctx.globalAlpha = 0.08;
+    for (let i = 0; i < 25; i++) {
+      const seedX = Math.sin(i * 12.3) * 0.5 + 0.5;
+      const seedY = Math.cos(i * 37.7) * 0.5 + 0.5;
+      const r = (Math.sin(i * 9.1) * 0.5 + 0.5) * 35 + 15;
+      const baseX = seedX * w;
+      const timeOffset = (MODE === 'video') ? (vidProgress * h * 0.15) : 0;
+      let y = (seedY * h - timeOffset) % h;
+      if (y < 0) y += h;
+      
+      const g = ctx.createRadialGradient(baseX, y, 0, baseX, y, r);
+      g.addColorStop(0, 'rgba(255,255,255,0.75)');
+      g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(baseX, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  // Bottom vignette always
+  const bv=ctx.createLinearGradient(0,h*.8,0,h);
+  bv.addColorStop(0,'transparent');bv.addColorStop(1,'rgba(0,0,0,.7)');
+  ctx.fillStyle=bv;ctx.fillRect(0,0,w,h);
+}
+
+// ════════════════════════════════════════════════════
+// TEXT + DIVIDER DRAWING
+// ════════════════════════════════════════════════════
+function getFont(sz,wt) {
+  const weight = wt||(cfg.fn==='bold'?'700':cfg.fn==='light'?'300':'400');
+  let ff = `'Tiro Devanagari Marathi','Noto Serif Devanagari',serif`;
+  if (cfg.fn === 'noto') {
+    ff = `'Noto Serif Devanagari',serif`;
+  } else if (cfg.fn === 'sans') {
+    ff = `'Noto Sans Devanagari',sans-serif`;
+  }
+  return `${weight} ${sz}px ${ff}`;
+}
+
+function drawMultiline(text,x,y,sz,color,alpha,lhMult) {
+  if(!text||alpha<=0)return 0;
+  lhMult=lhMult||1.45;
+  const lines=text.split('\n');
+  const lh=sz*lhMult;
+  ctx.save();
+  ctx.globalAlpha=alpha;
+  ctx.textAlign=cfg.al;
+  ctx.textBaseline='middle';
+  
+  lines.forEach((l,i)=>{
+    // Make the first line bold if there are multiple lines (looks very premium!)
+    const isBold = (i === 0 && lines.length > 1);
+    ctx.font=getFont(sz, isBold ? 'bold' : null);
+    
+    // Auto-highlight the greeting (typically line 2) in a golden saffron gradient
+    if (i === 1 && lines.length > 1) {
+      // Create a horizontal gradient for the text
+      const g = ctx.createLinearGradient(x - 200, y, x + 200, y);
+      g.addColorStop(0, '#ff9933'); // Saffron
+      g.addColorStop(0.5, '#ffd700'); // Gold
+      g.addColorStop(1, '#ff9933'); // Saffron
+      ctx.fillStyle = g;
+      
+      // Premium text shadow/glow for the gold text
+      ctx.shadowColor = 'rgba(255, 153, 51, 0.4)';
+      ctx.shadowBlur = 14;
+    } else {
+      ctx.fillStyle = color;
+      ctx.shadowColor = 'rgba(0,0,0,0.85)';
+      ctx.shadowBlur = 18;
+    }
+    
+    ctx.fillText(l,x,y+(i-(lines.length-1)/2)*lh);
+  });
+  
+  ctx.restore();
+  return lh*lines.length;
+}
+
+function drawDivider(cx,y,w) {
+  if(cfg.dv==='none')return;
+  const lw=w*.45;
+  ctx.save();ctx.globalAlpha=.22;
+  ctx.strokeStyle=clrs.mr;ctx.lineWidth=1;
+  if(cfg.dv==='line'){
+    const g=ctx.createLinearGradient(cx-lw/2,y,cx+lw/2,y);
+    g.addColorStop(0,'transparent');g.addColorStop(.5,clrs.mr);g.addColorStop(1,'transparent');
+    ctx.strokeStyle=g;
+    ctx.beginPath();ctx.moveTo(cx-lw/2,y);ctx.lineTo(cx+lw/2,y);ctx.stroke();
+  } else if(cfg.dv==='double'){
+    [-3,3].forEach(o=>{ctx.beginPath();ctx.moveTo(cx-lw/2,y+o);ctx.lineTo(cx+lw/2,y+o);ctx.stroke()});
+  } else if(cfg.dv==='dots'){
+    ctx.fillStyle=clrs.mr;
+    [-.4,0,.4].forEach(o=>{ctx.beginPath();ctx.arc(cx+o*lw/2,y,2.5,0,Math.PI*2);ctx.fill()});
+  } else if(cfg.dv==='star'){
+    ctx.fillStyle=clrs.mr;
+    ctx.font='bold 18px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('✦',cx,y);
+    ctx.beginPath();ctx.moveTo(cx-lw/2,y);ctx.lineTo(cx-20,y);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+20,y);ctx.lineTo(cx+lw/2,y);ctx.stroke();
+  } else if(cfg.dv==='wavy'){
+    ctx.beginPath();
+    for(let px=cx-lw/2;px<=cx+lw/2;px+=4)
+      ctx.lineTo(px,y+Math.sin((px-cx)*0.04)*5);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawEmblem(ev,w,h) {
+  // Subtle large emoji/emblem in background
+  ctx.save();
+  ctx.globalAlpha=.04;
+  ctx.font=`${Math.min(w,h)*.4}px serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(ev.emoji,w/2,h*.42);
+  ctx.restore();
+}
+
+function drawCredit(cx,h) {
+  const cr=document.getElementById('tCr').value;
+  if(!cr)return;
+  ctx.save();
+  ctx.font=`300 ${Math.round(h*.018)}px 'Inter',sans-serif`;
+  ctx.fillStyle='rgba(255,255,255,.2)';
+  ctx.textAlign=cfg.al;ctx.textBaseline='middle';
+  ctx.fillText(cr,cx,h*.94);
+  ctx.restore();
+}
+
+// ════════════════════════════════════════════════════
+// MAIN DRAW FRAME
+// ════════════════════════════════════════════════════
+function drawFrame(aMr,aHi,aEn) {
+  const ev=selEvt||EVENTS[0];
+  const f=FMTS[cfg.fmt];
+  const {w,h}=f;
+  const mrFS=parseInt(document.getElementById('fsMr').value);
+  const hiFS=parseInt(document.getElementById('fsHi').value);
+  const yPct=parseInt(document.getElementById('tY').value)/100;
+  const cx=cfg.al==='left'?w*.1:cfg.al==='right'?w*.9:w/2;
+  const mr=document.getElementById('tMr').value||ev.mr;
+  const hi=document.getElementById('tHi').value||ev.hi;
+  const en=document.getElementById('tEn').value||ev.en;
+
+  ctx.clearRect(0,0,w,h);
+  drawBg(w,h);
+  drawEmblem(ev,w,h);
+
+  // If layout is reel_quote, draw it and return early!
+  if (cfg.layout === 'reel_quote') {
+    ctx.save();
+    
+    // Set font style (default to Noto Sans Devanagari if sans is active)
+    ctx.font = getFont(mrFS, '500'); 
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    
+    // Only take the first line of text
+    const singleLine = mr.split('\n')[0];
+    const textWidth = ctx.measureText(singleLine).width;
+    
+    // Measure bar dimensions
+    const barW = Math.max(6, Math.round(mrFS * 0.12));
+    const barH = mrFS * 1.05;
+    const spacing = Math.round(mrFS * 0.35);
+    const totalW = barW + spacing + textWidth;
+    
+    // Determine start X to center the whole (bar + text) block horizontally
+    const startX = (w - totalW) / 2;
+    const barX = startX;
+    const textX = startX + barW + spacing;
+    
+    // Draw orange/saffron vertical bar
+    ctx.fillStyle = '#ff5500'; // Bright saffron orange
+    ctx.shadowColor = 'rgba(255, 85, 0, 0.4)';
+    ctx.shadowBlur = 8;
+    
+    // Rounded rect fallback for older browsers
+    const drawBarRounded = (x, y, w, h, r) => {
+      if (ctx.roundRect) {
+        ctx.roundRect(x, y, w, h, r);
+      } else {
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+      }
+    };
+    
+    ctx.beginPath();
+    drawBarRounded(barX, cY - barH/2, barW, barH, barW/2);
+    ctx.fill();
+    
+    // Draw text
+    ctx.fillStyle = clrs.mr;
+    ctx.shadowColor = 'rgba(0,0,0,0.85)';
+    ctx.shadowBlur = 15;
+    ctx.fillText(singleLine, textX, cY);
+    
+    ctx.restore();
+    
+    // Draw credit handle if it exists
+    drawCredit(cx, h);
+    
+    // Draw watermark
+    ctx.save();
+    ctx.font = `300 ${Math.round(h*.014)}px 'Cinzel',serif`;
+    ctx.fillStyle = 'rgba(255,255,255,.06)';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('✦ मराठी Creator Studio ✦', w/2, h*.97);
+    ctx.restore();
+    
+    return;
+  }
+
+  // Layout calculations
+  let cY;
+  if(cfg.layout==='bottom'){
+    cY=h*.75;
+  } else if(cfg.layout==='dramatic'){
+    cY=h*.38;
+  } else if(cfg.layout==='minimal'){
+    cY=h*.5;
+  } else {
+    cY=h*yPct;
+  }
+
+  // Calculate text heights for Card Layout centering
+  const mrLines=mr.split('\n').length;
+  const mrTotalH=mrFS*1.45*mrLines;
+  const hiLines=hi?hi.split('\n').length:0;
+  const hiH=hi?hiFS*1.45*hiLines:0;
+  const enFS=Math.round(hiFS*.62);
+  const enH=en?enFS*1.8:0;
+  const dividerH=(hi||en)?mrFS*1.25:0;
+  const totalTextH=mrTotalH+dividerH+hiH+enH;
+
+  // ── Saffron/Gold soft glow behind the text card ──
+  ctx.save();
+  const radialGlow = ctx.createRadialGradient(w/2, cY, 0, w/2, cY, w * 0.7);
+  radialGlow.addColorStop(0, ev.colors.acc + '1e'); // ~12% opacity soft glow
+  radialGlow.addColorStop(1, 'transparent');
+  ctx.fillStyle = radialGlow;
+  ctx.fillRect(0, 0, w, h);
+  ctx.restore();
+
+  // ── Glassmorphic card container ──
+  if (glassCardEnabled && cfg.layout !== 'minimal') {
+    const paddingX = w * 0.08;
+    const paddingY = h * 0.045;
+    const cardW = w * 0.84;
+    const cardH = totalTextH + paddingY * 2;
+    const cardX = w * 0.08;
+    const cardY = cY - mrTotalH/2 - paddingY;
+
+    // Helper for rounded rectangles (backward compatible fallback)
+    const pathRoundRect = (x, y, w, h, r) => {
+      if (ctx.roundRect) {
+        ctx.roundRect(x, y, w, h, r);
+      } else {
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+      }
+    };
+
+    ctx.save();
+    // Drop shadow
+    ctx.shadowColor = 'rgba(0,0,0,0.7)';
+    ctx.shadowBlur = 45;
+    ctx.shadowOffsetY = 15;
+
+    // Glass backdrop fill (semi-transparent dark)
+    const glassGrad = ctx.createLinearGradient(cardX, cardY, cardX, cardY + cardH);
+    glassGrad.addColorStop(0, 'rgba(18, 18, 18, 0.62)');
+    glassGrad.addColorStop(1, 'rgba(8, 8, 8, 0.88)');
+    ctx.fillStyle = glassGrad;
+
+    // Rounded rectangle path fill
+    ctx.beginPath();
+    pathRoundRect(cardX, cardY, cardW, cardH, 20);
+    ctx.fill();
+
+    // Subtle highlighted border
+    ctx.shadowColor = 'transparent';
+    const borderGrad = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + cardH);
+    borderGrad.addColorStop(0, 'rgba(255, 255, 255, 0.16)');
+    borderGrad.addColorStop(0.3, 'rgba(255, 255, 255, 0.03)');
+    borderGrad.addColorStop(0.7, 'rgba(212, 160, 23, 0.02)');
+    borderGrad.addColorStop(1, ev.colors.acc + '3b'); // Highlight bottom right corner using event color
+    ctx.strokeStyle = borderGrad;
+    ctx.lineWidth = 1.5;
+    
+    ctx.beginPath();
+    pathRoundRect(cardX, cardY, cardW, cardH, 20);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // Draw main Marathi
+  drawMultiline(mr,cx,cY,mrFS,clrs.mr,aMr);
+
+  // Divider
+  const dvY=cY+mrTotalH/2+mrFS*.65;
+  if(hi||en) drawDivider(cx,dvY,w);
+
+  // Hindi
+  const hiY=dvY+mrFS*.55+hiFS/2;
+  if(hi) drawMultiline(hi,cx,hiY,hiFS,clrs.hi,aHi);
+
+  // English — tiny and muted
+  if(en){
+    const enY=hiY+hiH/2+enFS*1.4;
+    ctx.save();
+    ctx.globalAlpha=aEn*.28;
+    ctx.font=`300 ${enFS}px 'Inter',sans-serif`;
+    ctx.fillStyle='#ffffff';
+    ctx.textAlign=cfg.al;ctx.textBaseline='middle';
+    ctx.fillText(en,cx,enY);
+    ctx.restore();
+  }
+
+  // Decorative — layout specific
+  if(cfg.layout==='dramatic'){
+    ctx.save();
+    ctx.globalAlpha=.08;
+    const topG=ctx.createLinearGradient(0,0,w,0);
+    topG.addColorStop(0,'transparent');topG.addColorStop(.5,ev.colors.tc);topG.addColorStop(1,'transparent');
+    ctx.fillStyle=topG;ctx.fillRect(0,h*.1,w,1);
+    ctx.restore();
+  }
+
+  drawCredit(cx,h);
+
+  // Watermark
+  ctx.save();
+  ctx.font=`300 ${Math.round(h*.014)}px 'Cinzel',serif`;
+  ctx.fillStyle='rgba(255,255,255,.06)';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('✦ मराठी Creator Studio ✦',w/2,h*.97);
+  ctx.restore();
+}
+
+// ════════════════════════════════════════════════════
+// IMAGE LOOP (grain refresh)
+// ════════════════════════════════════════════════════
+let iFrame=0;
+function imgRefreshLoop() {
+  iFrame++;
+  if(iFrame%6===0&&cfg.ov==='grain') drawFrame(1,1,1);
+  animFr=requestAnimationFrame(imgRefreshLoop);
+}
+
+// ════════════════════════════════════════════════════
+// VIDEO LOOP
+// ════════════════════════════════════════════════════
+function ease(t,delay,dur){if(t<delay)return 0;const p=Math.min(1,(t-delay)/(dur||1));return 1-Math.pow(1-p,3)}
+
+function vidLoop(ts) {
+  if(!animStart)animStart=ts;
+  const dur=parseInt(document.getElementById('vDur').value);
+  const spd=parseInt(document.getElementById('vSpd').value)/5;
+  
+  // Calculate loop progress (goes from 0 to 1 over the duration of the loop)
+  vidProgress = ((ts - animStart) / 1000 % dur) / dur;
+  
+  const t=((ts-animStart)/1000%dur)*spd;
+  const anim=cfg.anim;
+
+  if(anim==='fadein'){
+    drawFrame(ease(t,.3,.9),ease(t,1.4,.8),ease(t,2.2,.7));
+  } else if(anim==='slideup'){
+    const e1=ease(t,.2,.8),e2=ease(t,1.1,.7);
+    const f=FMTS[cfg.fmt],{w,h}=f;
+    ctx.clearRect(0,0,w,h);
+    drawBg(w,h);drawEmblem(selEvt,w,h);
+    ctx.save();ctx.translate(0,(1-e1)*80);ctx.globalAlpha=e1;
+    const mr=document.getElementById('tMr').value||selEvt.mr;
+    const mrFS=parseInt(document.getElementById('fsMr').value);
+    const yPct=parseInt(document.getElementById('tY').value)/100;
+    const cx=cfg.al==='left'?w*.1:cfg.al==='right'?w*.9:w/2;
+    const cY=h*yPct;
+    drawMultiline(mr,cx,cY,mrFS,clrs.mr,1);
+    ctx.restore();
+    const hi=document.getElementById('tHi').value||selEvt.hi;
+    const hiFS=parseInt(document.getElementById('fsHi').value);
+    const mrTotalH=mrFS*1.45*mr.split('\n').length;
+    const dvY=cY+mrTotalH/2+mrFS*.65;
+    if(hi)drawDivider(cx,dvY,w);
+    ctx.save();ctx.translate(0,(1-e2)*60);ctx.globalAlpha=e2;
+    if(hi)drawMultiline(hi,cx,dvY+mrFS*.55+hiFS/2,hiFS,clrs.hi,1);
+    ctx.restore();
+    drawCredit(cx,h);
+  } else if(anim==='typewriter'){
+    const f=FMTS[cfg.fmt],{w,h}=f;
+    const mr=document.getElementById('tMr').value||selEvt.mr;
+    const mrFS=parseInt(document.getElementById('fsMr').value);
+    const yPct=parseInt(document.getElementById('tY').value)/100;
+    const cx=cfg.al==='left'?w*.1:cfg.al==='right'?w*.9:w/2;
+    const cY=h*yPct;
+    ctx.clearRect(0,0,w,h);
+    drawBg(w,h);drawEmblem(selEvt,w,h);
+    const shown=mr.substring(0,Math.floor(t*7));
+    const cursor=Math.floor(t*2)%2===0?'|':'';
+    drawMultiline(shown+cursor,cx,cY,mrFS,clrs.mr,1);
+    const hi=document.getElementById('tHi').value||selEvt.hi;
+    const hiFS=parseInt(document.getElementById('fsHi').value);
+    const a2=ease(t,mr.length/7+.4,.8);
+    const mrTotalH=mrFS*1.45*mr.split('\n').length;
+    const dvY=cY+mrTotalH/2+mrFS*.65;
+    if(hi&&a2>0){drawDivider(cx,dvY,w);drawMultiline(hi,cx,dvY+mrFS*.55+hiFS/2,hiFS,clrs.hi,a2);}
+    drawCredit(cx,h);
+  } else if(anim==='reveal'){
+    drawFrame(1,1,1);
+    const revP=Math.min(1,t/1.4);
+    if(revP<1){
+      const {w,h}=FMTS[cfg.fmt];
+      ctx.save();ctx.fillStyle='#000';ctx.fillRect(w*revP,0,w*(1-revP),h);ctx.restore();
+    }
+  }
+  animFr=requestAnimationFrame(vidLoop);
+}
+
+// ════════════════════════════════════════════════════
+// EXPORT
+// ════════════════════════════════════════════════════
+function doDownload() {
+  if(!generated)return;
+  if(MODE==='image'){
+    const a=document.createElement('a');
+    a.href=cv.toDataURL('image/png');
+    const nm=(selEvt?selEvt.id:'image')+'-'+cfg.fmt+'-'+Date.now()+'.png';
+    a.download=nm;a.click();
+  } else {
+    startRec();
+  }
+}
+
+async function doCopy() {
+  if(!generated){generateNow();await new Promise(r=>setTimeout(r,100))}
+  cv.toBlob(async blob=>{
+    try{
+      await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
+      const b=document.querySelector('[onclick="doCopy()"]');
+      const orig=b.textContent;b.textContent='✅ Copied!';setTimeout(()=>b.textContent=orig,2000);
+    }catch{alert('Copy failed. Use Download button instead.');}
+  });
+}
+
+function startRec(){
+  if(isRec)return;
+  const dur=parseInt(document.getElementById('vDur').value);
+  const stream=cv.captureStream(30);
+  recChunks=[];
+  try{recMR=new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9'})}
+  catch{recMR=new MediaRecorder(stream)}
+  recMR.ondataavailable=e=>{if(e.data.size>0)recChunks.push(e.data)};
+  recMR.onstop=()=>{
+    const blob=new Blob(recChunks,{type:'video/webm'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=`Marathi-Reel-${Date.now()}.webm`;a.click();URL.revokeObjectURL(url);
+  };
+  recMR.start(100);isRec=true;recElap=0;
+  document.getElementById('dlBtn').disabled=true;
+  document.getElementById('dlBtn').textContent='⏺ Recording…';
+  document.getElementById('recbar').classList.add('on');
+  recInt=setInterval(()=>{
+    recElap++;
+    document.getElementById('recTxt').textContent=`Recording… ${recElap}s / ${dur}s`;
+    document.getElementById('recFill').style.width=(recElap/dur*100)+'%';
+    if(recElap>=dur)stopRec();
+  },1000);
+}
+function stopRec(){
+  clearInterval(recInt);
+  if(recMR?.state!=='inactive')recMR.stop();
+  isRec=false;
+  document.getElementById('dlBtn').disabled=false;
+  document.getElementById('dlBtn').textContent='📥 Download';
+  document.getElementById('recbar').classList.remove('on');
+}
+
+// ════════════════════════════════════════════════════
+// BACKGROUND SOURCE CONTROLS (AI & UPLOAD)
+// ════════════════════════════════════════════════════
+function setBgTab(tab) {
+  activeBgTab = tab;
+  document.getElementById('tabAiBtn').classList.toggle('active', tab === 'ai');
+  document.getElementById('tabUploadBtn').classList.toggle('active', tab === 'upload');
+  document.getElementById('tabAiContent').style.display = tab === 'ai' ? 'block' : 'none';
+  document.getElementById('tabUploadContent').style.display = tab === 'upload' ? 'block' : 'none';
+  
+  if (tab === 'ai') {
+    if (bgImage && bgImage.src.includes('pollinations.ai')) {
+      document.getElementById('imgControls').style.display = 'block';
+    } else {
+      document.getElementById('imgControls').style.display = 'none';
+    }
+  } else {
+    if (bgImage && !bgImage.src.includes('pollinations.ai')) {
+      document.getElementById('imgControls').style.display = 'block';
+    } else {
+      document.getElementById('imgControls').style.display = 'none';
+    }
+  }
+  
+  if(generated) drawFrame(1,1,1);
+}
+
+function triggerAiGen() {
+  aiSeed = Math.floor(Math.random() * 1000000);
+  const prompt = document.getElementById('aiPrompt').value.trim() || (selEvt ? selEvt.prompt : 'abstract dark background');
+  
+  bgImageLoading = true;
+  bgImage = null; // Clear old background
+  document.getElementById('imgControls').style.display = 'block';
+  
+  // Instantly draw loading spinner on canvas
+  drawFrame(1,1,1);
+  
+  const img = new Image();
+  img.crossOrigin = 'anonymous'; // Allow canvas exports
+  
+  // Format prompt for dark cinematic style
+  const fullPrompt = `${prompt}, deep shadows, dark moody background, high dynamic range, cinematic lighting, vertical 9:16 format`;
+  img.onload = () => {
+    bgImage = img;
+    bgImageLoading = false;
+    drawFrame(1,1,1);
+  };
+  img.onerror = () => {
+    bgImageLoading = false;
+    alert('Failed to generate AI background. Please try again or upload a photo.');
+    drawFrame(1,1,1);
+  };
+  
+  img.src = `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=1080&height=1920&nologo=true&seed=${aiSeed}&model=sana`;
+}
+
+function onRegenerateClick() {
+  if (activeBgTab === 'ai') {
+    triggerAiGen();
+  }
+  generateNow();
+}
+
+function randomizeSeed() {
+  aiSeed = Math.floor(Math.random() * 1000000);
+  triggerAiGen();
+}
+
+function toggleAutoAi(chk) {
+  autoGenAiEnabled = chk.checked;
+}
+
+// ════════════════════════════════════════════════════
+// PHOTO UPLOAD FUNCTIONS
+// ════════════════════════════════════════════════════
+function loadBgImage(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      bgImage = img;
+      // Update UI preview
+      const preview = document.getElementById('uzPreview');
+      preview.src = e.target.result;
+      preview.classList.add('show');
+      document.getElementById('uzIco').style.display = 'none';
+      document.getElementById('uzTxt').style.display = 'none';
+      document.getElementById('uploadZone').classList.add('has-img');
+      document.getElementById('removeImgBtn').classList.add('show');
+      document.getElementById('imgControls').style.display = 'block';
+      
+      // Draw immediately
+      if(generated) drawFrame(1,1,1);
+      else generateNow();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeBgImage() {
+  bgImage = null;
+  document.getElementById('uzPreview').src = '';
+  document.getElementById('uzPreview').classList.remove('show');
+  document.getElementById('uzIco').style.display = '';
+  document.getElementById('uzTxt').style.display = '';
+  document.getElementById('uploadZone').classList.remove('has-img');
+  document.getElementById('removeImgBtn').classList.remove('show');
+  document.getElementById('imgControls').style.display = 'none';
+  document.getElementById('bgImgInput').value = '';
+  if(generated) drawFrame(1,1,1);
+}
+
+function setImgPos(btn, pos) {
+  imgPosition = pos;
+  document.querySelectorAll('#imgPosGrid .gb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(generated) drawFrame(1,1,1);
+}
+
+function setImgFilter(btn, filt) {
+  imgFilter = filt;
+  document.querySelectorAll('#imgFilterGrid .gb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(generated) drawFrame(1,1,1);
+}
+
+function toggleGlassCard(chk) {
+  glassCardEnabled = chk.checked;
+  if(generated) drawFrame(1,1,1);
+}
+</script>
+</body>
+</html>
