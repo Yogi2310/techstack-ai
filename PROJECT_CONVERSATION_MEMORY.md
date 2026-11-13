@@ -27,14 +27,15 @@
    - 🟢 **Short #3 (9:16 Vertical Day 2 Release):** *"I Built a Full Stack SaaS in 12 Minutes With Bolt.new 🚀 #shorts #coding"*  
      - Watch URL: [https://youtu.be/d2wVQ2cqEMM](https://youtu.be/d2wVQ2cqEMM) | Shorts URL: [https://www.youtube.com/shorts/d2wVQ2cqEMM](https://www.youtube.com/shorts/d2wVQ2cqEMM)
      - File: `D:\Antigravity\Pro\agentic-code\projects\bolt_new_saas_short\BOLT_NEW_SAAS_SHORT_9x16.mp4` (51.01s, 3.86 MB)
-   - 🟢 **Short #4 (9:16 Trending Tech Disaster):** *"How a 78-Byte File Crashed 8.5 Million Windows PCs 💥 #shorts #tech"*  
-     - Status: Fully Rendered & Preview Active (Fixed with self-contained Base64 HTML player + direct system player launch)
-     - File: `D:\Antigravity\Pro\agentic-code\projects\microsoft_outage_short\MICROSOFT_OUTAGE_SHORT_9x16.mp4` (48.14s, 3.41 MB, 1080x1920 @ 24fps)
+   - 🟢 **Short #4 (9:16 Trending Tech Disaster - SCHEDULED ON YOUTUBE):** *"How a 78-Byte File Crashed 8.5M PCs 💥 #shorts #crowdstrike #tech"*  
+     - Watch URL: [https://youtu.be/Bb86vdSk1Og](https://youtu.be/Bb86vdSk1Og) | Shorts URL: [https://www.youtube.com/shorts/Bb86vdSk1Og](https://www.youtube.com/shorts/Bb86vdSk1Og)
+     - Scheduled Live Release: **Saturday, Nov 14, 2026 at 6:30 PM IST (13:00:00 UTC Peak Window)**
+     - Audio Upgrade: Upgraded from robotic SAPI5 to natural Google Neural Speech (1.18x speed, high-pass EQ)
+     - File: `D:\Antigravity\Pro\agentic-code\projects\microsoft_outage_short\MICROSOFT_OUTAGE_SHORT_9x16.mp4` (53.93s, 4.06 MB, 1080x1920 @ 24fps)
      - Interactive Players:
        - Self-Contained Base64 Player: `preview_outage_player.html`
-       - Animated Clip: `preview_outage_animation.gif` (884 KB)
+       - Animated Clip: `preview_outage_animation.gif`
        - Markdown Carousel: `MICROSOFT_OUTAGE_VIDEO_PREVIEW.md`
-     - Ready to Publish Script: `D:\Antigravity\Pro\agentic-code\projects\microsoft_outage_short\upload_short.py`
    - 🟢 **Short #5 (9:16 Breaking Today News - LIVE ON YOUTUBE):** *"Microsoft Broke Again Today! 130K Crashes 💥 #shorts #microsoftdown #tech"*  
      - Watch URL: [https://youtu.be/ac1Tfn3i6lY](https://youtu.be/ac1Tfn3i6lY) | Shorts URL: [https://www.youtube.com/shorts/ac1Tfn3i6lY](https://www.youtube.com/shorts/ac1Tfn3i6lY)
      - Incident: MO1550821 / EX1550543 (Cascading health-check failure shutting down Teams, Outlook, Copilot)

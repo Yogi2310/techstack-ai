@@ -1,5 +1,5 @@
 {
-  "total_duration": 48.14,
+  "total_duration": 53.93,
   "sample_rate": 44100,
   "scenes": [
     {
@@ -9,9 +9,9 @@
       "card_title": "THE MICROSOFT CRASH",
       "card_sub": "8.5 Million PCs Died in 1 Second",
       "start": 0.2,
-      "end": 9.39,
-      "duration": 9.19,
-      "text": "How did a tiny seventy-eight byte file cause the largest IT crash in human history? On July nineteenth, eight point five million Windows computers died in a single second."
+      "end": 10.8,
+      "duration": 10.6,
+      "text": "How did a tiny 78-byte file cause the largest IT crash in human history? On July 19th, 8.5 million Windows computers died in a single second."
     },
     {
       "id": 2,
@@ -19,9 +19,9 @@
       "card_badge": "\u26a0\ufe0f RING 0 KERNEL BUG",
       "card_title": "OUT-OF-BOUNDS READ",
       "card_sub": "Channel File 291 Memory Crash",
-      "start": 9.67,
-      "end": 19.62,
-      "duration": 9.95,
+      "start": 11.08,
+      "end": 21.42,
+      "duration": 10.34,
       "text": "CrowdStrike pushed Channel File 291. It told their kernel driver to read memory that did not exist. In Ring Zero kernel space, there is zero safety net."
     },
     {
@@ -30,9 +30,9 @@
       "card_badge": "\ud83d\udc80 THE BLUE SCREEN LOOP",
       "card_title": "INFINITE BSOD CRASH",
       "card_sub": "Airlines Grounded & Hospitals Locked",
-      "start": 19.9,
-      "end": 28.47,
-      "duration": 8.57,
+      "start": 21.7,
+      "end": 31.81,
+      "duration": 10.11,
       "text": "Windows threw a page fault and crashed into the blue screen of death. Worse, because it crashed during boot, machines could not connect to Wi-Fi to receive a patch!"
     },
     {
@@ -41,9 +41,9 @@
       "card_badge": "\ud83d\udee0\ufe0f THE USB RECOVERY",
       "card_title": "MANUAL BOOT RESCUE",
       "card_sub": "Deleting C-00000291 in Safe Mode",
-      "start": 28.75,
-      "end": 37.29,
-      "duration": 8.54,
+      "start": 32.09,
+      "end": 42.18,
+      "duration": 10.09,
       "text": "IT admins had to physically run to millions of laptops with USB thumb drives, boot into Safe Mode, and manually delete Channel File 291."
     },
     {
@@ -52,9 +52,9 @@
       "card_badge": "\ud83d\udca1 THE GOLDEN RULE",
       "card_title": "ALWAYS USE CANARY DEPLOYS",
       "card_sub": "Subscribe for Tech Post-Mortems",
-      "start": 37.57,
-      "end": 45.86,
-      "duration": 8.29,
+      "start": 42.46,
+      "end": 51.65,
+      "duration": 9.19,
       "text": "The golden rule? Never push updates to everyone at once without canary rollouts. Subscribe to TechStack AI for daily engineering post-mortems!"
     }
   ]

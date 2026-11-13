@@ -241,8 +241,8 @@ def render_vertical_frame(t, total_d, logo_header):
 
     card_y = 200
 
-    # Scene Logic based on 48.14s timeline
-    if t < 9.67:
+    # Scene Logic based on 53.93s timeline
+    if t < 10.8:
         # Beat 1: Hook (The Global Crash)
         draw.rounded_rectangle([780, 85, 1030, 135], radius=12, fill=(255, 50, 50, 35), outline=(255, 60, 60), width=2)
         draw.text((805, 96), "🚨 GLOBAL CRASH", font=font_category, fill=(255, 80, 80))
@@ -277,14 +277,14 @@ def render_vertical_frame(t, total_d, logo_header):
         waddle = math.sin(t * 8.0) * 12
         draw_large_lego_minifigure(draw, x=540, y=1340, scale=1.85, leg_angle=waddle, arm_l=-35.0 + math.sin(t*8)*15, arm_r=35.0 - math.sin(t*8)*15, body_tilt=math.sin(t*4)*2.0, facing=0, action="shocked", anim_t=t)
 
-        if t < 5.0:
-            sub_text = "How did a tiny seventy-eight byte file cause the largest IT crash in human history?"
-            hl_word = "seventy-eight byte file"
+        if t < 5.5:
+            sub_text = "How did a tiny 78-byte file cause the largest IT crash in human history?"
+            hl_word = "78-byte file"
         else:
-            sub_text = "On July nineteenth, eight point five million Windows computers died in a single second."
+            sub_text = "On July 19th, 8.5 million Windows computers died in a single second."
             hl_word = "single second."
 
-    elif t < 19.9:
+    elif t < 21.42:
         # Beat 2: Ring 0 Kernel Bug
         draw.rounded_rectangle([780, 85, 1030, 135], radius=12, fill=(255, 160, 0, 30), outline=(255, 180, 0), width=2)
         draw.text((805, 96), "⚠️ RING 0 BUG", font=font_category, fill=(255, 180, 0))
@@ -325,14 +325,14 @@ def render_vertical_frame(t, total_d, logo_header):
 
         draw_large_lego_minifigure(draw, x=540, y=1340, scale=1.8, leg_angle=-10.0, arm_l=-40.0, arm_r=-50.0, body_tilt=0.0, facing=1, action="idle", anim_t=t)
 
-        if t < 14.5:
+        if t < 16.0:
             sub_text = "CrowdStrike pushed Channel File 291. It told their kernel driver to read memory that did not exist."
             hl_word = "read memory"
         else:
             sub_text = "In Ring Zero kernel space, there is zero safety net."
             hl_word = "Ring Zero"
 
-    elif t < 28.75:
+    elif t < 31.81:
         # Beat 3: Blue Screen Boot Loop
         draw.rounded_rectangle([780, 85, 1030, 135], radius=12, fill=(0, 120, 255, 30), outline=(0, 140, 255), width=2)
         draw.text((805, 96), "💀 BSOD LOOP", font=font_category, fill=(0, 180, 255))
@@ -368,14 +368,14 @@ def render_vertical_frame(t, total_d, logo_header):
 
         draw_large_lego_minifigure(draw, x=540, y=1340, scale=1.85, leg_angle=0.0, arm_l=-35.0, arm_r=35.0, body_tilt=0.0, facing=0, action="shocked", anim_t=t)
 
-        if t < 24.5:
+        if t < 26.5:
             sub_text = "Windows threw a page fault and crashed into the blue screen of death."
             hl_word = "blue screen of death."
         else:
             sub_text = "Worse, because it crashed during boot, machines could not connect to Wi-Fi to receive a patch!"
             hl_word = "connect to Wi-Fi"
 
-    elif t < 37.57:
+    elif t < 42.18:
         # Beat 4: The USB Recovery
         draw.rounded_rectangle([780, 85, 1030, 135], radius=12, fill=(0, 240, 180, 30), outline=(0, 240, 180), width=2)
         draw.text((805, 96), "🛠️ USB RESCUE", font=font_category, fill=(0, 240, 180))
@@ -409,7 +409,7 @@ def render_vertical_frame(t, total_d, logo_header):
 
         draw_large_lego_minifigure(draw, x=540, y=1340, scale=1.8, leg_angle=-8.0, arm_l=-30.0, arm_r=-55.0, body_tilt=0.0, facing=1, action="usb", anim_t=t)
 
-        if t < 33.0:
+        if t < 37.0:
             sub_text = "IT admins had to physically run to millions of laptops with USB thumb drives."
             hl_word = "USB thumb drives."
         else:
@@ -456,7 +456,7 @@ def render_vertical_frame(t, total_d, logo_header):
         arm_wave = math.sin(t * 10.0) * 10.0
         draw_large_lego_minifigure(draw, x=540, y=1340, scale=1.9, leg_angle=0.0, arm_l=-75.0 + arm_wave, arm_r=-80.0 - arm_wave, body_tilt=0.0, facing=0, action="victory", anim_t=t)
 
-        if t < 43.0:
+        if t < 47.5:
             sub_text = "The golden rule? Never push updates to everyone at once without canary rollouts."
             hl_word = "canary rollouts."
         else:
@@ -489,7 +489,7 @@ def main():
     logo_raw = Image.open(logo_path).convert("RGBA")
     logo_header = make_circular_logo(logo_raw, 84, border_color=(0, 240, 255), border_width=3)
 
-    total_duration = 48.14
+    total_duration = 53.93
     fps = 24
     total_frames = int(round(total_duration * fps))
 

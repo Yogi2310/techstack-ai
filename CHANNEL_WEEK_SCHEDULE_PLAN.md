@@ -12,7 +12,7 @@
 | Day | Format | Working Title | Core Promise | Status / Asset |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fri (Today)** | 9:16 Short (53s) | **Microsoft Broke Again Today! 130K Crashes 💥** | Explains today's MO1550821 watchdog health-check cascade. | 🟢 **LIVE** on YouTube |
-| **Sat (Nov 14)** | 9:16 Short (48s) | **How a 78-Byte File Crashed 8.5M PCs** | The Ring 0 kernel memory leak that grounded flights. | 🟡 Rendered & Ready for Neural Audio Polish |
+| **Sat (Nov 14)** | 9:16 Short (54s) | **How a 78-Byte File Crashed 8.5M PCs** | The Ring 0 kernel memory leak that grounded flights. | 🟢 **SCHEDULED** for 6:30 PM IST ([`Bb86vdSk1Og`](https://www.youtube.com/shorts/Bb86vdSk1Og)) |
 | **Sun (Nov 15)** | **REST** | *Channel Health & Analytics Audit* | Review 48h watch-time waves; engage with any comments. | — |
 | **Mon (Nov 16)** | 9:16 Short (50s) | **Why 90% of Devs Build RAG Completely Wrong** | Vector search vs GraphRAG with hybrid reranking. | ⚪ Script outline ready |
 | **Tue (Nov 17)** | 9:16 Short (45s) | **5 Lines of Python That Scrape Any Web App** | Headless browser stealth automation trick. | ⚪ Code snippet ready |
@@ -24,9 +24,11 @@
 ## 🛠️ The Daily Execution Blueprint
 
 ### Saturday (Nov 14) – *The 78-Byte CrowdStrike Disaster*
+* **Status:** 🟢 **SCHEDULED** to go live automatically on Saturday, Nov 14 at 6:30 PM IST (`13:00:00Z`).
+* **Shorts URL:** [https://www.youtube.com/shorts/Bb86vdSk1Og](https://www.youtube.com/shorts/Bb86vdSk1Og)
 * **Hook:** *"How did a tiny 78-byte file cause the largest IT crash in human history?"*
 * **Retention Beat:** Ring 0 kernel permissions &rarr; Out-of-bounds pointer read &rarr; Safe Mode BitLocker rescue.
-* **Audio:** Neural Christopher voiceover (+15% speed, deep developer cadence).
+* **Audio Upgrade:** Upgraded to Google Neural Speech (1.18x speed, clear human resonance, no robotic SAPI5 artifacts).
 
 ### Monday (Nov 16) – *Why 90% of Devs Build RAG Wrong*
 * **Hook:** *"If you are just chunking text and throwing it into a vector database, your RAG app will fail in production."*

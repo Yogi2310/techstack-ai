@@ -1,6 +1,6 @@
-import os, sys, wave, json
+import os, sys, wave, json, subprocess
 import numpy as np
-import win32com.client, pythoncom
+from gtts import gTTS
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
@@ -16,7 +16,7 @@ script_scenes = [
         "card_badge": "🚨 GLOBAL IT DISASTER",
         "card_title": "THE MICROSOFT CRASH",
         "card_sub": "8.5 Million PCs Died in 1 Second",
-        "text": "How did a tiny seventy-eight byte file cause the largest IT crash in human history? On July nineteenth, eight point five million Windows computers died in a single second."
+        "text": "How did a tiny 78-byte file cause the largest IT crash in human history? On July 19th, 8.5 million Windows computers died in a single second."
     },
     {
         "id": 2,
@@ -52,10 +52,6 @@ script_scenes = [
     }
 ]
 
-pythoncom.CoInitialize()
-speaker = win32com.client.Dispatch("SAPI.SpVoice")
-speaker.Rate = 2  # Punchy, high-energy Shorts pacing (+2)
-
 sr = 44100
 pause_between = 0.28
 current_time = 0.2
@@ -63,27 +59,29 @@ current_time = 0.2
 timeline = []
 all_speech_samples = [np.zeros(int(current_time * sr), dtype=np.float32)]
 
-print("[+] Synthesizing narration for Microsoft/CrowdStrike Outage Short...")
+print("[+] Synthesizing natural Google Neural narration for CrowdStrike Outage Short...")
 for sc in script_scenes:
+    mp3_path = os.path.join(audio_dir, f"{sc['name']}_raw.mp3")
     wav_path = os.path.join(audio_dir, f"{sc['name']}.wav")
-    stream = win32com.client.Dispatch("SAPI.SpFileStream")
-    stream.Open(wav_path, 3, False)
-    speaker.AudioOutputStream = stream
-    speaker.Speak(sc["text"])
-    stream.Close()
+    
+    # 1. Generate crisp voiceover via gTTS
+    tts = gTTS(sc["text"], lang="en", tld="us")
+    tts.save(mp3_path)
+    
+    # 2. Process with FFmpeg: speed up by 1.18x for punchy Shorts tempo, convert to 44.1kHz mono WAV
+    ffmpeg_cmd = [
+        "ffmpeg", "-y", "-i", mp3_path,
+        "-filter:a", "atempo=1.18,volume=1.25,highpass=f=80,lowpass=f=12000",
+        "-ar", str(sr), "-ac", "1",
+        wav_path
+    ]
+    subprocess.run(ffmpeg_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
     with wave.open(wav_path, 'r') as wf:
         n = wf.getnframes()
         orig_sr = wf.getframerate()
         raw = wf.readframes(n)
         data = np.frombuffer(raw, dtype=np.int16).astype(np.float32) / 32768.0
-        
-    if orig_sr != sr:
-        dur = len(data) / orig_sr
-        target_len = int(dur * sr)
-        x_old = np.linspace(0, 1, len(data))
-        x_new = np.linspace(0, 1, target_len)
-        data = np.interp(x_new, x_old, data).astype(np.float32)
         
     start_t = current_time
     clip_dur = len(data) / sr
@@ -104,8 +102,6 @@ for sc in script_scenes:
     all_speech_samples.append(data)
     all_speech_samples.append(np.zeros(int(pause_between * sr), dtype=np.float32))
     current_time = end_t + pause_between
-
-pythoncom.CoUninitialize()
 
 # Add 2.0s padding at end for final punchy screen
 all_speech_samples.append(np.zeros(int(2.0 * sr), dtype=np.float32))
@@ -195,7 +191,6 @@ bgm += kick_track * 0.26 + snare_track * 0.18 + hat_track * 0.08
 glitch_track = np.zeros(total_samples, dtype=np.float32)
 for bar_idx in range(int(np.ceil(total_duration / bar_len))):
     bar_start_t = bar_idx * bar_len
-    # Eerie two-tone siren interval (F# and D)
     for s_i in range(8):
         st0 = bar_start_t + s_i * (beat_len / 2.0)
         si0 = int(st0 * sr)
@@ -204,7 +199,7 @@ for bar_idx in range(int(np.ceil(total_duration / bar_len))):
             break
         si1 = min(total_samples, si0 + slen)
         st_arr = t_arr[si0:si1] - st0
-        s_freq = 587.33 if s_i % 2 == 0 else 739.99  # D5 and F#5
+        s_freq = 587.33 if s_i % 2 == 0 else 739.99
         s_env = np.exp(-st_arr * 10.0)
         glitch_track[si0:si1] += np.sin(2 * np.pi * s_freq * st_arr) * s_env
 
