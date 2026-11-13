@@ -1,0 +1,61 @@
+{
+  "total_duration": 55.6,
+  "sample_rate": 44100,
+  "scenes": [
+    {
+      "id": 1,
+      "name": "beat1_innocent_commit",
+      "card_badge": "\ud83d\udc80 FRIDAY 5:00 PM",
+      "card_title": "THE INNOCENT COMMIT",
+      "card_sub": "Pushing Straight to Production",
+      "start": 0.2,
+      "end": 9.52,
+      "duration": 9.32,
+      "text": "It is Friday at 5 PM. Your sprint is done, the weekend is calling, and you decide to push one tiny, innocent commit straight to production."
+    },
+    {
+      "id": 2,
+      "name": "beat2_red_alert",
+      "card_badge": "\ud83d\udea8 PRODUCTION CRASH",
+      "card_title": "500 INTERNAL SERVER ERROR",
+      "card_sub": "PagerDuty Explodes with Alerts",
+      "start": 9.8,
+      "end": 21.31,
+      "duration": 11.51,
+      "text": "Two minutes later... your phone explodes with PagerDuty alerts! 500 Internal Server Error. CPU at one hundred percent. The production database is completely locked!"
+    },
+    {
+      "id": 3,
+      "name": "beat3_terminal_debug",
+      "card_badge": "\ud83d\udd0d ROOT CAUSE FOUND",
+      "card_title": "UNINDEXED SQL NESTED QUERY",
+      "card_sub": "Tracing Logs in Terminal",
+      "start": 21.59,
+      "end": 31.56,
+      "duration": 9.97,
+      "text": "You panic and open the terminal. You run kubectl logs and trace the memory leak. And then you see it: an unindexed nested query locking ten million rows!"
+    },
+    {
+      "id": 4,
+      "name": "beat4_hotfix_restart",
+      "card_badge": "\ud83d\udee0\ufe0f EMERGENCY HOTFIX",
+      "card_title": "APPLYING COMPOSITE INDEX",
+      "card_sub": "Rolling Restart 3/3 Pods Ready",
+      "start": 31.84,
+      "end": 40.98,
+      "duration": 9.14,
+      "text": "You quickly write the hotfix migration, add the composite index, kill the zombie query locks, and execute the emergency rolling restart."
+    },
+    {
+      "id": 5,
+      "name": "beat5_readonly_friday",
+      "card_badge": "\ud83d\udca1 SENIOR DEV RULE",
+      "card_title": "READ-ONLY FRIDAYS",
+      "card_sub": "Subscribe to TechStack AI",
+      "start": 41.26,
+      "end": 53.32,
+      "duration": 12.06,
+      "text": "System restored! Error rate is back to zero. The golden rule of software engineering: Read-Only Fridays exist for a reason. Subscribe to TechStack AI for real developer sanity!"
+    }
+  ]
+}
