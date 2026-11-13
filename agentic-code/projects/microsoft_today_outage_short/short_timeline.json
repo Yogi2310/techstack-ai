@@ -1,0 +1,61 @@
+{
+  "total_duration": 53.09,
+  "sample_rate": 44100,
+  "scenes": [
+    {
+      "id": 1,
+      "name": "beat1_hook",
+      "card_badge": "\ud83d\udea8 BREAKING TECH NEWS",
+      "card_title": "MICROSOFT DOWN TODAY",
+      "card_sub": "Teams, Outlook & Copilot Worldwide Crash",
+      "start": 0.2,
+      "end": 11.65,
+      "duration": 11.45,
+      "text": "Microsoft just went down worldwide again today! Over one hundred and thirty thousand enterprise users were kicked out of Teams, Outlook, and Copilot. But this time... it was not a cyberattack or CrowdStrike."
+    },
+    {
+      "id": 2,
+      "name": "beat2_incident_mo",
+      "card_badge": "\ud83d\udd0d INCIDENT MO1550821",
+      "card_title": "THE FAILED HEALTH-CHECK",
+      "card_sub": "Watchdog Monitors Failed Under Load",
+      "start": 11.93,
+      "end": 21.82,
+      "duration": 9.89,
+      "text": "Microsoft tracked the chaos under incident M-O 1550821. It started when a backend cluster experienced sudden latency, causing automated health checks to fail."
+    },
+    {
+      "id": 3,
+      "name": "beat3_cascading_crash",
+      "card_badge": "\u26a0\ufe0f CASCADING FAILURE",
+      "card_title": "THE THUNDERING HERD",
+      "card_sub": "Dead Nodes Killed Surviving Servers",
+      "start": 22.1,
+      "end": 32.58,
+      "duration": 10.48,
+      "text": "Instead of throttling traffic, the orchestrator automatically pulled those servers offline! That dumped one hundred percent of global traffic onto surviving nodes, creating an instant cascading collapse!"
+    },
+    {
+      "id": 4,
+      "name": "beat4_manual_reroute",
+      "card_badge": "\ud83c\udf10 GLOBAL TRAFFIC REROUTING",
+      "card_title": "EMERGENCY NODE BYPASS",
+      "card_sub": "Manual Capacity Re-injection",
+      "start": 32.86,
+      "end": 41.39,
+      "duration": 8.53,
+      "text": "The secure handshake proxies choked. Microsoft engineers had to manually bypass broken routing and force healthy capacity back into the cluster to halt the spiral."
+    },
+    {
+      "id": 5,
+      "name": "beat5_engineering_lesson",
+      "card_badge": "\ud83d\udca1 SYSTEMS ENGINEERING LESSON",
+      "card_title": "CIRCUIT BREAKER RULE",
+      "card_sub": "Never Let Health Checks Kill Clusters",
+      "start": 41.67,
+      "end": 50.81,
+      "duration": 9.15,
+      "text": "The golden rule of distributed systems: Never let your health checks kill more than twenty percent of your fleet at once. Subscribe to TechStack AI for real engineering post-mortems!"
+    }
+  ]
+}
