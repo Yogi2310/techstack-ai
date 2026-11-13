@@ -35,15 +35,15 @@
        - Animated Clip: `preview_outage_animation.gif` (884 KB)
        - Markdown Carousel: `MICROSOFT_OUTAGE_VIDEO_PREVIEW.md`
      - Ready to Publish Script: `D:\Antigravity\Pro\agentic-code\projects\microsoft_outage_short\upload_short.py`
-   - 🟢 **Short #5 (9:16 Breaking Today News):** *"Microsoft Down Today: 130,000+ Crashes Explained 💥 #shorts #tech"*  
-     - Status: Fully Rendered & Preview Active (Base64 player + desktop launch)
+   - 🟢 **Short #5 (9:16 Breaking Today News - LIVE ON YOUTUBE):** *"Microsoft Broke Again Today! 130K Crashes 💥 #shorts #microsoftdown #tech"*  
+     - Watch URL: [https://youtu.be/ac1Tfn3i6lY](https://youtu.be/ac1Tfn3i6lY) | Shorts URL: [https://www.youtube.com/shorts/ac1Tfn3i6lY](https://www.youtube.com/shorts/ac1Tfn3i6lY)
      - Incident: MO1550821 / EX1550543 (Cascading health-check failure shutting down Teams, Outlook, Copilot)
      - File: `D:\Antigravity\Pro\agentic-code\projects\microsoft_today_outage_short\MICROSOFT_TODAY_OUTAGE_SHORT_9x16.mp4` (53.09s, 4.13 MB, 1080x1920 @ 24fps, 1,274 frames)
+     - Trending Hashtags: `#shorts`, `#microsoftdown`, `#microsoftoutage`, `#microsoft`, `#teamsdown`, `#outlook`, `#tech`, `#trending`, `#breakingnews`, `#programming`, `#coding`, `#softwareengineer`, `#systemdesign`, `#azure`, `#cloud`, `#techstackai`
      - Interactive Players:
        - Self-Contained Base64 Player: `preview_today_outage.html`
        - Animated Clip: `preview_today_outage.gif`
        - Markdown Carousel: `MICROSOFT_TODAY_OUTAGE_PREVIEW.md`
-     - Ready to Publish Script: `D:\Antigravity\Pro\agentic-code\projects\microsoft_today_outage_short\upload_short.py`
 
 3. **Key Visual & Technical Innovations:**
    - **3D Articulated LEGO Minifigure Mascot:** Authentic yellow cylindrical head with specular sheen, top stud, red beanie, painted eyes, cyan AI core torso, yellow C-clamp hands, and boxy navy scissor legs with authentic LEGO hip waddle locomotion.
