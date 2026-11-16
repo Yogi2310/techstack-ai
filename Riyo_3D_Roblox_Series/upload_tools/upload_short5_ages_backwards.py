@@ -22,20 +22,20 @@ VIDEO_PATH = os.path.join(SERIES_DIR, 'master_videos', 'SHORT_5_Ages_Backwards_G
 TITLE = "In This Town, Everyone Ages Backwards 👶👴 #shorts #roblox"
 DESCRIPTION = """In this town, you're born looking 80 years old, and every birthday you get one year younger. Toddlers wear suits and carry briefcases to work, and grandpas play in ball pits. But tomorrow, my grandpa turns zero... so I hid under his crib to see the truth! 🍼😱
 
-🔥 LIKE, SHARE & SUBSCRIBE TO RIYO 3D FOR MORE VIRAL STORIES!
+🔥 LIKE, SHARE & SUBSCRIBE TO TALEBLOX FOR MORE VIRAL STORIES!
 🔔 Hit the bell so you never miss an episode!
 
 💬 COMMENT BELOW: Would you rather age backwards or forwards? 👇
 
 ---
-#shorts #roblox #robloxstory #animation #3danimation #gaming #robloxgames #robloxedit #agingbackwards #mystery #grandpa #benjaminbutton #storytime #fyp #viralvideo #like #share #subscribe #riyo #riyo3d"""
+#shorts #roblox #robloxstory #animation #3danimation #gaming #robloxgames #robloxedit #agingbackwards #mystery #grandpa #benjaminbutton #storytime #fyp #viralvideo #like #share #subscribe #TaleBlox #riyo #riyo3d"""
 
 TAGS = [
     "shorts", "roblox", "roblox shorts", "roblox animation", "roblox story", 
     "roblox scary stories", "robloxgames", "roblox edit", "viral", "viral shorts", 
     "trending", "trending shorts", "animation", "3d animation", "cgi animation", 
     "aging backwards", "benjamin button", "grandpa", "stork", "mystery", 
-    "storytime", "like share subscribe", "gaming", "fyp", "riyo", "riyo 3d"
+    "storytime", "like share subscribe", "gaming", "fyp", "TaleBlox", "riyo", "riyo 3d"
 ]
 
 def upload(scheduled_time=None):
@@ -97,4 +97,5 @@ def upload(scheduled_time=None):
     return video_id
 
 if __name__ == '__main__':
-    upload()
+    # Scheduled for Tuesday Nov 17, 2026 at 8:30 AM IST = 03:00:00 UTC
+    upload(scheduled_time="2026-11-17T03:00:00Z")

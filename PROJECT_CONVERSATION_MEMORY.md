@@ -22,8 +22,8 @@
    - 🟢 **Short #6 (Part 1 - Viral Hit):** *"In This Town, You Throw Food To Get Pets... 😱"* (ID: `23UgMKnyiWw`) • **20,880+ views**, 87.6% retention, 1:57 AVD.
    - 🟢 **Short #7 (Special Feature):** *"The Ocean Disappeared For 24 Hours... 🌊😱"* (ID: `8uqNHiG5wzo`) • **1,628 views**, 70.1% retention, 24.9h watch time.
    - 🟢 **Short #8 (Part 2 - Live):** *"The Giant Carrot Woke Up The Titan... 😱🥕 (PART 2)"* (ID: `qlE3DMDswn8`) • Premiered Mon, Nov 16 @ 9:00 AM IST.
-   - ⏰ **Short #9 (Scheduled Drop):** *"In My Town, Everything Works Like A Video Game 🎮"* (ID: `j0fBOXT8yjE`) • **Scheduled for Mon, Nov 16 @ 7:30 PM IST (14:00:00 UTC)**.
-   - 🎬 **Short #5 (Next in Queue):** *"In This Town, You Age Backwards 👶👴 (Grandpa's Golden Egg)"* • Master rendered & ready for Tuesday.
+   - 🟢 **Short #9 (Part 3 - Live):** *"In My Town, Everything Works Like A Video Game 🎮"* (ID: `j0fBOXT8yjE`) • Premiered Mon, Nov 16 @ 7:30 PM IST.
+   - ⏰ **Short #10 (Scheduled Drop):** *"In This Town, Everyone Ages Backwards 👶👴"* (ID: `04nx3n98XiI`) • **Scheduled for Tue, Nov 17 @ 8:30 AM IST (03:00:00 UTC)**.
 
 3. **Complete Channel Visual Identity (Branding Suite):**
    - Official Avatar (Option A - Recommended): `riyo_pfp_character_mascot.png` (3D hero with glowing spirit fox, studio rim lighting).
