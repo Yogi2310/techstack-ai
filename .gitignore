@@ -16,9 +16,17 @@ ffmpeg_render.log
 *.key
 *.pem
 
-# Large Binaries & Packages
+# Large Binaries & Temporary Downloads
 *.vsix
 *.lnk
+instagram_downloads/
+ROBLOX_STORY_*.mp4
+temp_profile_*/
+**/temp_profile_*/
+*.pack
+preview_colossus.html
+agentic-code/projects/horror_shadow_titan_short/*.mp4
+outro_frames/
 
 # Python
 __pycache__/

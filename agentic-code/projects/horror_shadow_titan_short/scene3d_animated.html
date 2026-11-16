@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Midnight Colossus - Real-Time 3D WebGL Animation</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #canvas3d {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+    #ui-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+      padding: 24px 20px;
+    }
+    .hud-header {
+      background: rgba(10, 14, 22, 0.85);
+      border: 1px solid rgba(255, 60, 60, 0.5);
+      border-radius: 14px;
+      padding: 10px 18px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+      pointer-events: auto;
+    }
+    .hud-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: #ff6b81;
+      letter-spacing: 0.5px;
+    }
+    .hud-time {
+      font-family: monospace;
+      font-size: 14px;
+      color: #70a1ff;
+    }
+    .hud-subtitles {
+      max-width: 650px;
+      margin: 0 auto 30px auto;
+      text-align: center;
+      background: rgba(8, 10, 16, 0.9);
+      border: 2px solid #ff4757;
+      border-radius: 18px;
+      padding: 14px 24px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      box-shadow: 0 0 25px rgba(255, 71, 87, 0.4);
+      transition: all 0.2s ease;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+    .controls-bar {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      pointer-events: auto;
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      background: #ff4757;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255,71,87,0.4);
+    }
+    .btn:hover { background: #ff6b81; }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./node_modules/three/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="canvas3d"></canvas>
+
+  <div id="ui-overlay">
+    <div class="hud-header">
+      <div class="hud-title">🌲 THE MIDNIGHT COLOSSUS &bull; 3D RIGGED ANIMATION</div>
+      <div class="hud-time" id="time-display">00:00.0 / 00:55.6</div>
+    </div>
+    <div class="hud-subtitles" id="subtitles-display">Rule #1: When village bells strike 13 at midnight... RUN. 🌙</div>
+  </div>
+
+  <div class="controls-bar">
+    <button class="btn" id="btn-restart">Restart 🔄</button>
+    <button class="btn" id="btn-playpause">Pause ⏸️</button>
+  </div>
+
+  <audio id="master-audio" src="./audio/horror_master_audio.wav" preload="auto"></audio>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    const canvas = document.getElementById('canvas3d');
+    const timeDisplay = document.getElementById('time-display');
+    const subDisplay = document.getElementById('subtitles-display');
+    const audio = document.getElementById('master-audio');
+    const btnPlayPause = document.getElementById('btn-playpause');
+    const btnRestart = document.getElementById('btn-restart');
+
+    const TOTAL_DURATION = 55.60;
+    let isPlaying = true;
+    let simTime = 0.0;
+    let lastRealTime = performance.now();
+
+    // 1. Scene, Renderer, Camera
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x04060a);
+    scene.fog = new THREE.FogExp2(0x050811, 0.038);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 150);
+
+    // 2. Lighting
+    const ambientLight = new THREE.AmbientLight(0x1a243a, 0.8);
+    scene.add(ambientLight);
+
+    const moonLight = new THREE.DirectionalLight(0x89aaff, 1.4);
+    moonLight.position.set(15, 40, 20);
+    moonLight.castShadow = true;
+    moonLight.shadow.mapSize.width = 1024;
+    moonLight.shadow.mapSize.height = 1024;
+    moonLight.shadow.camera.near = 1;
+    moonLight.shadow.camera.far = 100;
+    moonLight.shadow.camera.left = -30;
+    moonLight.shadow.camera.right = 30;
+    moonLight.shadow.camera.top = 30;
+    moonLight.shadow.camera.bottom = -30;
+    scene.add(moonLight);
+
+    // Full Moon Sphere in sky
+    const moonGeo = new THREE.SphereGeometry(3.5, 32, 32);
+    const moonMat = new THREE.MeshBasicMaterial({ color: 0xffe0b2 });
+    const moonMesh = new THREE.Mesh(moonGeo, moonMat);
+    moonMesh.position.set(25, 45, -70);
+    scene.add(moonMesh);
+
+    // 3. Environment: Gravel Road & Forest Ground
+    const groundGeo = new THREE.PlaneGeometry(60, 200, 32, 32);
+    const groundMat = new THREE.MeshStandardMaterial({
+      color: 0x11161d,
+      roughness: 0.85,
+      metalness: 0.1
+    });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.z = -50;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Road strip
+    const roadGeo = new THREE.PlaneGeometry(6, 200);
+    const roadMat = new THREE.MeshStandardMaterial({
+      color: 0x1c222b,
+      roughness: 0.7,
+      metalness: 0.2
+    });
+    const road = new THREE.Mesh(roadGeo, roadMat);
+    road.rotation.x = -Math.PI / 2;
+    road.position.set(0, 0.02, -50);
+    road.receiveShadow = true;
+    scene.add(road);
+
+    // Street Lantern Helper
+    function createLantern(x, z) {
+      const group = new THREE.Group();
+      group.position.set(x, 0, z);
+
+      // Post
+      const postGeo = new THREE.CylinderGeometry(0.08, 0.1, 3.8, 8);
+      const postMat = new THREE.MeshStandardMaterial({ color: 0x1e272e, roughness: 0.9 });
+      const post = new THREE.Mesh(postGeo, postMat);
+      post.position.y = 1.9;
+      post.castShadow = true;
+      group.add(post);
+
+      // Arm
+      const armGeo = new THREE.BoxGeometry(0.8, 0.08, 0.08);
+      const arm = new THREE.Mesh(armGeo, postMat);
+      arm.position.set(x > 0 ? -0.4 : 0.4, 3.7, 0);
+      group.add(arm);
+
+      // Lamp housing
+      const lampGeo = new THREE.BoxGeometry(0.3, 0.45, 0.3);
+      const lampMat = new THREE.MeshBasicMaterial({ color: 0xffaa33 });
+      const lamp = new THREE.Mesh(lampGeo, lampMat);
+      lamp.position.set(x > 0 ? -0.7 : 0.7, 3.4, 0);
+      group.add(lamp);
+
+      // PointLight
+      const pLight = new THREE.PointLight(0xff9f1a, 2.5, 14, 1.8);
+      pLight.position.set(x > 0 ? -0.7 : 0.7, 3.3, 0);
+      pLight.castShadow = true;
+      group.add(pLight);
+
+      scene.add(group);
+      return { group, pLight };
+    }
+
+    const lanterns = [];
+    [-4, 4].forEach(x => {
+      for (let z = 10; z >= -90; z -= 18) {
+        lanterns.push(createLantern(x, z));
+      }
+    });
+
+    // Pine Trees
+    function createPineTree(x, z, scale = 1) {
+      const tree = new THREE.Group();
+      tree.position.set(x, 0, z);
+      tree.scale.set(scale, scale, scale);
+
+      const trunkGeo = new THREE.CylinderGeometry(0.2, 0.35, 2.5, 8);
+      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x2b1d0c, roughness: 0.9 });
+      const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+      trunk.position.y = 1.25;
+      trunk.castShadow = true;
+      tree.add(trunk);
+
+      const foliageMat = new THREE.MeshStandardMaterial({ color: 0x0e1c14, roughness: 0.9 });
+      [
+        { r: 2.2, h: 3.5, y: 3.2 },
+        { r: 1.7, h: 3.0, y: 5.2 },
+        { r: 1.1, h: 2.5, y: 7.0 }
+      ].forEach(tier => {
+        const cone = new THREE.Mesh(new THREE.ConeGeometry(tier.r, tier.h, 7), foliageMat);
+        cone.position.y = tier.y;
+        cone.castShadow = true;
+        tree.add(cone);
+      });
+
+      scene.add(tree);
+    }
+
+    for (let z = 15; z >= -100; z -= 6) {
+      createPineTree(-8 - Math.random() * 8, z + (Math.random()-0.5)*4, 0.8 + Math.random()*0.5);
+      createPineTree(8 + Math.random() * 8, z + (Math.random()-0.5)*4, 0.8 + Math.random()*0.5);
+    }
+
+    // Cabins
+    function createCabin(x, z, rotY = 0, isOpenWindow = false) {
+      const cabin = new THREE.Group();
+      cabin.position.set(x, 0, z);
+      cabin.rotation.y = rotY;
+
+      // Walls
+      const wallGeo = new THREE.BoxGeometry(6, 4.5, 7);
+      const wallMat = new THREE.MeshStandardMaterial({ color: 0x231a14, roughness: 0.9 });
+      const walls = new THREE.Mesh(wallGeo, wallMat);
+      walls.position.y = 2.25;
+      walls.castShadow = true;
+      walls.receiveShadow = true;
+      cabin.add(walls);
+
+      // Roof
+      const roofGeo = new THREE.ConeGeometry(5.4, 2.5, 4);
+      const roofMat = new THREE.MeshStandardMaterial({ color: 0x14100c, roughness: 0.9 });
+      const roof = new THREE.Mesh(roofGeo, roofMat);
+      roof.position.y = 5.6;
+      roof.rotation.y = Math.PI / 4;
+      roof.castShadow = true;
+      cabin.add(roof);
+
+      // Glowing Windows
+      const winMat = new THREE.MeshBasicMaterial({ color: 0xff8822 });
+      if (isOpenWindow) {
+        // Cutout / Shutter window
+        const winHole = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1.4, 0.1), winMat);
+        winHole.position.set(x > 0 ? -3.02 : 3.02, 3.2, 0);
+        cabin.add(winHole);
+
+        const winLight = new THREE.PointLight(0xff7711, 3.0, 15);
+        winLight.position.set(x > 0 ? -3.5 : 3.5, 3.2, 0);
+        cabin.add(winLight);
+      }
+
+      scene.add(cabin);
+      return cabin;
+    }
+
+    const hermitCabin = createCabin(-7.5, -16, 0, true);
+    createCabin(8.5, -35, 0, false);
+    createCabin(-8.0, -60, 0, false);
+
+    // ==========================================
+    // 4. RIGGED 3D CHARACTER 1: THE BOY (HERO)
+    // ==========================================
+    const boy = new THREE.Group();
+    scene.add(boy);
+
+    const skinMat = new THREE.MeshStandardMaterial({ color: 0xfbd09c, roughness: 0.6 });
+    const greenJacketMat = new THREE.MeshStandardMaterial({ color: 0x214b2d, roughness: 0.7 });
+    const jeansMat = new THREE.MeshStandardMaterial({ color: 0x1a2638, roughness: 0.8 });
+    const shoeMat = new THREE.MeshStandardMaterial({ color: 0xe6edf3, roughness: 0.5 });
+    const hairMat = new THREE.MeshStandardMaterial({ color: 0x4a2c14, roughness: 0.85 });
+
+    // Torso
+    const torso = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.95, 0.42), greenJacketMat);
+    torso.position.y = 1.35;
+    torso.castShadow = true;
+    boy.add(torso);
+
+    // Backpack
+    const backpack = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.65, 0.28), new THREE.MeshStandardMaterial({ color: 0x2d3436, roughness: 0.9 }));
+    backpack.position.set(0, 0.05, 0.3);
+    torso.add(backpack);
+
+    // Head Group
+    const headGroup = new THREE.Group();
+    headGroup.position.set(0, 0.75, 0);
+    torso.add(headGroup);
+
+    const headMesh = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.55, 0.52), skinMat);
+    headMesh.castShadow = true;
+    headGroup.add(headMesh);
+
+    // Hair
+    const hairMesh = new THREE.Mesh(new THREE.BoxGeometry(0.60, 0.28, 0.58), hairMat);
+    hairMesh.position.y = 0.22;
+    headGroup.add(hairMesh);
+
+    // Eyes
+    const eyeMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
+    const leftEye = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.1, 0.02), eyeMat);
+    leftEye.position.set(-0.14, 0.04, -0.27);
+    headGroup.add(leftEye);
+    const rightEye = leftEye.clone();
+    rightEye.position.x = 0.14;
+    headGroup.add(rightEye);
+
+    // Mouth (open screaming on climax)
+    const mouthMesh = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.06, 0.02), eyeMat);
+    mouthMesh.position.set(0, -0.14, -0.27);
+    headGroup.add(mouthMesh);
+
+    // Limbs: Left Arm
+    const leftArm = new THREE.Group();
+    leftArm.position.set(-0.54, 0.35, 0);
+    torso.add(leftArm);
+    const leftArmMesh = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.75, 0.28), greenJacketMat);
+    leftArmMesh.position.y = -0.32;
+    leftArmMesh.castShadow = true;
+    leftArm.add(leftArmMesh);
+    const leftHand = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.18, 8), skinMat);
+    leftHand.position.y = -0.72;
+    leftArm.add(leftHand);
+
+    // Right Arm
+    const rightArm = new THREE.Group();
+    rightArm.position.set(0.54, 0.35, 0);
+    torso.add(rightArm);
+    const rightArmMesh = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.75, 0.28), greenJacketMat);
+    rightArmMesh.position.y = -0.32;
+    rightArmMesh.castShadow = true;
+    rightArm.add(rightArmMesh);
+    const rightHand = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.18, 8), skinMat);
+    rightHand.position.y = -0.72;
+    rightArm.add(rightHand);
+
+    // Left Leg
+    const leftLeg = new THREE.Group();
+    leftLeg.position.set(-0.22, -0.48, 0);
+    torso.add(leftLeg);
+    const leftLegMesh = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.78, 0.32), jeansMat);
+    leftLegMesh.position.y = -0.38;
+    leftLegMesh.castShadow = true;
+    leftLeg.add(leftLegMesh);
+    const leftShoe = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.16, 0.44), shoeMat);
+    leftShoe.position.set(0, -0.80, -0.06);
+    leftLeg.add(leftShoe);
+
+    // Right Leg
+    const rightLeg = new THREE.Group();
+    rightLeg.position.set(0.22, -0.48, 0);
+    torso.add(rightLeg);
+    const rightLegMesh = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.78, 0.32), jeansMat);
+    rightLegMesh.position.y = -0.38;
+    rightLegMesh.castShadow = true;
+    rightLeg.add(rightLegMesh);
+    const rightShoe = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.16, 0.44), shoeMat);
+    rightShoe.position.set(0, -0.80, -0.06);
+    rightLeg.add(rightShoe);
+
+    // ==========================================
+    // 5. RIGGED 3D CHARACTER 2: THE HERMIT (OLD MAN)
+    // ==========================================
+    const hermit = new THREE.Group();
+    hermit.position.set(-4.5, 2.7, -16);
+    hermit.rotation.y = Math.PI / 2;
+    scene.add(hermit);
+
+    const hermitShirt = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.8, 0.4), new THREE.MeshStandardMaterial({ color: 0x576574 }));
+    hermit.add(hermitShirt);
+
+    const hermitHead = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.45), skinMat);
+    hermitHead.position.y = 0.62;
+    hermit.add(hermitHead);
+
+    const beardMesh = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.45, 4), new THREE.MeshStandardMaterial({ color: 0xdcdde1 }));
+    beardMesh.position.set(0, 0.42, 0.26);
+    beardMesh.rotation.x = Math.PI;
+    hermit.add(beardMesh);
+
+    const hermitLeftArm = new THREE.Group();
+    hermitLeftArm.position.set(-0.45, 0.25, 0);
+    hermit.add(hermitLeftArm);
+    const hlMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.65, 0.22), skinMat);
+    hlMesh.position.y = -0.3;
+    hermitLeftArm.add(hlMesh);
+
+    const hermitRightArm = new THREE.Group();
+    hermitRightArm.position.set(0.45, 0.25, 0);
+    hermit.add(hermitRightArm);
+    const hrMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.65, 0.22), skinMat);
+    hrMesh.position.y = -0.3;
+    hermitRightArm.add(hrMesh);
+
+    // ==========================================
+    // 6. RIGGED 3D CHARACTER 3: SHADOW COLOSSUS
+    // ==========================================
+    const colossus = new THREE.Group();
+    colossus.position.set(0, 0, -42);
+    scene.add(colossus);
+
+    const titanMat = new THREE.MeshStandardMaterial({
+      color: 0x05070a,
+      roughness: 0.95,
+      metalness: 0.05
+    });
+    const redGlowMat = new THREE.MeshBasicMaterial({ color: 0xff0022 });
+
+    // Titan Torso (Massive blocky chest)
+    const titanTorso = new THREE.Mesh(new THREE.BoxGeometry(3.6, 4.8, 2.2), titanMat);
+    titanTorso.position.y = 7.5;
+    titanTorso.castShadow = true;
+    colossus.add(titanTorso);
+
+    // Titan Head
+    const titanHead = new THREE.Group();
+    titanHead.position.set(0, 3.4, 0);
+    titanTorso.add(titanHead);
+
+    const tHeadMesh = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.6, 2.2), titanMat);
+    tHeadMesh.castShadow = true;
+    titanHead.add(tHeadMesh);
+
+    // Glowing Red Eyes
+    const tEyeL = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.42, 0.1), redGlowMat);
+    tEyeL.position.set(-0.62, 0.35, 1.12);
+    titanHead.add(tEyeL);
+
+    const tEyeR = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.42, 0.1), redGlowMat);
+    tEyeR.position.set(0.62, 0.35, 1.12);
+    titanHead.add(tEyeR);
+
+    // Red eye PointLight casting glow on mist
+    const eyeLight = new THREE.PointLight(0xff0022, 5.0, 25);
+    eyeLight.position.set(0, 0.35, 1.8);
+    titanHead.add(eyeLight);
+
+    // Jagged Razor Teeth
+    const teethMat = new THREE.MeshBasicMaterial({ color: 0xf1f2f6 });
+    for (let i = -4; i <= 4; i++) {
+      const tooth = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.35, 3), teethMat);
+      tooth.position.set(i * 0.22, -0.65, 1.12);
+      tooth.rotation.z = Math.PI;
+      titanHead.add(tooth);
+    }
+
+    // Colossus Left Arm (Multi-jointed)
+    const titanArmL = new THREE.Group();
+    titanArmL.position.set(-2.4, 1.8, 0);
+    titanTorso.add(titanArmL);
+    const tArmMeshL = new THREE.Mesh(new THREE.BoxGeometry(1.1, 4.8, 1.1), titanMat);
+    tArmMeshL.position.y = -2.2;
+    tArmMeshL.castShadow = true;
+    titanArmL.add(tArmMeshL);
+
+    // Claws
+    for (let c = -1; c <= 1; c++) {
+      const claw = new THREE.Mesh(new THREE.ConeGeometry(0.12, 1.2, 4), titanMat);
+      claw.position.set(c * 0.35, -4.8, 0);
+      claw.rotation.x = Math.PI;
+      titanArmL.add(claw);
+    }
+
+    // Colossus Right Arm
+    const titanArmR = new THREE.Group();
+    titanArmR.position.set(2.4, 1.8, 0);
+    titanTorso.add(titanArmR);
+    const tArmMeshR = new THREE.Mesh(new THREE.BoxGeometry(1.1, 4.8, 1.1), titanMat);
+    tArmMeshR.position.y = -2.2;
+    tArmMeshR.castShadow = true;
+    titanArmR.add(tArmMeshR);
+    for (let c = -1; c <= 1; c++) {
+      const claw = new THREE.Mesh(new THREE.ConeGeometry(0.12, 1.2, 4), titanMat);
+      claw.position.set(c * 0.35, -4.8, 0);
+      claw.rotation.x = Math.PI;
+      titanArmR.add(claw);
+    }
+
+    // Colossus Legs
+    const titanLegL = new THREE.Group();
+    titanLegL.position.set(-1.1, -2.4, 0);
+    titanTorso.add(titanLegL);
+    const tLegMeshL = new THREE.Mesh(new THREE.BoxGeometry(1.3, 5.2, 1.3), titanMat);
+    tLegMeshL.position.y = -2.5;
+    tLegMeshL.castShadow = true;
+    titanLegL.add(tLegMeshL);
+
+    const titanLegR = new THREE.Group();
+    titanLegR.position.set(1.1, -2.4, 0);
+    titanTorso.add(titanLegR);
+    const tLegMeshR = new THREE.Mesh(new THREE.BoxGeometry(1.3, 5.2, 1.3), titanMat);
+    tLegMeshR.position.y = -2.5;
+    tLegMeshR.castShadow = true;
+    titanLegR.add(tLegMeshR);
+
+    // ==========================================
+    // 7. SUBTITLES DATA
+    // ==========================================
+    const subtitles = [
+      { start: 0.0, end: 3.5, text: "Rule #1 of Blackwood Creek:" },
+      { start: 3.5, end: 7.5, text: "When village bells strike 13 at midnight..." },
+      { start: 7.5, end: 11.0, text: "You do NOT stay out in the mist! 🌙" },
+      { start: 11.0, end: 15.0, text: "Old Man Miller slammed open his shutter..." },
+      { start: 15.0, end: 18.5, text: "Tossing down a rusted iron key! 🗝️" },
+      { start: 18.5, end: 22.0, text: "\"KID! Get inside! He smells you... and he's off the chain!\"" },
+      { start: 22.0, end: 25.5, text: "Then... the street went dead silent. ⏳" },
+      { start: 25.5, end: 29.0, text: "The puddles began to ripple... 💧" },
+      { start: 29.0, end: 33.0, text: "An immense shadow stretched 40 feet across the road!" },
+      { start: 33.0, end: 37.0, text: "Rising out of the black pines... 🌲" },
+      { start: 37.0, end: 41.0, text: "The COLOSSUS of Hollow Creek! 💀🔥" },
+      { start: 41.0, end: 44.0, text: "Two burning red eyes... and a jaw of razor fangs!" },
+      { start: 44.0, end: 47.5, text: "With a bone-shattering roar, IT CHARGED! 🚨" },
+      { start: 47.5, end: 51.5, text: "I lunged for the door as giant claws slammed the dirt! 💨" },
+      { start: 51.5, end: 55.6, text: "DID I MAKE IT IN TIME? COMMENT FOR PART 2! 👇" }
+    ];
+
+    // ==========================================
+    // 8. 3D ANIMATION CONTROLLER (FRAME BY FRAME)
+    // ==========================================
+    function updateScene(t) {
+      // Lantern flicker
+      lanterns.forEach((l, idx) => {
+        l.pLight.intensity = 2.2 + Math.sin(t * 8 + idx) * 0.4;
+      });
+
+      // Update Subtitles
+      let curText = "";
+      for (const s of subtitles) {
+        if (t >= s.start && t < s.end) {
+          curText = s.text;
+          break;
+        }
+      }
+      subDisplay.textContent = curText;
+
+      // ----------------------------------------
+      // ACT 1 (0:00 - 11:00s): Walking in the Mist
+      // ----------------------------------------
+      if (t < 11.0) {
+        const walkProgress = t / 11.0;
+        const curZ = 4.0 - walkProgress * 18.0; // from z=4 to z=-14
+        boy.position.set(0, 0, curZ);
+        boy.rotation.y = Math.PI; // facing forward down -z
+
+        // Walk cycle
+        const walkFreq = 7.0;
+        const legAngle = Math.sin(t * walkFreq) * 0.55;
+        leftLeg.rotation.x = legAngle;
+        rightLeg.rotation.x = -legAngle;
+        leftArm.rotation.x = -legAngle * 0.8;
+        rightArm.rotation.x = legAngle * 0.8;
+        torso.position.y = 1.35 + Math.abs(Math.sin(t * walkFreq)) * 0.08;
+        headGroup.rotation.y = Math.sin(t * 1.5) * 0.15; // looking around
+
+        // Hermit idling
+        hermitLeftArm.rotation.x = 0;
+        hermitRightArm.rotation.x = 0;
+
+        // Camera: 3rd person tracking shot
+        camera.position.set(0.4, 2.2, curZ + 4.8);
+        camera.lookAt(0, 1.6, curZ - 2.0);
+
+        colossus.position.set(0, -10, -50); // hidden underground/behind trees
+      }
+      // ----------------------------------------
+      // ACT 2 (11:00 - 22:00s): Hermit's Warning
+      // ----------------------------------------
+      else if (t < 22.0) {
+        const localT = t - 11.0;
+        boy.position.set(0, 0, -14.0);
+
+        // Boy turns around to face cabin / Hermit
+        const turnProgress = Math.min(1.0, localT / 1.5);
+        boy.rotation.y = Math.PI + turnProgress * (Math.PI * 0.65); // turns towards x=-7.5, z=-16
+
+        // Boy gestures in confusion
+        leftLeg.rotation.x = 0;
+        rightLeg.rotation.x = 0;
+        leftArm.rotation.x = -0.8 + Math.sin(localT * 3) * 0.2;
+        leftArm.rotation.z = -0.4;
+        rightArm.rotation.x = -0.7 + Math.cos(localT * 3) * 0.2;
+        rightArm.rotation.z = 0.4;
+        torso.position.y = 1.35;
+        headGroup.rotation.x = -0.3; // looking up
+
+        // Hermit frantic shouting & waving
+        hermitLeftArm.rotation.x = -1.2 + Math.sin(localT * 8) * 0.5;
+        hermitRightArm.rotation.x = -1.5 + Math.cos(localT * 8) * 0.5;
+        hermit.rotation.y = Math.PI / 2 + Math.sin(localT * 4) * 0.2;
+
+        // Camera tilts to frame Hermit and Boy
+        const camBlend = Math.min(1.0, localT / 2.0);
+        camera.position.set(
+          THREE.MathUtils.lerp(0.4, -1.5, camBlend),
+          THREE.MathUtils.lerp(2.2, 2.6, camBlend),
+          THREE.MathUtils.lerp(-9.2, -10.5, camBlend)
+        );
+        camera.lookAt(-4.5, 2.8, -16.0);
+
+        colossus.position.set(0, -6, -48);
+      }
+      // ----------------------------------------
+      // ACT 3 (22:00 - 33:00s): Dead Silence & Tremor
+      // ----------------------------------------
+      else if (t < 33.0) {
+        const localT = t - 22.0;
+        boy.position.set(0, 0, -14.0);
+        boy.rotation.y = Math.PI; // faces back down road
+
+        // Heartbeat pulsation
+        const hbPhase = (localT % 0.85);
+        const pulse = Math.exp(-hbPhase * 10) * 0.08;
+
+        // Boy frozen with slight breathing
+        leftArm.rotation.set(0.1, 0, 0.1);
+        rightArm.rotation.set(0.1, 0, -0.1);
+        headGroup.rotation.set(0.1, 0, 0);
+
+        // Colossus rising slowly in the fog behind
+        const riseY = -6 + (localT / 11.0) * 6.0;
+        colossus.position.set(0, riseY, -45);
+        eyeLight.intensity = 2.0 + Math.sin(localT * 4) * 1.5;
+
+        // Camera low-angle tracking shot with heartbeat tremor
+        camera.position.set(0, 0.9 + pulse, -9.5);
+        camera.lookAt(0, 3.5 + pulse * 2, -30.0);
+      }
+      // ----------------------------------------
+      // ACT 4 (33:00 - 44:00s): The Colossus Rises
+      // ----------------------------------------
+      else if (t < 44.0) {
+        const localT = t - 33.0;
+        boy.position.set(0, 0, -14.0);
+        boy.rotation.y = Math.PI;
+
+        // Colossus fully upright taking 2 massive stomping strides
+        colossus.position.y = 0;
+        const stompZ = -45.0 + (localT / 11.0) * 14.0; // advances from -45 to -31
+        colossus.position.z = stompZ;
+
+        // Giant leg stomping cycle
+        const titanWalk = localT * 2.5;
+        titanLegL.rotation.x = Math.sin(titanWalk) * 0.45;
+        titanLegR.rotation.x = -Math.sin(titanWalk) * 0.45;
+        titanArmL.rotation.x = -Math.sin(titanWalk) * 0.4;
+        titanArmR.rotation.x = Math.sin(titanWalk) * 0.4;
+
+        // Stomp screen shake impact
+        const stompImpact = Math.max(0, Math.sin(titanWalk));
+        const shakeX = (Math.random() - 0.5) * 0.12 * stompImpact;
+        const shakeY = (Math.random() - 0.5) * 0.12 * stompImpact;
+
+        // Camera: Epic low-angle looking straight up at titan
+        camera.position.set(0.2 + shakeX, 1.2 + shakeY, -11.0);
+        camera.lookAt(0, 8.5, stompZ);
+      }
+      // ----------------------------------------
+      // ACT 5 (44:00 - 55.60s): The Screaming Sprint
+      // ----------------------------------------
+      else {
+        const localT = t - 44.0;
+
+        // Colossus CHARGING forward at high speed
+        const titanSpeed = localT * 2.8;
+        colossus.position.z = -31.0 + titanSpeed; // rushes from -31 to -8!
+        titanTorso.rotation.x = 0.25; // leaning forward aggressively
+
+        // Fast violent stomp
+        titanLegL.rotation.x = Math.sin(localT * 7.0) * 0.6;
+        titanLegR.rotation.x = -Math.sin(localT * 7.0) * 0.6;
+
+        // Claws lunging forward
+        titanArmL.rotation.x = -1.4 + Math.sin(localT * 5) * 0.3;
+        titanArmR.rotation.x = -1.6 + Math.cos(localT * 5) * 0.3;
+
+        // Boy SPRINTS forward towards cabin door (x=-5.5, z=-15)
+        const sprintProg = localT / 11.6;
+        const boyZ = -14.0 + Math.sin(sprintProg * Math.PI) * 4.0;
+        boy.position.set(-2.0 * sprintProg, 0, boyZ);
+        boy.rotation.y = Math.PI * 0.25; // running towards cabin
+
+        // High-speed run cycle
+        const runFreq = 16.0;
+        leftLeg.rotation.x = Math.sin(localT * runFreq) * 0.85;
+        rightLeg.rotation.x = -Math.sin(localT * runFreq) * 0.85;
+        leftArm.rotation.x = -Math.sin(localT * runFreq) * 0.9;
+        rightArm.rotation.x = Math.sin(localT * runFreq) * 0.9;
+        torso.position.y = 1.35 + Math.abs(Math.sin(localT * runFreq)) * 0.18;
+
+        // Screaming face looking back at monster
+        headGroup.rotation.y = -Math.PI * 0.45;
+        mouthMesh.scale.set(1.5, 3.5, 1); // mouth wide open screaming!
+
+        // Violent chase camera shake
+        const shakeX = (Math.random() - 0.5) * 0.35;
+        const shakeY = (Math.random() - 0.5) * 0.35;
+
+        // Reverse angle facing back towards boy and charging monster
+        camera.position.set(-3.5 + shakeX, 1.8 + shakeY, -18.5);
+        camera.lookAt(boy.position.x, boy.position.y + 1.2, boy.position.z);
+      }
+    }
+
+    // ==========================================
+    // 9. ANIMATION LOOP
+    // ==========================================
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const now = performance.now();
+      const delta = (now - lastRealTime) / 1000;
+      lastRealTime = now;
+
+      if (isPlaying) {
+        simTime += delta;
+        if (simTime >= TOTAL_DURATION) {
+          simTime = 0.0;
+          audio.currentTime = 0;
+          audio.play().catch(() => {});
+        }
+      }
+
+      // Update timer HUD
+      const mins = Math.floor(simTime / 60);
+      const secs = (simTime % 60).toFixed(1);
+      timeDisplay.textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(4,'0')} / 00:55.6`;
+
+      updateScene(simTime);
+      renderer.render(scene, camera);
+    }
+
+    // Controls
+    btnPlayPause.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      btnPlayPause.textContent = isPlaying ? "Pause ⏸️" : "Play ▶️";
+      if (isPlaying) {
+        audio.play().catch(() => {});
+      } else {
+        audio.pause();
+      }
+    });
+
+    btnRestart.addEventListener('click', () => {
+      simTime = 0.0;
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+    });
+
+    // Handle Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Autoplay audio on first click
+    window.addEventListener('click', () => {
+      if (audio.paused && isPlaying) {
+        audio.play().catch(() => {});
+      }
+    }, { once: true });
+
+    // Expose window render hook for headless recorder
+    window.renderFrameAtTime = function(t) {
+      simTime = t;
+      updateScene(t);
+      renderer.render(scene, camera);
+    };
+
+    animate();
+  </script>
+</body>
+</html>

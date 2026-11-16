@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riyo 3D - The 100-Year Ocean Tide</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card: #151d30;
+      --border: #222f4c;
+      --accent: #ffd60a;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 16px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      max-width: 720px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #ffd60a, #ff9f1c);
+      color: #0b0f19;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 15px rgba(255, 214, 10, 0.3);
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(to right, #ffffff, #ffd60a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p.subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      width: 100%;
+      max-width: 900px;
+    }
+    @media(min-width: 768px) {
+      .container {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+      }
+    }
+    .player-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 14px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      max-height: 640px;
+      border-radius: 18px;
+      background: #000;
+      outline: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    }
+    .controls-panel {
+      margin-top: 12px;
+      width: 100%;
+      display: flex;
+      gap: 8px;
+    }
+    .btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-primary:hover {
+      background: #ffe043;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+    .btn-secondary:hover {
+      background: #2f3e60;
+    }
+    .transcript-card {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      width: 100%;
+      max-width: 460px;
+      max-height: 690px;
+      display: flex;
+      flex-direction: column;
+    }
+    .transcript-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .transcript-list {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-right: 6px;
+    }
+    .transcript-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .transcript-list::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 10px;
+    }
+    .cue {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .cue:hover {
+      background: rgba(255, 214, 10, 0.1);
+      border-color: rgba(255, 214, 10, 0.4);
+      transform: translateX(3px);
+    }
+    .cue-time {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    .cue-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="badge">💎 Official Riyo 3D Production</div>
+    <h1>The 100-Year Ocean Tide</h1>
+    <p class="subtitle">Branded with Official <strong>RIYO 3D</strong> Badge &bull; Full 3D Character Locomotion &bull; Shipwrecks, Singing Shells &amp; Megatsunami</p>
+  </div>
+
+  <div class="container">
+    <div class="player-wrap">
+      <video id="player" controls autoplay loop playsinline>
+        <source src="ROBLOX_STORY_100_YEAR_OCEAN_RIYO_FINAL.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <div class="controls-panel">
+        <a class="btn btn-primary" href="ROBLOX_STORY_100_YEAR_OCEAN_RIYO_FINAL.mp4" download="ROBLOX_STORY_100_YEAR_OCEAN_RIYO_FINAL.mp4">
+          📥 Download Master (65 MB)
+        </a>
+        <button class="btn btn-secondary" onclick="jumpTo(135.5)">
+          🔔 Outro
+        </button>
+        <button class="btn btn-secondary" onclick="restartVideo()">
+          ⏮ Restart
+        </button>
+      </div>
+    </div>
+
+    <div class="transcript-card">
+      <div class="transcript-title">
+        <span>Story Chapter Markers</span>
+        <span style="font-size: 12px; color: var(--muted);">Click to jump</span>
+      </div>
+
+      <div class="transcript-list">
+        <div class="cue" onclick="jumpTo(0)">
+          <span class="cue-time">0:00 &bull; The 100-Year Rule</span>
+          <span class="cue-text">"In this world, once every 100 years, the ocean pulls back for one whole day. And you can walk on the bottom of the sea."</span>
+        </div>
+        <div class="cue" onclick="jumpTo(10)">
+          <span class="cue-time">0:10 &bull; The Cliff Ladders</span>
+          <span class="cue-text">"The whole town builds ladders down the cliffs. At sunrise, the water just leaves. Miles of it. People walk between shipwrecks."</span>
+        </div>
+        <div class="cue" onclick="jumpTo(25)">
+          <span class="cue-time">0:25 &bull; The Only Rule</span>
+          <span class="cue-text">"Be back on shore before sunset. That's when the sea comes home. But this morning, every seagull flew inland..."</span>
+        </div>
+        <div class="cue" onclick="jumpTo(42)">
+          <span class="cue-time">0:42 &bull; Grandpa's Conch</span>
+          <span class="cue-text">"Grandpa gave me his old conch. 'When the sea is coming home,' he said, 'the shells start to sing.'"</span>
+        </div>
+        <div class="cue" onclick="jumpTo(65)">
+          <span class="cue-time">1:05 &bull; The Singing Shells</span>
+          <span class="cue-text">"I picked up a shell. It was singing. Then another. And another. Every shell on the seafloor, singing at once. Hours early."</span>
+        </div>
+        <div class="cue" onclick="jumpTo(80)">
+          <span class="cue-time">1:20 &bull; The Rising Horizon</span>
+          <span class="cue-text">"The sea didn't leave for the day. It pulled back to take a breath. For the biggest wave in 100 years!"</span>
+        </div>
+        <div class="cue" onclick="jumpTo(95)">
+          <span class="cue-time">1:35 &bull; The Warning Horn</span>
+          <span class="cue-text">"I climbed the mast of the pirate ship, took the deepest breath of my life, and blew! It rolled across the sea floor like thunder."</span>
+        </div>
+        <div class="cue" onclick="jumpTo(108)">
+          <span class="cue-time">1:48 &bull; The Great Sprint</span>
+          <span class="cue-text">"Everyone turned. They saw the wave. And they ran! Families sprinting between shipwrecks, climbing ladders faster than ever."</span>
+        </div>
+        <div class="cue" onclick="jumpTo(120)">
+          <span class="cue-time">2:00 &bull; The Megatsunami Impact</span>
+          <span class="cue-text">"A hand grabbed my wrist and pulled me over the top. Mom. The wave slammed into the cliffs below us. Boom! Everyone made it."</span>
+        </div>
+        <div class="cue" onclick="jumpTo(135.5)" style="border-color: rgba(255, 214, 10, 0.4); background: rgba(255, 214, 10, 0.08);">
+          <span class="cue-time">2:15 &bull; 🔔 Outro &bull; Like, Share & Subscribe!</span>
+          <span class="cue-text">"Subscribe to Riyo 3D for more epic Roblox stories, like and share with your friends!"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const player = document.getElementById('player');
+    function jumpTo(time) {
+      player.currentTime = time;
+      player.play();
+    }
+    function restartVideo() {
+      player.currentTime = 0;
+      player.play();
+    }
+  </script>
+</body>
+</html>

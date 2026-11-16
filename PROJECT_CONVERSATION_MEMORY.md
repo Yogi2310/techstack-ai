@@ -1,262 +1,244 @@
-# 🧠 Antigravity Project Conversation Memory & Production Log
+# 🧠 Master Project Conversation Memory & Production Dossier
 
-> **Last Updated:** 2026-11-12  
+> **Last Updated:** Monday, November 16, 2026  
 > **Workspace Root:** `D:\Antigravity\Pro`  
-> **Target Channel:** **TechStack AI** ([`@TechStacAI`](https://studio.youtube.com/channel/UCHicNBr7Ytwd7y2wFUKX_XA))  
+> **Target Channel:** **TechStack AI / TaleBlox** ([`@TechStacAI`](https://studio.youtube.com/channel/UCHicNBr7Ytwd7y2wFUKX_XA))  
 > **Channel ID:** `UCHicNBr7Ytwd7y2wFUKX_XA`  
-> **Purpose:** Permanent memory and reference documentation for all conversations, channel audits, artistic directions, video productions, file paths, upload scripts, published URLs, and algorithmic growth strategies.
+> **Studio Brand:** **RIYO 3D** (Cinematic 3D Roblox Story Animations)  
+> **Master Repository:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series`
 
 ---
 
 ## 📌 Executive Summary & Master Milestones
 
-1. **YouTube Channel Audit & Algorithmic Diagnosis (`@TechStacAI`):**
-   - **Diagnosis:** Scraped and analyzed channel catalog. Originally had 19 older Hindi politics, poetry, and motivational shorts vs. developer shorts, which severely degraded the audience test bucket.
-   - **Status: 🟢 VERIFIED CLEAN & UNLISTED!**
-     - As of 2026-11-12, **all 19 legacy non-tech shorts are officially unlisted**.
-     - Exactly **6 high-performing, pure developer AI shorts** remain public on `@TechStacAI`.
-     - The channel's public feed and algorithmic test signals are now 100% focused on software engineers, coders, and AI builders.
+1. **The Viral Algorithmic Breakthrough:**
+   - Channel pivoted from low-performing tech tutorials (4–14 views) to high-concept **3D Animated Roblox Storytelling**.
+   - **Result:** Channel hit escape velocity with **22,267 views in 48 hours** and peak velocity of **6,908 views/hour**.
+   - **Subscribers:** Surged from **28 to 162 subscribers (+134 net in 24h)**.
+   - **Watch Time:** Accumulated **423.5+ hours** in a single day.
+   - **Swipe-Away Ratio:** Short #6 achieved an unprecedented **87.6% Stayed to Watch rate** (top 1% of YouTube Shorts).
 
-2. **Published Productions Live on YouTube:**
-   - 🟢 **Short #1 (16:9 Landscape):** *"The Autonomous LEGO Agent: Brickfilm Infrastructure Fix"*  
-     - Watch URL: [https://youtu.be/a84L5be82i4](https://youtu.be/a84L5be82i4) | Shorts URL: [https://www.youtube.com/shorts/a84L5be82i4](https://www.youtube.com/shorts/a84L5be82i4)
-     - File: `D:\Antigravity\Pro\agentic-code\projects\lego_agent_fixing_systems\LEGO_AGENT_FIXING_SYSTEMS_16x9.mp4` (55.71s, 5.05 MB)
-   - 🟢 **Short #2 (9:16 Vertical High-Retention Master):** *"3 Free AI Tools That Feel Illegal for Developers 🤫 #shorts #coding"*  
-     - Watch URL: [https://youtu.be/YwWiQQ5U0s0](https://youtu.be/YwWiQQ5U0s0) | Shorts URL: [https://www.youtube.com/shorts/YwWiQQ5U0s0](https://www.youtube.com/shorts/YwWiQQ5U0s0)
-     - File: `D:\Antigravity\Pro\agentic-code\projects\3_free_ai_tools_short\3_FREE_AI_TOOLS_SHORT_9x16.mp4` (50.79s, 6.45 MB)
-   - 🟢 **Short #3 (9:16 Vertical Day 2 Release):** *"I Built a Full Stack SaaS in 12 Minutes With Bolt.new 🚀 #shorts #coding"*  
-     - Watch URL: [https://youtu.be/d2wVQ2cqEMM](https://youtu.be/d2wVQ2cqEMM) | Shorts URL: [https://www.youtube.com/shorts/d2wVQ2cqEMM](https://www.youtube.com/shorts/d2wVQ2cqEMM)
-     - File: `D:\Antigravity\Pro\agentic-code\projects\bolt_new_saas_short\BOLT_NEW_SAAS_SHORT_9x16.mp4` (51.01s, 3.86 MB)
-   - 🟢 **Short #4 (9:16 Trending Tech Disaster - SCHEDULED ON YOUTUBE):** *"How a 78-Byte File Crashed 8.5M PCs 💥 #shorts #crowdstrike #tech"*  
-     - Watch URL: [https://youtu.be/Bb86vdSk1Og](https://youtu.be/Bb86vdSk1Og) | Shorts URL: [https://www.youtube.com/shorts/Bb86vdSk1Og](https://www.youtube.com/shorts/Bb86vdSk1Og)
-     - Scheduled Live Release: **Saturday, Nov 14, 2026 at 6:30 PM IST (13:00:00 UTC Peak Window)**
-     - Audio Upgrade: Upgraded from robotic SAPI5 to natural Google Neural Speech (1.18x speed, high-pass EQ)
-     - File: `D:\Antigravity\Pro\agentic-code\projects\microsoft_outage_short\MICROSOFT_OUTAGE_SHORT_9x16.mp4` (53.93s, 4.06 MB, 1080x1920 @ 24fps)
-     - Interactive Players:
-       - Self-Contained Base64 Player: `preview_outage_player.html`
-       - Animated Clip: `preview_outage_animation.gif`
-       - Markdown Carousel: `MICROSOFT_OUTAGE_VIDEO_PREVIEW.md`
-   - 🟢 **Short #5 (9:16 Breaking Today News - LIVE ON YOUTUBE):** *"Microsoft Broke Again Today! 130K Crashes 💥 #shorts #microsoftdown #tech"*  
-     - Watch URL: [https://youtu.be/ac1Tfn3i6lY](https://youtu.be/ac1Tfn3i6lY) | Shorts URL: [https://www.youtube.com/shorts/ac1Tfn3i6lY](https://www.youtube.com/shorts/ac1Tfn3i6lY)
-     - Incident: MO1550821 / EX1550543 (Cascading health-check failure shutting down Teams, Outlook, Copilot)
-     - File: `D:\Antigravity\Pro\agentic-code\projects\microsoft_today_outage_short\MICROSOFT_TODAY_OUTAGE_SHORT_9x16.mp4` (53.09s, 4.13 MB, 1080x1920 @ 24fps, 1,274 frames)
-     - Trending Hashtags: `#shorts`, `#microsoftdown`, `#microsoftoutage`, `#microsoft`, `#teamsdown`, `#outlook`, `#tech`, `#trending`, `#breakingnews`, `#programming`, `#coding`, `#softwareengineer`, `#systemdesign`, `#azure`, `#cloud`, `#techstackai`
-     - Interactive Players:
-       - Self-Contained Base64 Player: `preview_today_outage.html`
-       - Animated Clip: `preview_today_outage.gif`
-       - Markdown Carousel: `MICROSOFT_TODAY_OUTAGE_PREVIEW.md`
+2. **Published & Scheduled Video Catalog:**
+   - 🟢 **Short #6 (Part 1 - Viral Hit):** *"In This Town, You Throw Food To Get Pets... 😱"* (ID: `23UgMKnyiWw`) • **20,880+ views**, 87.6% retention, 1:57 AVD.
+   - 🟢 **Short #7 (Special Feature):** *"The Ocean Disappeared For 24 Hours... 🌊😱"* (ID: `8uqNHiG5wzo`) • **1,628 views**, 70.1% retention, 24.9h watch time.
+   - 🟢 **Short #8 (Part 2 - Live):** *"The Giant Carrot Woke Up The Titan... 😱🥕 (PART 2)"* (ID: `qlE3DMDswn8`) • Premiered Mon, Nov 16 @ 9:00 AM IST.
+   - ⏰ **Short #9 (Scheduled Drop):** *"In My Town, Everything Works Like A Video Game 🎮"* (ID: `j0fBOXT8yjE`) • **Scheduled for Mon, Nov 16 @ 7:30 PM IST (14:00:00 UTC)**.
+   - 🎬 **Short #5 (Next in Queue):** *"In This Town, You Age Backwards 👶👴 (Grandpa's Golden Egg)"* • Master rendered & ready for Tuesday.
 
-3. **Key Visual & Technical Innovations:**
-   - **3D Articulated LEGO Minifigure Mascot:** Authentic yellow cylindrical head with specular sheen, top stud, red beanie, painted eyes, cyan AI core torso, yellow C-clamp hands, and boxy navy scissor legs with authentic LEGO hip waddle locomotion.
-   - **Procedural Sound Design & Music:** Synthesized voiceover narration (Microsoft David) + custom procedural energetic synthwave drum-and-bass developer beat with mechanical ABS plastic clicks, scanning lasers, typing clatter, and celebratory chime chords.
-   - **Kinetic Subtitle Engine:** 44px bold high-contrast subtitles in rounded glass containers with real-time active word highlighting in bright neon yellow (`#FFE732`) and cyan (`#00F0FF`).
-   - **Automated YouTube API v3 Uploader:** One-click script (`upload_short.py`) with automatic token refresh, rich developer metadata, optimized tags, and category assignment.
+3. **Complete Channel Visual Identity (Branding Suite):**
+   - Official Avatar (Option A - Recommended): `riyo_pfp_character_mascot.png` (3D hero with glowing spirit fox, studio rim lighting).
+   - Official Avatar (Option B): `riyo_pfp_gold_emblem.png` (3D gold & platinum crown emblem).
+   - Channel Banner (2560x1440): `youtube_banner_2560x1440_branded.png` (Safe-zone compliant for Mobile, Tablet, Desktop, and TV).
+   - Interactive Preview: `interactive_players/channel_branding_preview.html`.
+
+4. **Strategic Title Optimization:**
+   - Replaced `(PART 3)` with standalone viral hook `In My Town, Everything Works Like A Video Game 🎮 #shorts #roblox` to eliminate cold-viewer swipe away, while capturing binge-watchers via a pinned comment.
+
+5. **Instagram Cross-Posting Playbook:**
+   - Full distribution strategy taking advantage of Instagram's #1 ranking signal: **DM Shares**.
+   - Ready-to-copy captions, covers, and 3–5 targeted hashtags for Reels 1, 2, and 3.
 
 ---
 
-## 📁 Complete Workspace Directory Map
+## 📊 Live Channel Performance & Analytics Audit
 
-```
-D:\Antigravity\Pro\
-│
-├── channel_profile_pic.png                   # Official TechStack AI circular avatar logo
-├── channel_banner.png                        # Official TechStack AI banner
-├── youtube_token.pickle                      # Active OAuth credentials for YouTube Data API v3
-├── client_secrets.json                       # Google Cloud OAuth app credentials
-├── upload_to_youtube.py                      # Reusable YouTube Data API v3 uploader
-├── PROJECT_CONVERSATION_MEMORY.md            # ⭐ THIS MASTER MEMORY FILE
-│
-├── agentic-code/projects/
-│   │
-│   ├── bolt_new_saas_short/                  # ⭐ LATEST DAY 2 9:16 VERTICAL SHORT (LIVE ON YOUTUBE)
-│   │   ├── BOLT_NEW_SAAS_SHORT_9x16.mp4      # 🎬 1080x1920 Master Video (51.01s, 3.86 MB)
-│   │   ├── render_video.py                   # High-speed FFmpeg rawvideo renderer (24fps)
-│   │   ├── build_audio.py                    # Voiceover + Synthwave D&B audio synthesizer
-│   │   ├── upload_short.py                   # Automated YouTube upload script
-│   │   ├── short_timeline.json               # Timestamps & subtitle sync metadata
-│   │   └── audio/
-│   │       └── short_master_audio.wav        # 51.01s Mixed master audio
-│   │
-│   ├── 3_free_ai_tools_short/                # ⭐ DAY 1 9:16 VERTICAL SHORT (LIVE ON YOUTUBE)
-│   │   ├── 3_FREE_AI_TOOLS_SHORT_9x16.mp4    # 🎬 1080x1920 Master Video (50.79s, 6.45 MB)
-│   │   ├── render_vertical_short.py          # High-speed FFmpeg rawvideo renderer (24fps)
-│   │   ├── generate_scene_previews.py        # Snapshot tester for all 5 scenes
-│   │   ├── build_short_audio.py              # Narration + Synthwave D&B audio synthesizer
-│   │   ├── upload_short.py                   # Automated YouTube upload script
-│   │   ├── short_timeline.json               # Timestamps & subtitle sync metadata
-│   │   ├── audio/
-│   │   │   └── short_master_audio.wav        # 50.79s Mixed master audio (44.1kHz mono)
-│   │   └── snapshots/
-│   │       ├── preview_scene_1.png           # Scene 1 preview (Hook / Manual Burnout)
-│   │       ├── preview_scene_2.png           # Scene 2 preview (Tool 1: Antigravity Agent)
-│   │       ├── preview_scene_3.png           # Scene 3 preview (Tool 2: Bolt & Cursor)
-│   │       ├── preview_scene_4.png           # Scene 4 preview (Tool 3: Gemini 3.1 Flash)
-│   │       └── preview_scene_5.png           # Scene 5 preview (Outro & Subscribe CTA)
-│   │
-│   ├── lego_agent_fixing_systems/            # 16:9 LEGO BRICKFILM SHORT (LIVE ON YOUTUBE)
-│   │   ├── LEGO_AGENT_FIXING_SYSTEMS_16x9.mp4# 🎬 1280x720 Master Video (55.71s, 5.05 MB)
-│   │   ├── render_lego_agent_video.py        # 16:9 LEGO Minifigure animation script
-│   │   ├── upload_lego_video.py              # Upload script for first LEGO video
-│   │   └── audio/
-│   │       └── master_lego_audio.wav         # 55.71s Sound design & narration
-│   │
-│   ├── realistic_character_fixing_systems/   # Realistic Kinematic Character Exploration
-│   │   ├── AGENT_FIXING_SYSTEMS_16x9.mp4     # 47.08s Character walk-and-fix prototype
-│   │   └── render_character_video.py
-│   │
-│   ├── proper_3d_tech_explainer/             # 3D Cinematic Tech Explainer
-│   │   ├── AI_AGENTS_VS_DEV_TEAMS_16x9.mp4   # 75.29s 16:9 Explainer
-│   │   └── render_proper_3d_explainer.py
-│   │
-│   └── ai_agents_video/                      # Apple Keynote Motion Graphics Edition
-│       └── ai_agents_replacing_teams.mp4     # 65.37s Explainer
-│
-├── Rico_Style_2D_Comedy/                     # 2D Slapstick Meme Cartoon Project
-│   ├── videos/
-│   │   ├── rico_exam_panic_comedy_short.mp4  # 🎬 29.75s "Last 5 Minutes of the Exam" Short
-│   │   └── rico_style_bored_in_class.mp4     # 🎬 18.0s "Bored in Class" Short
-│   ├── audio/
-│   │   └── exam_panic_master_audio.wav       # Full mixed sound design with Vine Booms & BGM
-│   └── scripts/
-│       └── render_exam_panic_short.py
-│
-└── CuteBaby_Comedy_Shorts/                    # 3D Pixar Baby Comedy Project
-    └── videos/
-        └── cute_baby_golgappa_comedy.mp4     # 23s Primary Short
-```
-
----
-
-## 🎬 All Productions Completed & Published
-
-### 1. "3 Free AI Tools That Feel Illegal for Developers" (Latest 9:16 Vertical Short)
-- **Status:** 🟢 **LIVE ON YOUTUBE**
-- **YouTube Shorts URL:** [https://www.youtube.com/shorts/YwWiQQ5U0s0](https://www.youtube.com/shorts/YwWiQQ5U0s0)
-- **Watch URL:** [https://youtu.be/YwWiQQ5U0s0](https://youtu.be/YwWiQQ5U0s0)
-- **Target Channel:** `@TechStacAI` (`TechStack AI`)
-- **Video Path:** [`D:\Antigravity\Pro\agentic-code\projects\3_free_ai_tools_short\3_FREE_AI_TOOLS_SHORT_9x16.mp4`](file:///D:/Antigravity/Pro/agentic-code/projects/3_free_ai_tools_short/3_FREE_AI_TOOLS_SHORT_9x16.mp4)
-- **Duration:** 50.79s (1,219 frames @ 24fps)
-- **Resolution:** 1080×1920 (Vertical 9:16)
-- **File Size:** 6.45 MB
-- **Interactive Player:** [short_video_player.html](file:///C:/Users/Yogesh/.gemini/antigravity/brain/e57b91af-4588-4746-9f1a-89a67c9b0994/short_video_player.html)
-- **5-Beat Structure:**
-  1. *Beat 1 (0.0s – 8.8s) - The Hook:* Stop writing boilerplate by hand in 2026. Pulsing red alert HUDs (`⚠️ MANUAL BURNOUT`), flying error particles, shocked LEGO minifigure waving arms.
-  2. *Beat 2 (8.8s – 21.0s) - Tool #1 (Antigravity Agent):* Minifigure scans LEGO server rack with sweeping cyan laser. Terminal executes `git clone`, `pytest`, and passes 42/42 unit tests with green pass badges.
-  3. *Beat 3 (21.0s – 31.0s) - Tool #2 (Bolt.new & Cursor):* Minifigure types at dual holographic terminal. Cursor generates Next.js backend, Bolt deploys instant web container with `LIVE AT :3000` badge.
-  4. *Beat 4 (31.0s – 40.0s) - Tool #3 (Gemini 3.1 Flash):* 1M token glowing AI core charges to 100%. Codebase files stream into center brain core.
-  5. *Beat 5 (40.0s – 50.79s) - Outro & Subscribe CTA:* Minifigure victory pose holding glowing golden AI brick with falling confetti studs. Giant pulsing YouTube Subscribe button with clicking cursor.
-
----
-
-### 2. "The Autonomous LEGO Agent: Brickfilm Infrastructure Fix"
-- **Status:** 🟢 **LIVE ON YOUTUBE**
-- **YouTube Shorts URL:** [https://www.youtube.com/shorts/a84L5be82i4](https://www.youtube.com/shorts/a84L5be82i4)
-- **Watch URL:** [https://youtu.be/a84L5be82i4](https://youtu.be/a84L5be82i4)
-- **Video Path:** [`D:\Antigravity\Pro\agentic-code\projects\lego_agent_fixing_systems\LEGO_AGENT_FIXING_SYSTEMS_16x9.mp4`](file:///D:/Antigravity/Pro/agentic-code/projects/lego_agent_fixing_systems/LEGO_AGENT_FIXING_SYSTEMS_16x9.mp4)
-- **Duration:** 55.71s (1,337 frames @ 24fps)
-- **Resolution:** 1280×720 (16:9 Landscape)
-- **File Size:** 5.05 MB
-- **Key Features:** True 3D LEGO Minifigure anatomy, Technic lever station, snapping hotfix bricks, printed slope computer terminal, official circular channel profile picture watermark.
-
----
-
-### 3. "The Last 5 Minutes of the Exam" (एग्जाम के आखिरी 5 मिनट)
-- **Style:** 2D Meme Slapstick Cartoon (Rico Animations Style)
-- **Video Path:** [`D:\Antigravity\Pro\Rico_Style_2D_Comedy\videos\rico_exam_panic_comedy_short.mp4`](file:///D:/Antigravity/Pro/Rico_Style_2D_Comedy/videos/rico_exam_panic_comedy_short.mp4)
-- **Duration:** 29.75s (714 frames @ 24fps)
-- **Resolution:** 720×1280 (9:16 Vertical)
-- **Highlights:** Calligraphy angel halo &rarr; Vine Boom teacher ruler slam &rarr; Bug-eyes popping out with sweat geyser &rarr; Evil friend with 12 supplementary sheets &rarr; Ultra Instinct 8 blurred arms writing so fast the paper catches fire &rarr; Hand carving grooves into bare wooden desk.
-
----
-
-### 4. "When Bored in Class" (जब क्लास में बोरियत हो)
-- **Style:** 2D Meme Slapstick Cartoon (Rico Animations Style)
-- **Video Path:** [`D:\Antigravity\Pro\Rico_Style_2D_Comedy\videos\rico_style_bored_in_class.mp4`](file:///D:/Antigravity/Pro/Rico_Style_2D_Comedy/videos/rico_style_bored_in_class.mp4)
-- **Duration:** 18.0s (432 frames @ 24fps)
-- **Resolution:** 720×1280 (9:16 Vertical)
-
----
-
-### 5. "AI Agents vs Human Developers" (Cinematic Explainer)
-- **Style:** 3D Motion Graphics Explainer with Generative Scene Plates
-- **Video Path:** [`D:\Antigravity\Pro\agentic-code\projects\proper_3d_tech_explainer\AI_AGENTS_VS_DEV_TEAMS_16x9.mp4`](file:///D:/Antigravity/Pro/agentic-code/projects/proper_3d_tech_explainer/AI_AGENTS_VS_DEV_TEAMS_16x9.mp4)
-- **Duration:** 75.29s (1,807 frames @ 24fps)
-- **Resolution:** 1280×720 (16:9 Landscape)
-
----
-
-## 🛠️ YouTube Channel Strategy & Growth Guidelines
-
-### 1. Channel Profile & Niche Clarity
-- **Handle:** `@TechStacAI`
-- **Channel Name:** `TechStack AI`
-- **Core Value Proposition:** Daily AI Tools, Developer Productivity Hacks, Autonomous Coding Agents, and Fast Full-Stack Workflows.
-- **Audience:** Software Engineers, Web Developers, Computer Science Students, Indie Hackers, Tech Enthusiasts.
-
-### 2. Algorithmic Signal Reset (Immediate Action)
-To ensure every new short reaches actual developers and programmers:
-1. Open [YouTube Studio Shorts Manager](https://studio.youtube.com/channel/UCHicNBr7Ytwd7y2wFUKX_XA/videos/short).
-2. Select the 19 older Hindi politics and poetry shorts.
-3. Set their visibility to **Unlisted**.
-4. This immediately stops YouTube from serving new developer shorts to poetry/politics audiences who swipe away, boosting your "Viewed vs. Swiped Away" ratio above 75%.
-
-### 3. Recommended 7-Day Content Schedule
-
-| Day | Video Format | Topic & Working Title | Primary Hook Formula |
+| Metric | Previous Baseline | Current 48h Live Status | Growth Factor |
 | :--- | :--- | :--- | :--- |
-| **Day 1 (Done)** | 9:16 Short | `3 Free AI Tools That Feel Illegal for Developers 🤫` | Negative Hook ("Stop Doing This") |
-| **Day 2** | 9:16 Short | `I Built a Full Stack SaaS in 12 Minutes Using Bolt.new 🚀` | Proof of Speed / Challenge |
-| **Day 3** | 9:16 Short | `Stop Using console.log()! Use This AI Debugger Instead ⚡` | Common Bad Habit vs Secret Fix |
-| **Day 4** | 9:16 Short | `Cursor vs GitHub Copilot: Which One Actually Wins in 2026?` | Direct Showdown / Comparison |
-| **Day 5** | 9:16 Short | `How Gemini 3.1 Flash Reads 500,000 Lines in 2 Seconds 🤯` | Mind-Blowing Scale / Demo |
-| **Day 6** | 9:16 Short | `3 VS Code Extensions You Will Regret Not Installing 💻` | Curiosity & FOMO Hook |
-| **Day 7** | 16:9 Long-Form | `Complete Guide: Building Autonomous AI Agents from Scratch` | Deep Search Intent & High Watch Time |
+| **Realtime Views (48h)** | 490 views (28 days) | **22,267 views** | 🚀 **+4,400% surge** |
+| **Hourly Velocity** | 1 – 3 views/hr | **6,908 views / hour** | 🔥 **Peak viral distribution** |
+| **Subscribers** | 28 subscribers | **162 subscribers** | 📈 **+578% growth (+134 net)** |
+| **Watch Time Gained** | ~3.1 hours | **423.5+ hours** | ⏱️ **136x increase** |
+| **Like / Positive Ratio** | ~80% | **100% Positive (777+ likes)** | 👍 **Universal satisfaction** |
+
+### Top Content Realtime Ranking:
+```text
+1. In This Town, You Throw Food To Get Pets... 😱  ─── 20,600 views (48h) | 6,881 views/hr
+2. The Ocean Disappeared For 24 Hours... 🌊😱      ───  1,628 views (48h) |    10 views/hr
+3. Microsoft Broke Again Today! 130K Crashes 💥     ───     14 views (48h)
+4. I Built a Full Stack SaaS in 12 Minutes... 🚀    ───     11 views (48h)
+5. 3 Free AI Tools That Feel Illegal... 🤫          ───      4 views (48h)
+```
 
 ---
 
-## ⚡ Technical Reference: How to Run Common Tasks
+## 🎬 Comprehensive Video Catalog & Production Log
 
-### 1. Upload Any Video to YouTube:
-```bash
-# Sandboxed preparation, bypass sandbox for network upload:
-python D:\Antigravity\Pro\agentic-code\projects\3_free_ai_tools_short\upload_short.py
+### 1. Short #6 (Part 1): *"In This Town, You Throw Food To Get Pets... 😱"*
+* **Status:** 🟢 **LIVE ON YOUTUBE (Viral Sensation)**
+* **Watch URL:** [https://youtu.be/23UgMKnyiWw](https://youtu.be/23UgMKnyiWw)
+* **Shorts URL:** [https://www.youtube.com/shorts/23UgMKnyiWw](https://www.youtube.com/shorts/23UgMKnyiWw)
+* **Video ID:** `23UgMKnyiWw`
+* **Local Master File:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\master_videos\SHORT_1_Throw_Food_For_Pets_Part1.mp4` (24.09 MB, 136s @ 30 FPS, 720×1280)
+* **Metrics:** 20,880+ views | 398.6 hours watch time | 87.6% Stayed to Watch | 1:57 AVD | +131 subs | 737 likes
+* **Story:** Eli has weak arms, throws a carrot, gets Kevin the frog (1 coin/day). Trains pull-ups, buys Golden Cheese, summons massive Golden Dragon. Climax: skyscraper-sized food falls from sky, ground rumbles, Colossus cliffhanger.
+
+### 2. Short #7 (Special): *"The Ocean Disappeared For 24 Hours... 🌊😱"*
+* **Status:** 🟢 **LIVE ON YOUTUBE**
+* **Watch URL:** [https://youtu.be/8uqNHiG5wzo](https://youtu.be/8uqNHiG5wzo)
+* **Shorts URL:** [https://www.youtube.com/shorts/8uqNHiG5wzo](https://www.youtube.com/shorts/8uqNHiG5wzo)
+* **Video ID:** `8uqNHiG5wzo`
+* **Local Master File:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\master_videos\SHORT_2_100_Year_Ocean_Tide.mp4` (64.02 MB, 139s @ 30 FPS, 720×1280)
+* **Metrics:** 1,628 views | 24.9 hours watch time | 70.1% Stayed to Watch | 1:14 AVD | +5 subs | 40 likes
+* **Branding:** 3D RIYO Studio gold crown corner watermark + 3.5s Outro card with chime audio.
+* **Story:** 100-year low tide reveals seabed secrets, singing shells warning, sprint up cliff ladders, 100-ft wave crash.
+
+### 3. Short #8 (Part 2): *"The Giant Carrot Woke Up The Titan... 😱🥕 (PART 2)"*
+* **Status:** 🟢 **LIVE ON YOUTUBE (Premiered Nov 16 @ 9:00 AM IST)**
+* **Watch URL:** [https://youtu.be/qlE3DMDswn8](https://youtu.be/qlE3DMDswn8)
+* **Shorts URL:** [https://www.youtube.com/shorts/qlE3DMDswn8](https://www.youtube.com/shorts/qlE3DMDswn8)
+* **Video ID:** `qlE3DMDswn8`
+* **Local Master File:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\master_videos\SHORT_3_The_Colossus_Awakens_Part2.mp4` (49.61 MB, 172s @ 30 FPS, 720×1280)
+* **Branding:** 3D RIYO Studio watermark + Outro card: *"LIKE, SHARE & SUBSCRIBE FOR PART 3!"*
+* **Story:** Moon-eyed Titan wakes up behind mountains. Eli grinds 10,000 pull-ups, buys Phantom Lobster for 1 Trillion coins. Monster flicks it away. Kevin the frog secretly trained pull-ups and throws a normal carrot. Titan purrs like a kitten; Kevin becomes billionaire frog with palace; Eli cleans pool for 1 coin/day.
+
+### 4. Short #9 (Tonight's Scheduled Release): *"In My Town, Everything Works Like A Video Game 🎮"*
+* **Status:** ⏰ **SCHEDULED ON YOUTUBE (Premiere: Nov 16 @ 7:30 PM IST / 14:00:00 UTC)**
+* **Watch URL:** [https://youtu.be/j0fBOXT8yjE](https://youtu.be/j0fBOXT8yjE)
+* **Shorts URL:** [https://www.youtube.com/shorts/j0fBOXT8yjE](https://www.youtube.com/shorts/j0fBOXT8yjE)
+* **Video ID:** `j0fBOXT8yjE`
+* **Local Master File:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\master_videos\SHORT_4_Video_Game_Town_Level_999.mp4` (40.53 MB, 138s @ 30 FPS, 720×1280)
+* **Branding:** 3D RIYO Studio watermark + 3.5s Outro card.
+* **Story:** Everyone has health bars & levels (Dad lvl 60, Mom lvl 85, Grandma lvl 99). Luca stuck at Level 1, glitches through school wall into Town Settings room, flips XP switch ON, shoots up to Level 999. Golden sky message: *"Tutorial Completed. World 2 Loading..."*
+* **Upload Tool:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\upload_tools\upload_short4_videogame.py`
+* **Pinned Comment Strategy:**
+  ```text
+  New to our 3D town stories? Check out our viral Pet saga (Parts 1 & 2) on the channel! 🐸✨ What level would you be in real life? 👇
+  ```
+
+### 5. Short #5 (Next in Queue for Tuesday): *"In This Town, You Age Backwards 👶👴"*
+* **Status:** 🎬 **MASTER RENDERED & READY TO SCHEDULE**
+* **Local Master File:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\master_videos\SHORT_5_Ages_Backwards_Grandpa_Egg.mp4` (41.96 MB, 151s @ 30 FPS, 720×1280)
+* **Branding:** 3D RIYO Studio watermark + 3.5s Outro card.
+* **Story:** People are born as elderly and grow backwards into babies. Grandpa leaves behind a mysterious Golden Egg before shrinking away.
+* **Upload Tool:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\upload_tools\upload_short5_ages_backwards.py`
+
+---
+
+## 🎨 YouTube & Social Media Visual Assets
+
+| Asset Name | Dimensions | File Path | Purpose / Description |
+| :--- | :--- | :--- | :--- |
+| **Avatar Mascot (Recommended)** | 1024×1024 | [`riyo_pfp_character_mascot.png`](file:///d:/Antigravity/Pro/Riyo_3D_Roblox_Series/brand_assets/riyo_pfp_character_mascot.png) | 3D blocky animated hero in cyan hoodie with glowing shoulder fox pet & studio rim lighting. High CTR in Shorts feed. |
+| **Avatar Gold Emblem** | 1024×1024 | [`riyo_pfp_gold_emblem.png`](file:///d:/Antigravity/Pro/Riyo_3D_Roblox_Series/brand_assets/riyo_pfp_gold_emblem.png) | 3D gold & platinum RIYO Studio crown emblem with circular margin padding. |
+| **Channel Banner (Branded)** | 2560×1440 | [`youtube_banner_2560x1440_branded.png`](file:///d:/Antigravity/Pro/Riyo_3D_Roblox_Series/brand_assets/youtube_banner_2560x1440_branded.png) | Full 16:9 canvas with 1546×423 safe zone: hero, fox, Colossus titan, floating islands, and 3D RIYO Studio gold logo. |
+| **Channel Banner (Clean)** | 2560×1440 | [`youtube_banner_2560x1440_clean.png`](file:///d:/Antigravity/Pro/Riyo_3D_Roblox_Series/brand_assets/youtube_banner_2560x1440_clean.png) | Unbranded cinematic 3D fantasy landscape without text overlay. |
+| **Watermark Overlay** | 180×139 | [`riyo_3d_corner_watermark.png`](file:///d:/Antigravity/Pro/Riyo_3D_Roblox_Series/brand_assets/riyo_3d_corner_watermark.png) | Transparent corner watermark placed at `(28, 36)` on all master videos. |
+| **Interactive Showcase** | HTML | [`channel_branding_preview.html`](file:///d:/Antigravity/Pro/Riyo_3D_Roblox_Series/interactive_players/channel_branding_preview.html) | Live interactive HTML mock-up showing banner, safe-zone framing, and profile pic options. |
+
+---
+
+## 📱 Instagram Reels Cross-Posting Playbook
+
+### Why It Works:
+Instagram's algorithm heavily prioritizes **Shares to DMs**. Crazy, surreal town stories get shared between friends immediately. Master videos require **zero extra editing** because they are already vertical 9:16, under 3 minutes, with studio branding and subtitles.
+
+### Ready-to-Post Instagram Packages:
+
+#### 📦 Post 1: *Throw Food For Pets (Part 1)*
+* **File:** `master_videos/SHORT_1_Throw_Food_For_Pets_Part1.mp4`
+* **Cover Frame:** Timestamp `01:38` (Golden Dragon bowing)
+* **Caption:**
+  ```text
+  In this town, you throw food to get pets. But when Eli threw the Golden Cheese, something colossal answered... 😱
+
+  Drop a comment with what food you would throw! 👇
+  Follow @YourHandle for Part 2! 
+
+  #roblox #robloxstory #3danimation #gaming #animation
+  ```
+
+#### 📦 Post 2: *The Colossus Awakens (Part 2)*
+* **File:** `master_videos/SHORT_3_The_Colossus_Awakens_Part2.mp4`
+* **Cover Frame:** Timestamp `02:15` (Colossus purring in front of Kevin)
+* **Caption:**
+  ```text
+  The skyscraper-sized carrot woke up the Titan... and Kevin the Frog had a secret plan. 🥕👹
+
+  Tag a friend who needs a pet Titan! 
+  Follow @YourHandle for the next 3D adventure! 🚀
+
+  #roblox #robloxstory #3danimation #robloxedit #gaming
+  ```
+
+#### 📦 Post 3: *Video Game Town (Tonight's Release)*
+* **File:** `master_videos/SHORT_4_Video_Game_Town_Level_999.mp4`
+* **Cover Frame:** Timestamp `01:05` (Giant glowing Town Settings screen)
+* **Caption:**
+  ```text
+  Everyone in town had a level and a health bar... but I was stuck at Level 1 until I glitched through the school wall. 🎮⚡
+
+  What level would you be in real life? Tell us in the comments! 👇
+  Follow @YourHandle for new 3D stories every week!
+
+  #roblox #robloxstories #3danimation #videogames #gaming
+  ```
+
+---
+
+## 📁 Master Directory Structure
+
+```text
+D:\Antigravity\Pro\
+├── PROJECT_CONVERSATION_MEMORY.md            # ⭐ THIS MASTER MEMORY FILE
+├── youtube_token.pickle                      # Active OAuth token for YouTube Data API v3
+├── client_secrets.json                       # Google Cloud OAuth app credentials
+│
+└── Riyo_3D_Roblox_Series/                    # 🎬 Master Production Repository
+    ├── README.md                             # Repository index & guide
+    │
+    ├── master_videos/                        # 🎬 Final Production-Ready Shorts
+    │   ├── SHORT_1_Throw_Food_For_Pets_Part1.mp4   # 20.8K Views • LIVE ON YT
+    │   ├── SHORT_2_100_Year_Ocean_Tide.mp4         # 1.6K Views • LIVE ON YT
+    │   ├── SHORT_3_The_Colossus_Awakens_Part2.mp4  # Part 2 • LIVE ON YT
+    │   ├── SHORT_4_Video_Game_Town_Level_999.mp4   # Part 3 • SCHEDULED (7:30 PM)
+    │   └── SHORT_5_Ages_Backwards_Grandpa_Egg.mp4  # Next in queue for Tuesday
+    │
+    ├── brand_assets/                         # 💎 Visual Identity Package
+    │   ├── riyo_pfp_character_mascot.png     # 1024x1024 3D Mascot Avatar
+    │   ├── riyo_pfp_gold_emblem.png          # 1024x1024 3D Gold Crown Emblem
+    │   ├── youtube_banner_2560x1440_branded.png # 2560x1440 Master YouTube Banner
+    │   ├── youtube_banner_2560x1440_clean.png   # 2560x1440 Clean Background
+    │   ├── riyo_3d_corner_watermark.png      # Video watermark (180x139)
+    │   └── riyo_3d_master_transparent.png    # High-res alpha logo
+    │
+    ├── upload_tools/                         # 🚀 Automated YouTube API v3 Uploaders
+    │   ├── upload_part1_short.py             # Uploader for Short #1
+    │   ├── upload_ocean_short.py             # Uploader for Ocean story
+    │   ├── upload_part2_short.py             # Uploader for Part 2
+    │   ├── upload_short4_videogame.py        # Uploader for Video Game Town
+    │   └── upload_short5_ages_backwards.py   # Uploader for Ages Backwards
+    │
+    ├── interactive_players/                  # 🌐 Web Players & Showcases
+    │   ├── channel_branding_preview.html     # Live Channel Banner & PFP Showcase
+    │   ├── watch_ocean_story.html            # Interactive player for Ocean story
+    │   └── watch_part2_colossus.html         # Interactive player for Part 2
+    │
+    └── scripts_and_transcripts/              # 📜 Story Scripts & Narrative Analysis
+        ├── Part1_Throw_Food_Transcript.txt
+        ├── Ocean_Tide_Transcript.txt
+        ├── Part2_Colossus_Awakens_Transcript.txt
+        ├── Video_Game_Town_Level_999_Transcript.txt
+        ├── Ages_Backwards_Grandpa_Egg_Transcript.txt
+        └── ROBLOX_ANIMATION_BREAKDOWN_ANALYSIS.md
 ```
 
-### 2. Re-Render the 9:16 Vertical Short:
+---
+
+## ⚡ Quick Reference Commands
+
+### To Schedule Short #5 (Ages Backwards) for Tuesday:
 ```bash
-python D:\Antigravity\Pro\agentic-code\projects\3_free_ai_tools_short\render_vertical_short.py
+# Modify scheduled_time in upload_short5_ages_backwards.py, then run:
+python D:\Antigravity\Pro\Riyo_3D_Roblox_Series\upload_tools\upload_short5_ages_backwards.py
 ```
 
-### 3. Re-Render the 16:9 LEGO Brickfilm Short:
-```bash
-python D:\Antigravity\Pro\agentic-code\projects\lego_agent_fixing_systems\render_lego_agent_video.py
-```
-
-### 4. Re-Synthesize Voiceover + Synthwave Audio Track:
-```bash
-python D:\Antigravity\Pro\agentic-code\projects\3_free_ai_tools_short\build_short_audio.py
-```
-
-### 5. Open the Interactive Video Player:
+### To Check Live Channel Analytics:
 ```powershell
-Invoke-Item "C:\Users\Yogesh\.gemini\antigravity\brain\e57b91af-4588-4746-9f1a-89a67c9b0994\short_video_player.html"
+# Open YouTube Studio Analytics in browser:
+Start-Process "https://studio.youtube.com/channel/UCHicNBr7Ytwd7y2wFUKX_XA/analytics/hub_overview"
 ```
 
----
-
-## 💡 Key Architectural Lessons Learned
-
-1. **FFmpeg Subprocess Deadlock Prevention:**
-   When streaming raw video frames to FFmpeg via `proc.stdin.write` in Python, **never** set `stderr=subprocess.PIPE` without reading it concurrently in a separate thread. Otherwise, once the OS stderr buffer (~4KB - 64KB) fills up, FFmpeg blocks and deadlocks the entire render. Always redirect stderr to a file (`stderr=open('ffmpeg_render.log', 'wb')`) or `subprocess.DEVNULL`.
-
-2. **YouTube Shorts Optimal Aspect Ratio & Layout:**
-   - Always use true vertical **1080×1920** (9:16) for modern mobile feeds.
-   - Respect vertical safe zones:
-     - Top `y=0 to 180`: Channel avatar, brand name, dynamic progress bar, category badge.
-     - Center top `y=190 to 340`: Tool headline card with high-contrast text.
-     - Center stage `y=370 to 1430`: Interactive 3D LEGO character, cyber HUDs, and mechanical animations.
-     - Bottom `y=1480 to 1840`: 44px kinetic subtitles with yellow/cyan active word highlight.
-     - Bottom safe zone `y=1850 to 1920`: Clean margin for YouTube mobile player UI.
-
-3. **Audio Quality for Developer Content:**
-   Energetic electronic synthwave drum-and-bass mixed at -18dB under crisp, clear voiceover narration creates high pacing and prevents viewer drop-off within the critical first 3 seconds.
+### To View Channel Branding Mockup:
+```powershell
+Start-Process "D:\Antigravity\Pro\Riyo_3D_Roblox_Series\interactive_players\channel_branding_preview.html"
+```
