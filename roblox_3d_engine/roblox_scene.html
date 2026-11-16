@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaleBlox - Roblox 3D Full-Motion Engine</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%;
+      background: #070a12;
+      overflow: hidden;
+      display: flex; justify-content: center; align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #viewport-container {
+      position: relative;
+      width: 100vw; height: 100vh;
+      max-width: 56.25vh; /* 9:16 aspect ratio */
+      max-height: 177.78vw;
+      background: #000;
+      overflow: hidden;
+    }
+    #canvas3d {
+      width: 100%; height: 100%;
+      display: block;
+    }
+    #subtitles {
+      position: absolute;
+      bottom: 80px; left: 5%; width: 90%;
+      text-align: center;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .sub-box {
+      display: inline-block;
+      background: rgba(10, 15, 26, 0.85);
+      border: 2px solid rgba(255, 214, 10, 0.4);
+      padding: 12px 20px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.9);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      transition: transform 0.15s ease-out;
+    }
+    .hl-yellow { color: #ffd60a; text-shadow: 0 0 15px rgba(255, 214, 10, 0.8); }
+    .hl-gold { color: #ffb703; text-shadow: 0 0 18px rgba(255, 183, 3, 0.9); font-size: 24px; }
+    .brand-overlay {
+      position: absolute;
+      top: 24px; left: 24px;
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 214, 10, 0.3);
+      z-index: 50;
+    }
+    .brand-text { font-size: 14px; font-weight: 800; color: #ffd60a; letter-spacing: 1px; }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "../agentic-code/projects/horror_shadow_titan_short/node_modules/three/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="viewport-container">
+    <canvas id="canvas3d"></canvas>
+    <div class="brand-overlay">
+      <span style="font-size: 14px;">👑</span>
+      <span class="brand-text">TALEBLOX 3D</span>
+    </div>
+    <div id="subtitles">
+      <div id="sub-text" class="sub-box">IN MY TOWN, YOU DON'T BUY PETS...</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    // 1. SETUP CANVAS & RENDERER
+    const canvas = document.getElementById('canvas3d');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    renderer.setSize(720, 1280, false);
+    renderer.setPixelRatio(1.0);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.25;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x7ec8e3);
+    scene.fog = new THREE.FogExp2(0x7ec8e3, 0.015);
+
+    const camera = new THREE.PerspectiveCamera(54, 720 / 1280, 0.1, 500);
+
+    // 2. LIGHTING
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    scene.add(ambientLight);
+
+    const sunLight = new THREE.DirectionalLight(0xfffaed, 2.0);
+    sunLight.position.set(20, 45, 25);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 1024;
+    sunLight.shadow.mapSize.height = 1024;
+    sunLight.shadow.camera.near = 0.5;
+    sunLight.shadow.camera.far = 120;
+    sunLight.shadow.camera.left = -25;
+    sunLight.shadow.camera.right = 25;
+    sunLight.shadow.camera.top = 25;
+    sunLight.shadow.camera.bottom = -25;
+    scene.add(sunLight);
+
+    // Warm bounce light
+    const bounceLight = new THREE.DirectionalLight(0xffeedd, 0.4);
+    bounceLight.position.set(-20, 10, -20);
+    scene.add(bounceLight);
+
+    // 3. CREATE ROBLOX FACE TEXTURE VIA 2D CANVAS
+    function createRobloxFace() {
+      const fc = document.createElement('canvas');
+      fc.width = 256; fc.height = 256;
+      const ctx = fc.getContext('2d');
+      // Skin tone fill
+      ctx.fillStyle = '#ffcc80';
+      ctx.fillRect(0, 0, 256, 256);
+      
+      // Cheerful Eyes
+      ctx.fillStyle = '#111';
+      ctx.beginPath(); ctx.ellipse(75, 105, 14, 22, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(181, 105, 14, 22, 0, 0, Math.PI * 2); ctx.fill();
+      
+      // Eye Highlights
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(71, 98, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(177, 98, 6, 0, Math.PI * 2); ctx.fill();
+      
+      // Smile
+      ctx.strokeStyle = '#111';
+      ctx.lineWidth = 10;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.arc(128, 140, 52, 0.2, Math.PI - 0.2);
+      ctx.stroke();
+
+      // Cute blush
+      ctx.fillStyle = 'rgba(255, 100, 100, 0.4)';
+      ctx.beginPath(); ctx.ellipse(55, 135, 18, 10, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(201, 135, 18, 10, 0, 0, Math.PI * 2); ctx.fill();
+
+      return new THREE.CanvasTexture(fc);
+    }
+
+    // 4. BUILD ELI (ROBLOX R6 RIG)
+    const eliGroup = new THREE.Group();
+    scene.add(eliGroup);
+
+    const skinMat = new THREE.MeshStandardMaterial({ color: 0xffcc80, roughness: 0.5 });
+    const blueHoodieMat = new THREE.MeshStandardMaterial({ color: 0x1976d2, roughness: 0.6 });
+    const jeansMat = new THREE.MeshStandardMaterial({ color: 0x1a237e, roughness: 0.7 });
+    const hairMat = new THREE.MeshStandardMaterial({ color: 0x4e342e, roughness: 0.8 });
+
+    // Torso
+    const torsoGeo = new THREE.BoxGeometry(1.6, 2.0, 1.0);
+    const torsoMesh = new THREE.Mesh(torsoGeo, blueHoodieMat);
+    torsoMesh.position.y = 2.0;
+    torsoMesh.castShadow = true;
+    eliGroup.add(torsoMesh);
+
+    // Torso white drawstrings
+    const stringMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const str1 = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.6, 0.04), stringMat);
+    str1.position.set(-0.3, 2.2, 0.52);
+    const str2 = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.6, 0.04), stringMat);
+    str2.position.set(0.3, 2.2, 0.52);
+    eliGroup.add(str1, str2);
+
+    // Head
+    const faceTex = createRobloxFace();
+    const headMats = [
+      skinMat, skinMat, skinMat, skinMat,
+      new THREE.MeshStandardMaterial({ map: faceTex, roughness: 0.5 }), // Front face
+      skinMat
+    ];
+    const headMesh = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 1.2), headMats);
+    headMesh.position.y = 3.6;
+    headMesh.castShadow = true;
+    eliGroup.add(headMesh);
+
+    // 3D Anime Spiky Hair
+    const hairGroup = new THREE.Group();
+    const hairChunkGeo = new THREE.ConeGeometry(0.35, 0.7, 4);
+    for (let h = 0; h < 7; h++) {
+      const hc = new THREE.Mesh(hairChunkGeo, hairMat);
+      const angle = (h / 7) * Math.PI - 0.2;
+      hc.position.set(Math.cos(angle) * 0.55, 0.65, Math.sin(angle) * 0.45);
+      hc.rotation.z = -Math.cos(angle) * 0.4;
+      hc.rotation.x = Math.sin(angle) * 0.3;
+      hairGroup.add(hc);
+    }
+    headMesh.add(hairGroup);
+
+    // Left Arm Pivot & Mesh
+    const leftArmPivot = new THREE.Group();
+    leftArmPivot.position.set(-1.25, 2.9, 0);
+    const armGeo = new THREE.BoxGeometry(0.8, 1.9, 0.8);
+    const leftArmMesh = new THREE.Mesh(armGeo, blueHoodieMat);
+    leftArmMesh.position.y = -0.85;
+    leftArmMesh.castShadow = true;
+    leftArmPivot.add(leftArmMesh);
+    eliGroup.add(leftArmPivot);
+
+    // Right Arm Pivot & Mesh (The throwing arm)
+    const rightArmPivot = new THREE.Group();
+    rightArmPivot.position.set(1.25, 2.9, 0);
+    const rightArmMesh = new THREE.Mesh(armGeo, blueHoodieMat);
+    rightArmMesh.position.y = -0.85;
+    rightArmMesh.castShadow = true;
+    rightArmPivot.add(rightArmMesh);
+    eliGroup.add(rightArmPivot);
+
+    // Left Leg Pivot & Mesh
+    const leftLegPivot = new THREE.Group();
+    leftLegPivot.position.set(-0.45, 1.0, 0);
+    const legGeo = new THREE.BoxGeometry(0.75, 1.9, 0.8);
+    const leftLegMesh = new THREE.Mesh(legGeo, jeansMat);
+    leftLegMesh.position.y = -0.9;
+    leftLegMesh.castShadow = true;
+    leftLegPivot.add(leftLegMesh);
+    eliGroup.add(leftLegPivot);
+
+    // Right Leg Pivot & Mesh
+    const rightLegPivot = new THREE.Group();
+    rightLegPivot.position.set(0.45, 1.0, 0);
+    const rightLegMesh = new THREE.Mesh(legGeo, jeansMat);
+    rightLegMesh.position.y = -0.9;
+    rightLegMesh.castShadow = true;
+    rightLegPivot.add(rightLegMesh);
+    eliGroup.add(rightLegPivot);
+
+    // Kevin the Frog (on Eli's left shoulder)
+    const kevinGroup = new THREE.Group();
+    kevinGroup.position.set(-0.85, 3.1, 0.1);
+    const frogMat = new THREE.MeshStandardMaterial({ color: 0x4caf50, roughness: 0.6 });
+    const frogBody = new THREE.Mesh(new THREE.SphereGeometry(0.28, 12, 12), frogMat);
+    kevinGroup.add(frogBody);
+
+    // Frog Eyes
+    const frogEyeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const pupilMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    const e1 = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 8), frogEyeMat);
+    e1.position.set(-0.12, 0.22, 0.18);
+    const p1 = new THREE.Mesh(new THREE.SphereGeometry(0.05, 6, 6), pupilMat);
+    p1.position.set(-0.12, 0.23, 0.25);
+    const e2 = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 8), frogEyeMat);
+    e2.position.set(0.12, 0.22, 0.18);
+    const p2 = new THREE.Mesh(new THREE.SphereGeometry(0.05, 6, 6), pupilMat);
+    p2.position.set(0.12, 0.23, 0.25);
+    kevinGroup.add(e1, p1, e2, p2);
+
+    // Frog Tiny Titanium Helmet
+    const helmetMat = new THREE.MeshStandardMaterial({ color: 0xb0bec5, metalness: 0.8, roughness: 0.2 });
+    const helmet = new THREE.Mesh(new THREE.ConeGeometry(0.24, 0.35, 8), helmetMat);
+    helmet.position.set(0, 0.32, 0);
+    kevinGroup.add(helmet);
+    eliGroup.add(kevinGroup);
+
+    // 5. THE GOLDEN CHEESE (The Throwing Item)
+    const cheeseGroup = new THREE.Group();
+    const cheeseMat = new THREE.MeshStandardMaterial({ color: 0xffd60a, roughness: 0.3, metalness: 0.4, emissive: 0xffb703, emissiveIntensity: 0.4 });
+    const cheeseMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.6, 0.35, 6), cheeseMat);
+    cheeseMesh.rotation.x = Math.PI / 4;
+    cheeseGroup.add(cheeseMesh);
+
+    // Golden halo glow around cheese
+    const haloMat = new THREE.MeshBasicMaterial({ color: 0xffe082, wireframe: true, transparent: true, opacity: 0.6 });
+    const haloMesh = new THREE.Mesh(new THREE.SphereGeometry(0.7, 8, 8), haloMat);
+    cheeseGroup.add(haloMesh);
+    scene.add(cheeseGroup);
+
+    // 6. THE GIANT GOLDEN DRAGON (Summoned Mythical Boss)
+    const dragonGroup = new THREE.Group();
+    dragonGroup.position.set(0, -20, -50); // Initially hidden below mountains
+    scene.add(dragonGroup);
+
+    const goldDragonMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.85, roughness: 0.2, emissive: 0xff9100, emissiveIntensity: 0.25 });
+    
+    // Dragon Head
+    const dHead = new THREE.Mesh(new THREE.ConeGeometry(2.5, 5.0, 5), goldDragonMat);
+    dHead.rotation.x = Math.PI / 2;
+    dHead.position.set(0, 3, 2);
+    dragonGroup.add(dHead);
+
+    // Glowing Cyan Eyes
+    const cyanEyeMat = new THREE.MeshBasicMaterial({ color: 0x00f2fe });
+    const de1 = new THREE.Mesh(new THREE.SphereGeometry(0.4, 8, 8), cyanEyeMat);
+    de1.position.set(-1.0, 3.8, 1.8);
+    const de2 = new THREE.Mesh(new THREE.SphereGeometry(0.4, 8, 8), cyanEyeMat);
+    de2.position.set(1.0, 3.8, 1.8);
+    dragonGroup.add(de1, de2);
+
+    // Dragon Horns
+    const dHorn1 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.4, 3.0, 5), goldDragonMat);
+    dHorn1.position.set(-1.4, 5.2, -0.5);
+    dHorn1.rotation.z = -0.4;
+    dHorn1.rotation.x = -0.3;
+    const dHorn2 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.4, 3.0, 5), goldDragonMat);
+    dHorn2.position.set(1.4, 5.2, -0.5);
+    dHorn2.rotation.z = 0.4;
+    dHorn2.rotation.x = -0.3;
+    dragonGroup.add(dHorn1, dHorn2);
+
+    // Dragon Wings (Flapping Rigs)
+    const leftWing = new THREE.Group();
+    leftWing.position.set(-2, 2, -2);
+    const wingGeo = new THREE.BufferGeometry();
+    const wingVerts = new Float32Array([
+      0, 0, 0,
+      -12, 6, -3,
+      -8, -4, 2
+    ]);
+    wingGeo.setAttribute('position', new THREE.BufferAttribute(wingVerts, 3));
+    wingGeo.computeVertexNormals();
+    const wingMat = new THREE.MeshStandardMaterial({ color: 0xffd60a, side: THREE.DoubleSide, metalness: 0.6, roughness: 0.3 });
+    const leftWingMesh = new THREE.Mesh(wingGeo, wingMat);
+    leftWing.add(leftWingMesh);
+    dragonGroup.add(leftWing);
+
+    const rightWing = new THREE.Group();
+    rightWing.position.set(2, 2, -2);
+    const rWingGeo = new THREE.BufferGeometry();
+    const rWingVerts = new Float32Array([
+      0, 0, 0,
+      12, 6, -3,
+      8, -4, 2
+    ]);
+    rWingGeo.setAttribute('position', new THREE.BufferAttribute(rWingVerts, 3));
+    rWingGeo.computeVertexNormals();
+    const rightWingMesh = new THREE.Mesh(rWingGeo, wingMat);
+    rightWing.add(rightWingMesh);
+    dragonGroup.add(rightWing);
+
+    // 7. ENVIRONMENT (CLIFF, MOUNTAINS, TREES)
+    // Mountain cliff terrain
+    const groundGeo = new THREE.BoxGeometry(60, 10, 80);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0x4caf50, roughness: 0.9 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.position.set(0, -5, 10);
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Cliff Rock Face
+    const rockMat = new THREE.MeshStandardMaterial({ color: 0x546e7a, roughness: 0.9 });
+    const rockFace = new THREE.Mesh(new THREE.BoxGeometry(62, 30, 10), rockMat);
+    rockFace.position.set(0, -20, -30);
+    scene.add(rockFace);
+
+    // Distant dramatic mountain peaks
+    const mtnMat = new THREE.MeshStandardMaterial({ color: 0x37474f, roughness: 0.9 });
+    for (let m = 0; m < 5; m++) {
+      const mtn = new THREE.Mesh(new THREE.ConeGeometry(25 + m * 5, 45 + m * 8, 5), mtnMat);
+      mtn.position.set(-50 + m * 25, 0, -100 - m * 15);
+      scene.add(mtn);
+    }
+
+    // Stylized Pine Trees along cliff path
+    const trunkMat = new THREE.MeshStandardMaterial({ color: 0x5d4037 });
+    const foliageMat = new THREE.MeshStandardMaterial({ color: 0x2e7d32, roughness: 0.8 });
+    for (let t = 0; t < 10; t++) {
+      const treeGroup = new THREE.Group();
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.4, 3, 6), trunkMat);
+      trunk.position.y = 1.5;
+      trunk.castShadow = true;
+      const foliage1 = new THREE.Mesh(new THREE.ConeGeometry(2.2, 3.5, 6), foliageMat);
+      foliage1.position.y = 3.8;
+      foliage1.castShadow = true;
+      const foliage2 = new THREE.Mesh(new THREE.ConeGeometry(1.6, 2.8, 6), foliageMat);
+      foliage2.position.y = 5.4;
+      foliage2.castShadow = true;
+      treeGroup.add(trunk, foliage1, foliage2);
+      
+      const side = (t % 2 === 0) ? -7 - (t % 3) : 7 + (t % 3);
+      treeGroup.position.set(side, 0, 30 - t * 7);
+      scene.add(treeGroup);
+    }
+
+    // 8. COIN EXPLOSION PARTICLES (When dragon bows)
+    const coinCount = 120;
+    const coinGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.1, 8);
+    const coinMat = new THREE.MeshStandardMaterial({ color: 0xffd60a, metalness: 0.9, roughness: 0.1 });
+    const coinsGroup = new THREE.Group();
+    const coinVelocities = [];
+    for (let c = 0; c < coinCount; c++) {
+      const coin = new THREE.Mesh(coinGeo, coinMat);
+      coin.position.set(0, -100, 0); // hidden
+      coinsGroup.add(coin);
+      coinVelocities.push({
+        x: (Math.random() - 0.5) * 16,
+        y: 8 + Math.random() * 12,
+        z: (Math.random() - 0.5) * 16,
+        rotSpeed: (Math.random() - 0.5) * 10
+      });
+    }
+    scene.add(coinsGroup);
+
+    // 9. ANIMATION & TIMELINE FUNCTION
+    const subText = document.getElementById('sub-text');
+
+    window.renderFrameAtTime = function(t) {
+      // Subtitle Cues
+      if (t < 5.2) {
+        subText.innerHTML = "IN MY TOWN, <span class='hl-yellow'>YOU DON'T BUY PETS...</span>";
+      } else if (t < 9.5) {
+        subText.innerHTML = "YOU <span class='hl-gold'>THROW FOOD</span> OFF THE MOUNTAIN!";
+      } else if (t < 15.0) {
+        subText.innerHTML = "I BOUGHT THE <span class='hl-gold'>GOLDEN CHEESE</span> AND THREW IT!";
+      } else if (t < 19.5) {
+        subText.innerHTML = "SUDDENLY, THE <span class='hl-yellow'>SKY TURNED GOLD...</span>";
+      } else {
+        subText.innerHTML = "AND A <span class='hl-gold'>GIANT DRAGON BOWED</span> TO ME!";
+      }
+
+      // ACT 1: ELI RUNNING TO THE CLIFF (t: 0.0s -> 7.5s)
+      if (t < 7.5) {
+        const runCycle = t * 14.0;
+        eliGroup.position.set(0, 0, 25 - t * 4.5); // Sprints forward from z=25 to z=-8.75
+        eliGroup.rotation.y = Math.PI; // Running towards cliff (-z)
+
+        // Running locomotion limbs
+        leftLegPivot.rotation.x = Math.sin(runCycle) * 0.85;
+        rightLegPivot.rotation.x = -Math.sin(runCycle) * 0.85;
+        leftArmPivot.rotation.x = -Math.sin(runCycle) * 0.75;
+        rightArmPivot.rotation.x = Math.sin(runCycle) * 0.75;
+        
+        // Torso & head bounce
+        torsoMesh.position.y = 2.0 + Math.abs(Math.sin(runCycle)) * 0.15;
+        headMesh.position.y = 3.6 + Math.abs(Math.sin(runCycle)) * 0.12;
+        headMesh.rotation.z = Math.sin(runCycle * 0.5) * 0.08;
+
+        // Kevin bounces cheerfully
+        kevinGroup.position.y = 3.1 + Math.abs(Math.cos(runCycle)) * 0.2;
+        kevinGroup.rotation.z = Math.sin(runCycle) * 0.15;
+
+        // Cheese carried in right hand
+        cheeseGroup.position.set(eliGroup.position.x + 1.25, 2.0, eliGroup.position.z + 0.5);
+        cheeseGroup.rotation.y = t * 3;
+
+        // Camera: 3rd person tracking shot from behind-side
+        camera.position.set(3.5, 4.5, eliGroup.position.z + 8.5);
+        camera.lookAt(eliGroup.position.x, 2.8, eliGroup.position.z - 4.0);
+      }
+
+      // ACT 2: WIND-UP & THE THROW AT THE CLIFF (t: 7.5s -> 11.5s)
+      else if (t < 11.5) {
+        const throwTime = t - 7.5;
+        eliGroup.position.set(0, 0, -8.75); // Stops right at cliff edge
+        eliGroup.rotation.y = Math.PI - 0.3; // Slight hero turn
+
+        // Legs planted wide
+        leftLegPivot.rotation.x = -0.2;
+        rightLegPivot.rotation.x = 0.35;
+
+        if (throwTime < 2.5) {
+          // Wind up: Right arm arches far backward, chest puffs out
+          const p = throwTime / 2.5;
+          rightArmPivot.rotation.x = -Math.PI * 0.75 * p;
+          rightArmPivot.rotation.z = 0.3 * p;
+          leftArmPivot.rotation.x = 0.5 * p;
+          torsoMesh.rotation.y = -0.4 * p;
+          headMesh.rotation.y = -0.2 * p;
+
+          // Cheese in hand
+          cheeseGroup.position.set(1.4, 3.8 + p * 0.8, -8.75 - p * 1.2);
+          cheeseGroup.rotation.y = t * 5;
+
+          // Camera cuts to dramatic low-angle side hero shot
+          camera.position.set(-4.0 + p * 1.5, 1.8, -12.0);
+          camera.lookAt(0, 3.2, -8.75);
+        } else {
+          // The Throw! (Snap forward)
+          const p = (throwTime - 2.5) / 1.5;
+          rightArmPivot.rotation.x = Math.PI * 0.5 * (1 - p) + (-0.8 * p);
+          leftArmPivot.rotation.x = -0.4;
+
+          // Cheese launches into the sky!
+          const flightT = (throwTime - 2.5) * 25.0;
+          cheeseGroup.position.set(p * 2.0, 4.5 + flightT * 0.6 - 0.05 * flightT * flightT, -8.75 - flightT * 1.5);
+          cheeseGroup.rotation.x = t * 8;
+          cheeseGroup.rotation.y = t * 8;
+
+          camera.position.set(-2.5, 3.0, -11.0);
+          camera.lookAt(cheeseGroup.position.x, cheeseGroup.position.y, cheeseGroup.position.z);
+        }
+      }
+
+      // ACT 3: CHEESE FLYING THROUGH THE CLOUDS (t: 11.5s -> 16.5s)
+      else if (t < 16.5) {
+        const skyT = t - 11.5;
+        // Supersonic trajectory
+        cheeseGroup.position.set(Math.sin(skyT * 2) * 4.0, 15.0 + skyT * 2.0, -35.0 - skyT * 12.0);
+        cheeseGroup.rotation.x = t * 12;
+        cheeseGroup.rotation.y = t * 12;
+
+        // Sky camera flying alongside cheese
+        camera.position.set(cheeseGroup.position.x + 3.0, cheeseGroup.position.y + 1.2, cheeseGroup.position.z + 6.0);
+        camera.lookAt(cheeseGroup.position.x, cheeseGroup.position.y, cheeseGroup.position.z - 10.0);
+
+        // Sky colors shift to golden twilight
+        scene.background.setHex(0xf59e0b);
+        scene.fog.color.setHex(0xf59e0b);
+      }
+
+      // ACT 4: THE GOLDEN DRAGON RISES & BOWS (t: 16.5s -> 24.5s)
+      else {
+        const dragonT = t - 16.5;
+
+        // Eli looks up in awe, Kevin jumps with excitement
+        eliGroup.position.set(0, 0, -8.75);
+        eliGroup.rotation.y = Math.PI;
+        headMesh.rotation.x = -0.6; // Staring up
+        leftArmPivot.rotation.x = -0.6;
+        rightArmPivot.rotation.x = -0.6;
+        kevinGroup.position.y = 3.3 + Math.abs(Math.sin(dragonT * 10)) * 0.4;
+
+        // Dragon rises majestically from valley
+        const riseY = Math.min(12.0, -15.0 + dragonT * 5.0);
+        dragonGroup.position.set(0, riseY, -45.0);
+        
+        // Wing flapping
+        const flap = Math.sin(dragonT * 6.0) * 0.6;
+        leftWing.rotation.z = flap;
+        rightWing.rotation.z = -flap;
+
+        // Bowing motion at t > 20s
+        if (dragonT > 3.5) {
+          const bowP = Math.min(1.0, (dragonT - 3.5) / 2.0);
+          dragonGroup.rotation.x = bowP * 0.35;
+          dragonGroup.position.y = 12.0 - bowP * 3.0;
+        }
+
+        // Coins erupting
+        if (dragonT > 2.0) {
+          const coinT = dragonT - 2.0;
+          coinsGroup.children.forEach((c, idx) => {
+            const v = coinVelocities[idx];
+            c.position.set(
+              v.x * coinT * 0.4,
+              12.0 + v.y * coinT - 9.8 * coinT * coinT * 0.25,
+              -40.0 + v.z * coinT * 0.4
+            );
+            c.rotation.x += v.rotSpeed * 0.05;
+            c.rotation.y += v.rotSpeed * 0.05;
+          });
+        }
+
+        // Camera: Epic wide angle framing Eli in foreground and massive Dragon in background
+        // Screenshake for first 2 seconds of dragon rise
+        const shake = (dragonT < 2.0) ? (Math.random() - 0.5) * 0.3 : 0;
+        camera.position.set(0 + shake, 4.0 + shake, 5.0);
+        camera.lookAt(0, 8.0, -45.0);
+
+        scene.background.setHex(0xd97706);
+        scene.fog.color.setHex(0xd97706);
+      }
+
+      renderer.render(scene, camera);
+    };
+
+    // Initial render at t=0
+    window.renderFrameAtTime(0);
+  </script>
+</body>
+</html>

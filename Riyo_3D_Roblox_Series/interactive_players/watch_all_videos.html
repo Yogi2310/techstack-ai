@@ -228,7 +228,7 @@
 
       <!-- Playlist -->
       <div>
-        <div class="playlist-header">🎬 Master Video Library (<span id="totalVideosCount">6</span> Episodes)</div>
+        <div class="playlist-header">🎬 Master Video Library (<span id="totalVideosCount">7</span> Episodes)</div>
         <div class="playlist-grid" id="playlistGrid">
           <!-- Populated by JS -->
         </div>
@@ -323,10 +323,24 @@
         ytId: "",
         views: "Fresh 3D Master",
         retention: "High-Octane Pacing"
+      },
+      {
+        id: "short7_fullmotion",
+        number: "Short #7",
+        tag: "🤖 100% AUTONOMOUS 3D ANIMATION",
+        title: "Eli Throws The Golden Cheese (Full-Motion 3D Roblox Animation) 🧀✨",
+        desc: "BUILT 100% BY OUR 3D ENGINE! Eli physically runs through the Roblox town with Kevin the frog, plants his feet at the cliff edge, winds up, and throws the glowing Golden Cheese. Watch the cheese soar through the clouds and awaken the giant Golden Dragon bowing with 200 exploding gold coins!",
+        src: "../master_videos/SHORT_7_Roblox_Eli_Golden_Cheese_Full_Motion.mp4",
+        statusText: "🌟 FULL-MOTION 3D (RENDERED ON YOUR PC)",
+        statusClass: "status-live",
+        duration: "24.5s • 6.93 MB",
+        ytId: "",
+        views: "100% Autonomous",
+        retention: "60 FPS 3D Motion"
       }
     ];
 
-    let currentIndex = 0;
+    let currentIndex = 6;
     const player = document.getElementById("mainVideo");
 
     function renderPlaylist() {
@@ -401,6 +415,7 @@
     }
 
     renderPlaylist();
+    selectVideo(6);
   </script>
 </body>
 </html>
