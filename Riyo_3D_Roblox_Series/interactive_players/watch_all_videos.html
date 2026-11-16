@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaleBlox Cinema - Master Video Player & Showcase</title>
+  <style>
+    :root {
+      --bg: #07090e;
+      --sidebar: #0f1422;
+      --card: #151d30;
+      --accent: #ffd60a;
+      --accent-cyan: #00f2fe;
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+      --border: #222f4c;
+      --active-card: rgba(255, 214, 10, 0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+    /* Top Navigation */
+    header {
+      background: rgba(15, 20, 34, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .logo-group { display: flex; align-items: center; gap: 14px; }
+    .brand-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; box-shadow: 0 0 15px rgba(255,214,10,0.3); }
+    .brand-title { font-size: 1.4rem; font-weight: 800; background: linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .live-badge { background: #ef4444; color: #fff; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+    /* Main Theater Layout */
+    .theater-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 28px 32px;
+      max-width: 1500px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
+    }
+    @media(min-width: 1024px) {
+      .theater-container {
+        grid-template-columns: 460px 1fr;
+        align-items: start;
+      }
+    }
+
+    /* Video Player Column */
+    .player-section {
+      background: var(--sidebar);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      position: sticky;
+      top: 96px;
+    }
+    .video-frame {
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 9 / 16;
+      background: #000;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid #283759;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    }
+    video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    
+    .video-quick-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      width: 100%;
+      max-width: 380px;
+      justify-content: center;
+    }
+    .ctrl-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ctrl-btn:hover { background: var(--accent); color: #000; }
+
+    /* Playlist & Video Details Column */
+    .details-section { display: flex; flex-direction: column; gap: 24px; }
+
+    .current-info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+    }
+    .video-meta-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .status-pill { font-size: 0.8rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; }
+    .status-live { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+    .status-sched { background: rgba(255,214,10,0.15); color: var(--accent); border: 1px solid rgba(255,214,10,0.3); }
+    .status-special { background: rgba(0,242,254,0.15); color: var(--accent-cyan); border: 1px solid rgba(0,242,254,0.3); }
+
+    .cur-title { font-size: 1.5rem; font-weight: 800; line-height: 1.3; margin-bottom: 12px; }
+    .cur-desc { font-size: 0.95rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 18px; }
+    
+    .action-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .yt-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .yt-btn-red { background: #ff0000; color: #fff; box-shadow: 0 4px 15px rgba(255,0,0,0.3); }
+    .yt-btn-red:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,0,0,0.5); }
+    .yt-btn-outline { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid var(--border); }
+    .yt-btn-outline:hover { background: rgba(255,255,255,0.12); }
+
+    /* Playlist Selector Cards */
+    .playlist-header { font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .playlist-grid { display: flex; flex-direction: column; gap: 12px; }
+    .playlist-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .playlist-item:hover { border-color: var(--accent); transform: translateX(4px); }
+    .playlist-item.active { border-color: var(--accent); background: var(--active-card); box-shadow: 0 0 20px rgba(255,214,10,0.1); }
+    .item-thumb-box {
+      width: 70px;
+      height: 100px;
+      border-radius: 10px;
+      background: #000;
+      flex-shrink: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .item-thumb-box video { width: 100%; height: 100%; object-fit: cover; }
+    .play-icon-overlay { position: absolute; font-size: 1.4rem; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,0.8); }
+    .item-info { flex: 1; min-width: 0; }
+    .item-tag { font-size: 0.75rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; text-transform: uppercase; }
+    .item-title { font-size: 1rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; }
+    .item-stats { font-size: 0.85rem; color: var(--text-dim); display: flex; gap: 14px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-group">
+      <img src="../brand_assets/riyo_pfp_character_mascot.png" class="brand-avatar" alt="TaleBlox">
+      <div>
+        <div class="brand-title">TaleBlox Cinema</div>
+        <div style="font-size: 0.8rem; color: var(--text-dim);">3D Animated Roblox Master Suite</div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <span class="live-badge">● THEATER MODE</span>
+      <a href="trilogy_audio_player.html" class="ctrl-btn" style="text-decoration:none;">🎧 Audio Studio</a>
+    </div>
+  </header>
+
+  <div class="theater-container">
+    
+    <!-- Player Column -->
+    <div class="player-section">
+      <div class="video-frame">
+        <video id="mainVideo" controls autoplay playsinline loop src="../master_videos/SHORT_1_Throw_Food_For_Pets_Part1.mp4"></video>
+      </div>
+      <div class="video-quick-controls">
+        <button class="ctrl-btn" onclick="togglePlay()">⏯️ Play/Pause</button>
+        <button class="ctrl-btn" onclick="setSpeed(1)">1x</button>
+        <button class="ctrl-btn" onclick="setSpeed(1.25)">1.25x</button>
+        <button class="ctrl-btn" onclick="setSpeed(1.5)">1.5x</button>
+        <button class="ctrl-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+      </div>
+    </div>
+
+    <!-- Playlist & Info Column -->
+    <div class="details-section">
+      
+      <!-- Current Video Details -->
+      <div class="current-info-card">
+        <div class="video-meta-top">
+          <span class="status-pill status-live" id="vidStatus">🟢 LIVE ON YOUTUBE (20.8K+ Views)</span>
+          <span style="font-size: 0.85rem; color: var(--text-dim);" id="vidDuration">Duration: 136s • 720×1280 (9:16)</span>
+        </div>
+        <h2 class="cur-title" id="vidTitle">Short #1: In This Town, You Throw Food To Get Pets... 😱 (The Golden Cheese)</h2>
+        <p class="cur-desc" id="vidDesc">
+          Eli has the weakest arms in town and gets a 1-coin frog named Kevin. He trains obsessively, buys the legendary Golden Cheese, and throws it past the mountains. A giant gold dragon bows before him... but then the titans start throwing giant food back at the town!
+        </p>
+        <div class="action-links" id="vidActions">
+          <a id="ytWatchLink" href="https://youtu.be/23UgMKnyiWw" target="_blank" class="yt-btn yt-btn-red">▶ Watch on YouTube</a>
+          <a id="ytShortsLink" href="https://www.youtube.com/shorts/23UgMKnyiWw" target="_blank" class="yt-btn yt-btn-outline">📱 Open in Shorts Feed</a>
+        </div>
+      </div>
+
+      <!-- Playlist -->
+      <div>
+        <div class="playlist-header">🎬 Master Video Library (<span id="totalVideosCount">5</span> Episodes)</div>
+        <div class="playlist-grid" id="playlistGrid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const videos = [
+      {
+        id: "short1",
+        number: "Short #1",
+        tag: "VIRAL BREAKOUT (PART 1)",
+        title: "In This Town, You Throw Food To Get Pets... 😱",
+        desc: "Eli trains to throw the legendary Golden Cheese over the mountains. A giant pure-gold dragon bows before him, making him the richest kid in town. But that night, skyscraper-sized food crashes into the town square...",
+        src: "../master_videos/SHORT_1_Throw_Food_For_Pets_Part1.mp4",
+        statusText: "🟢 LIVE ON YOUTUBE (20,880+ VIEWS)",
+        statusClass: "status-live",
+        duration: "136s • 24.1 MB",
+        ytId: "23UgMKnyiWw",
+        views: "20.8K Views",
+        retention: "87.6% Retention"
+      },
+      {
+        id: "short2",
+        number: "Short #2",
+        tag: "VIRAL SPECIAL FEATURE",
+        title: "The Ocean Disappeared For 24 Hours... 🌊😱",
+        desc: "A mysterious siren sounds and the entire ocean vanishes, exposing sunken galleons, bioluminescent trenches, and deep-sea creatures. Eli ventures into the abyss with Kevin, but the tidal timer is ticking down...",
+        src: "../master_videos/SHORT_2_100_Year_Ocean_Tide.mp4",
+        statusText: "🟢 LIVE ON YOUTUBE (1,620+ VIEWS)",
+        statusClass: "status-live",
+        duration: "139s • 64.0 MB",
+        ytId: "8uqNHiG5wzo",
+        views: "1.6K Views",
+        retention: "70.1% Retention"
+      },
+      {
+        id: "short3",
+        number: "Short #3",
+        tag: "OFFICIAL PART 2",
+        title: "The Giant Carrot Woke Up The Titan... 😱🥕 (PART 2)",
+        desc: "Direct continuation of Part 1! A skyscraper-sized carrot crashes into the village, followed by colossal footsteps. Eli and Kevin confront the awakening Colossus as the town prepares for war.",
+        src: "../master_videos/SHORT_3_The_Colossus_Awakens_Part2.mp4",
+        statusText: "🟢 LIVE ON YOUTUBE",
+        statusClass: "status-live",
+        duration: "172s • 49.6 MB",
+        ytId: "qlE3DMDswn8",
+        views: "Premiered Mon Nov 16",
+        retention: "High Watch Time"
+      },
+      {
+        id: "short4",
+        number: "Short #4",
+        tag: "STANDALONE VIRAL HIT",
+        title: "In My Town, Everything Works Like A Video Game 🎮",
+        desc: "Everyone has a floating health bar, a level, and an inventory. Eli is stuck at Level 1 while toddlers are Level 50. But when he glitches behind the map into the Town Settings room, he finds the developer console!",
+        src: "../master_videos/SHORT_4_Video_Game_Town_Level_999.mp4",
+        statusText: "🟢 LIVE ON YOUTUBE (7:30 PM DROP)",
+        statusClass: "status-live",
+        duration: "138s • 40.5 MB",
+        ytId: "j0fBOXT8yjE",
+        views: "Published Tonight",
+        retention: "Optimized Hook"
+      },
+      {
+        id: "short5",
+        number: "Short #5",
+        tag: "SCHEDULED PREMIERE",
+        title: "In This Town, Everyone Ages Backwards 👶👴",
+        desc: "You are born 80 years old with a grey beard and get one year younger every birthday. Toddlers wear briefcases to work while grandpas play in ball pits. But tomorrow, Eli's grandpa turns zero... so Eli hides under the crib to see the secret truth!",
+        src: "../master_videos/SHORT_5_Ages_Backwards_Grandpa_Egg.mp4",
+        statusText: "⏰ SCHEDULED: TUE NOV 17 @ 8:30 AM IST",
+        statusClass: "status-sched",
+        duration: "151s • 41.0 MB",
+        ytId: "04nx3n98XiI",
+        views: "Premiere Tomorrow",
+        retention: "Full Retention Script"
+      }
+    ];
+
+    let currentIndex = 0;
+    const player = document.getElementById("mainVideo");
+
+    function renderPlaylist() {
+      const grid = document.getElementById("playlistGrid");
+      grid.innerHTML = "";
+      videos.forEach((v, idx) => {
+        const item = document.createElement("div");
+        item.className = `playlist-item ${idx === currentIndex ? 'active' : ''}`;
+        item.onclick = () => selectVideo(idx);
+        item.innerHTML = `
+          <div class="item-thumb-box">
+            <video src="${v.src}#t=2.0" preload="metadata" muted></video>
+            <div class="play-icon-overlay">▶</div>
+          </div>
+          <div class="item-info">
+            <div class="item-tag">${v.tag}</div>
+            <div class="item-title">${v.number}: ${v.title}</div>
+            <div class="item-stats">
+              <span>⏱️ ${v.duration}</span>
+              <span>🔥 ${v.views}</span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function selectVideo(idx) {
+      currentIndex = idx;
+      const v = videos[idx];
+      player.src = v.src;
+      player.play();
+
+      document.getElementById("vidTitle").textContent = `${v.number}: ${v.title}`;
+      document.getElementById("vidDesc").textContent = v.desc;
+      document.getElementById("vidDuration").textContent = `Duration: ${v.duration}`;
+      
+      const stEl = document.getElementById("vidStatus");
+      stEl.textContent = v.statusText;
+      stEl.className = `status-pill ${v.statusClass}`;
+
+      document.getElementById("ytWatchLink").href = `https://youtu.be/${v.ytId}`;
+      document.getElementById("ytShortsLink").href = `https://www.youtube.com/shorts/${v.ytId}`;
+
+      renderPlaylist();
+    }
+
+    function togglePlay() {
+      if (player.paused) player.play();
+      else player.pause();
+    }
+
+    function setSpeed(spd) {
+      player.playbackRate = spd;
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        player.requestFullscreen().catch(err => alert(err.message));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    renderPlaylist();
+  </script>
+</body>
+</html>
