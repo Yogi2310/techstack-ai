@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaleBlox - The Forbidden Black Onion Full-Motion 3D</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%;
+      background: #050811;
+      overflow: hidden;
+      display: flex; justify-content: center; align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #viewport-container {
+      position: relative;
+      width: 100vw; height: 100vh;
+      max-width: 56.25vh; /* 9:16 aspect ratio */
+      max-height: 177.78vw;
+      background: #000;
+      overflow: hidden;
+    }
+    #canvas3d { width: 100%; height: 100%; display: block; }
+    #subtitles {
+      position: absolute;
+      bottom: 80px; left: 5%; width: 90%;
+      text-align: center;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .sub-box {
+      display: inline-block;
+      background: rgba(8, 12, 22, 0.88);
+      border: 2px solid rgba(168, 85, 247, 0.6);
+      padding: 12px 20px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 21px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.9);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    }
+    .hl-purple { color: #c084fc; text-shadow: 0 0 16px rgba(192, 132, 252, 0.9); }
+    .hl-yellow { color: #ffd60a; text-shadow: 0 0 15px rgba(255, 214, 10, 0.8); }
+    .hl-cyan { color: #00f2fe; text-shadow: 0 0 18px rgba(0, 242, 254, 0.9); }
+    .hl-red { color: #ef4444; text-shadow: 0 0 18px rgba(239, 68, 68, 0.9); }
+
+    .brand-overlay {
+      position: absolute;
+      top: 24px; left: 24px;
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      z-index: 50;
+    }
+    .brand-text { font-size: 14px; font-weight: 800; color: #c084fc; letter-spacing: 1px; }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "../agentic-code/projects/horror_shadow_titan_short/node_modules/three/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="viewport-container">
+    <canvas id="canvas3d"></canvas>
+    <div class="brand-overlay">
+      <span style="font-size: 14px;">🧅</span>
+      <span class="brand-text">TALEBLOX: PART 3</span>
+    </div>
+    <div id="subtitles">
+      <div id="sub-text" class="sub-box">THE GIANTS THREW FOOD BACK AT US!</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    // 1. SETUP CANVAS & RENDERER
+    const canvas = document.getElementById('canvas3d');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    renderer.setSize(720, 1280, false);
+    renderer.setPixelRatio(1.0);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1a102a);
+    scene.fog = new THREE.FogExp2(0x1a102a, 0.012);
+
+    const camera = new THREE.PerspectiveCamera(54, 720 / 1280, 0.1, 500);
+
+    // 2. LIGHTING
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+
+    const mainLight = new THREE.DirectionalLight(0xffeedd, 2.0);
+    mainLight.position.set(15, 40, 20);
+    mainLight.castShadow = true;
+    mainLight.shadow.mapSize.width = 1024;
+    mainLight.shadow.mapSize.height = 1024;
+    scene.add(mainLight);
+
+    // Purple atmospheric backlight
+    const purpleLight = new THREE.PointLight(0xa855f7, 3.0, 80);
+    purpleLight.position.set(0, 10, -20);
+    scene.add(purpleLight);
+
+    // 3. CREATE ROBLOX FACE TEXTURE
+    function createRobloxFace() {
+      const fc = document.createElement('canvas');
+      fc.width = 256; fc.height = 256;
+      const ctx = fc.getContext('2d');
+      ctx.fillStyle = '#ffcc80';
+      ctx.fillRect(0, 0, 256, 256);
+      
+      // Determined Anime / Hero Eyes
+      ctx.fillStyle = '#111';
+      ctx.beginPath(); ctx.ellipse(75, 105, 16, 22, 0.1, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(181, 105, 16, 22, -0.1, 0, Math.PI * 2); ctx.fill();
+      
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(71, 98, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(177, 98, 6, 0, Math.PI * 2); ctx.fill();
+      
+      // Determined smirk
+      ctx.strokeStyle = '#111';
+      ctx.lineWidth = 10;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.arc(128, 145, 45, 0.2, Math.PI - 0.2);
+      ctx.stroke();
+
+      return new THREE.CanvasTexture(fc);
+    }
+
+    // 4. BUILD ELI (ROBLOX R6 RIG)
+    const eliGroup = new THREE.Group();
+    scene.add(eliGroup);
+
+    const skinMat = new THREE.MeshStandardMaterial({ color: 0xffcc80, roughness: 0.5 });
+    const blueHoodieMat = new THREE.MeshStandardMaterial({ color: 0x1e88e5, roughness: 0.6 });
+    const jeansMat = new THREE.MeshStandardMaterial({ color: 0x1a237e, roughness: 0.7 });
+    const hairMat = new THREE.MeshStandardMaterial({ color: 0x4e342e, roughness: 0.8 });
+
+    // Torso
+    const torsoMesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 2.0, 1.0), blueHoodieMat);
+    torsoMesh.position.y = 2.0;
+    torsoMesh.castShadow = true;
+    eliGroup.add(torsoMesh);
+
+    // Head
+    const faceTex = createRobloxFace();
+    const headMats = [skinMat, skinMat, skinMat, skinMat, new THREE.MeshStandardMaterial({ map: faceTex, roughness: 0.5 }), skinMat];
+    const headMesh = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 1.2), headMats);
+    headMesh.position.y = 3.6;
+    headMesh.castShadow = true;
+    eliGroup.add(headMesh);
+
+    // Spiky Hair
+    const hairGroup = new THREE.Group();
+    const hairChunkGeo = new THREE.ConeGeometry(0.35, 0.7, 4);
+    for (let h = 0; h < 7; h++) {
+      const hc = new THREE.Mesh(hairChunkGeo, hairMat);
+      const angle = (h / 7) * Math.PI - 0.2;
+      hc.position.set(Math.cos(angle) * 0.55, 0.65, Math.sin(angle) * 0.45);
+      hairGroup.add(hc);
+    }
+    headMesh.add(hairGroup);
+
+    // Limbs
+    const armGeo = new THREE.BoxGeometry(0.8, 1.9, 0.8);
+    const legGeo = new THREE.BoxGeometry(0.75, 1.9, 0.8);
+
+    const leftArmPivot = new THREE.Group();
+    leftArmPivot.position.set(-1.25, 2.9, 0);
+    const leftArmMesh = new THREE.Mesh(armGeo, blueHoodieMat);
+    leftArmMesh.position.y = -0.85; leftArmMesh.castShadow = true;
+    leftArmPivot.add(leftArmMesh);
+    eliGroup.add(leftArmPivot);
+
+    const rightArmPivot = new THREE.Group();
+    rightArmPivot.position.set(1.25, 2.9, 0);
+    const rightArmMesh = new THREE.Mesh(armGeo, blueHoodieMat);
+    rightArmMesh.position.y = -0.85; rightArmMesh.castShadow = true;
+    rightArmPivot.add(rightArmMesh);
+    eliGroup.add(rightArmPivot);
+
+    const leftLegPivot = new THREE.Group();
+    leftLegPivot.position.set(-0.45, 1.0, 0);
+    const leftLegMesh = new THREE.Mesh(legGeo, jeansMat);
+    leftLegMesh.position.y = -0.9; leftLegMesh.castShadow = true;
+    leftLegPivot.add(leftLegMesh);
+    eliGroup.add(leftLegPivot);
+
+    const rightLegPivot = new THREE.Group();
+    rightLegPivot.position.set(0.45, 1.0, 0);
+    const rightLegMesh = new THREE.Mesh(legGeo, jeansMat);
+    rightLegMesh.position.y = -0.9; rightLegMesh.castShadow = true;
+    rightLegPivot.add(rightLegMesh);
+    eliGroup.add(rightLegPivot);
+
+    // Kevin the Frog on Eli's shoulder
+    const kevinGroup = new THREE.Group();
+    kevinGroup.position.set(-0.85, 3.1, 0.1);
+    const frogBody = new THREE.Mesh(new THREE.SphereGeometry(0.28, 12, 12), new THREE.MeshStandardMaterial({ color: 0x4caf50 }));
+    const helmet = new THREE.Mesh(new THREE.ConeGeometry(0.24, 0.35, 8), new THREE.MeshStandardMaterial({ color: 0xb0bec5, metalness: 0.8 }));
+    helmet.position.set(0, 0.32, 0);
+    kevinGroup.add(frogBody, helmet);
+    eliGroup.add(kevinGroup);
+
+    // 5. PROPS FOR ACT 1: SKYSCRAPER CARROT & GRANDMA LIFTING A TANK
+    const act1Group = new THREE.Group();
+    scene.add(act1Group);
+
+    // Skyscraper Carrot
+    const carrotGeo = new THREE.ConeGeometry(4.0, 28.0, 8);
+    const carrotMat = new THREE.MeshStandardMaterial({ color: 0xff6d00, roughness: 0.5 });
+    const skyscraperCarrot = new THREE.Mesh(carrotGeo, carrotMat);
+    skyscraperCarrot.position.set(8, 10, -10);
+    skyscraperCarrot.rotation.z = -0.35;
+    skyscraperCarrot.rotation.x = 0.2;
+    act1Group.add(skyscraperCarrot);
+
+    // Grandma Lifting A Tank
+    const grandmaGroup = new THREE.Group();
+    grandmaGroup.position.set(-8, 0, -5);
+    const grandmaBody = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1.8, 0.9), new THREE.MeshStandardMaterial({ color: 0xf48fb1 })); // Pink dress
+    grandmaBody.position.y = 1.8;
+    const grandmaHead = new THREE.Mesh(new THREE.BoxGeometry(1.0, 1.0, 1.0), new THREE.MeshStandardMaterial({ color: 0xffcc80 }));
+    grandmaHead.position.y = 3.2;
+    // Silver hair
+    const silverHair = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.6, 1.1), new THREE.MeshStandardMaterial({ color: 0xeeeeee }));
+    silverHair.position.y = 3.6;
+    grandmaGroup.add(grandmaBody, grandmaHead, silverHair);
+
+    // Military Green Tank being lifted overhead!
+    const tankGroup = new THREE.Group();
+    const tankBody = new THREE.Mesh(new THREE.BoxGeometry(6.0, 2.2, 3.5), new THREE.MeshStandardMaterial({ color: 0x2e7d32, roughness: 0.8 }));
+    const tankTurret = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.4, 1.2, 8), new THREE.MeshStandardMaterial({ color: 0x1b5e20 }));
+    tankTurret.position.y = 1.5;
+    const tankCannon = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 4.0, 8), new THREE.MeshStandardMaterial({ color: 0x1b5e20 }));
+    tankCannon.position.set(2.5, 1.5, 0);
+    tankCannon.rotation.z = Math.PI / 2;
+    tankGroup.add(tankBody, tankTurret, tankCannon);
+    tankGroup.position.set(0, 5.2, 0); // Directly overhead of grandma!
+    grandmaGroup.add(tankGroup);
+    act1Group.add(grandmaGroup);
+
+    // 6. PROPS FOR ACT 2: CRYOGENIC VAULT & THE FORBIDDEN BLACK ONION
+    const act2Group = new THREE.Group();
+    act2Group.position.set(0, 0, -100); // Placed in vault zone
+    scene.add(act2Group);
+
+    // Vault chamber walls
+    const vaultWallMat = new THREE.MeshStandardMaterial({ color: 0x1e1b4b, metalness: 0.8, roughness: 0.3 });
+    const vaultBack = new THREE.Mesh(new THREE.BoxGeometry(30, 20, 2), vaultWallMat);
+    vaultBack.position.set(0, 10, -15);
+    act2Group.add(vaultBack);
+
+    // Cryogenic Pedestal & Glass Cube
+    const pedestalMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.9, roughness: 0.2 });
+    const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(2.0, 2.5, 3.0, 8), pedestalMat);
+    pedestal.position.set(0, 1.5, 0);
+    const glassMat = new THREE.MeshPhysicalMaterial({ color: 0xa855f7, transparent: true, opacity: 0.45, roughness: 0.1, transmission: 0.9 });
+    const cryoCube = new THREE.Mesh(new THREE.BoxGeometry(3.0, 3.0, 3.0), glassMat);
+    cryoCube.position.set(0, 4.2, 0);
+    act2Group.add(pedestal, cryoCube);
+
+    // The Forbidden Black Onion
+    const onionGroup = new THREE.Group();
+    const onionMat = new THREE.MeshStandardMaterial({ color: 0x2e1065, metalness: 0.7, roughness: 0.2, emissive: 0x7c3aed, emissiveIntensity: 0.8 });
+    const onionBody = new THREE.Mesh(new THREE.SphereGeometry(0.9, 12, 12), onionMat);
+    onionBody.scale.set(1.0, 1.3, 1.0);
+    const onionSprout = new THREE.Mesh(new THREE.ConeGeometry(0.3, 0.8, 6), new THREE.MeshBasicMaterial({ color: 0xc084fc }));
+    onionSprout.position.y = 1.3;
+    onionGroup.add(onionBody, onionSprout);
+
+    // Glowing purple aura rings
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0xd8b4fe, wireframe: true, transparent: true, opacity: 0.7 });
+    const ringMesh = new THREE.Mesh(new THREE.TorusGeometry(1.4, 0.08, 6, 16), ringMat);
+    ringMesh.rotation.x = Math.PI / 3;
+    onionGroup.add(ringMesh);
+
+    onionGroup.position.set(0, 4.2, 0);
+    act2Group.add(onionGroup);
+
+    // 7. PROPS FOR ACT 3 & 4: WATER TOWER & COLOSSAL TITAN
+    const act3Group = new THREE.Group();
+    act3Group.position.set(0, 0, -200);
+    scene.add(act3Group);
+
+    // Water Tower
+    const towerMat = new THREE.MeshStandardMaterial({ color: 0x991b1b, roughness: 0.7 }); // Red tank
+    const waterTank = new THREE.Mesh(new THREE.CylinderGeometry(5.0, 5.0, 7.0, 12), towerMat);
+    waterTank.position.set(0, 18.0, 0);
+    const towerLegs = new THREE.Mesh(new THREE.CylinderGeometry(4.5, 6.0, 15.0, 4, 1, true), new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8 }));
+    towerLegs.position.set(0, 7.5, 0);
+    act3Group.add(waterTank, towerLegs);
+
+    // The Colossal Titan (Mountain-sized Obsidian Golem)
+    const titanGroup = new THREE.Group();
+    titanGroup.position.set(0, 0, -320);
+    scene.add(titanGroup);
+
+    const titanStoneMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.9, metalness: 0.3 });
+    const titanTorso = new THREE.Mesh(new THREE.BoxGeometry(22, 28, 14), titanStoneMat);
+    titanTorso.position.y = 25;
+    const titanHead = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10), titanStoneMat);
+    titanHead.position.set(0, 43, 0);
+    
+    // Titan Eyes (Start glowing RED, switch to CYAN BLUE!)
+    const titanEyeMat = new THREE.MeshBasicMaterial({ color: 0xef4444 }); // red initially
+    const te1 = new THREE.Mesh(new THREE.SphereGeometry(1.4, 8, 8), titanEyeMat);
+    te1.position.set(-2.8, 44, 5.2);
+    const te2 = new THREE.Mesh(new THREE.SphereGeometry(1.4, 8, 8), titanEyeMat);
+    te2.position.set(2.8, 44, 5.2);
+    titanGroup.add(titanTorso, titanHead, te1, te2);
+
+    // Titan Heavy Collar (Sector 9)
+    const collarMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.95, roughness: 0.1 });
+    const titanCollar = new THREE.Mesh(new THREE.TorusGeometry(8.0, 1.2, 8, 24), collarMat);
+    titanCollar.position.set(0, 38, 0);
+    titanCollar.rotation.x = Math.PI / 2;
+    titanGroup.add(titanCollar);
+
+    // Ground plane for exterior
+    const groundGeo = new THREE.PlaneGeometry(300, 500);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0x223030, roughness: 0.9 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.set(0, 0, -150);
+    scene.add(ground);
+
+    // 8. MASTER TIMELINE FUNCTION
+    const subText = document.getElementById('sub-text');
+
+    window.renderFrameAtTime = function(t) {
+      // Subtitle Cues
+      if (t < 4.2) {
+        subText.innerHTML = "LAST WEEK, I THREW THE <span class='hl-yellow'>GOLDEN CHEESE</span>...";
+      } else if (t < 9.5) {
+        subText.innerHTML = "BUT NOW, THE <span class='hl-red'>GIANTS ARE THROWING FOOD</span> AT US!";
+      } else if (t < 14.5) {
+        subText.innerHTML = "A SKYSCRAPER CARROT CRUSHED OUR STREET! <span class='hl-yellow'>GRANDMA LIFTED A TANK!</span>";
+      } else if (t < 19.5) {
+        subText.innerHTML = "I RAN TO THE VAULT & GRABBED THE <span class='hl-purple'>FORBIDDEN BLACK ONION!</span>";
+      } else if (t < 25.0) {
+        subText.innerHTML = "I LEAPED OFF THE TOWER & <span class='hl-purple'>HURLED IT INTO THE STORM!</span>";
+      } else if (t < 31.0) {
+        subText.innerHTML = "IT HIT THE TITAN! ITS EYES TURNED <span class='hl-cyan'>CYAN BLUE!</span>";
+      } else {
+        subText.innerHTML = "ON ITS COLLAR: <span class='hl-cyan'>PROPERTY OF SECTOR 9 - DO NOT RELEASE!</span>";
+      }
+
+      // ============================================
+      // ACT 1: SKYSCRAPER CARROT & RUNNING CHAOS (0s -> 9.5s)
+      // ============================================
+      if (t < 9.5) {
+        const runCycle = t * 13.0;
+        eliGroup.position.set(0, 0, 15 - t * 3.5);
+        eliGroup.rotation.y = Math.PI;
+
+        leftLegPivot.rotation.x = Math.sin(runCycle) * 0.85;
+        rightLegPivot.rotation.x = -Math.sin(runCycle) * 0.85;
+        leftArmPivot.rotation.x = -Math.sin(runCycle) * 0.75;
+        rightArmPivot.rotation.x = Math.sin(runCycle) * 0.75;
+        headMesh.rotation.y = Math.sin(runCycle * 0.5) * 0.1;
+
+        // Grandma bench-pressing tank with comedic bob
+        tankGroup.position.y = 5.2 + Math.abs(Math.sin(t * 8.0)) * 0.4;
+
+        // Camera following Eli running past the carrot and tank
+        camera.position.set(4.0, 3.8, eliGroup.position.z + 7.5);
+        camera.lookAt(eliGroup.position.x - 1.0, 2.5, eliGroup.position.z - 4.0);
+
+        scene.background.setHex(0x1e1528);
+        scene.fog.color.setHex(0x1e1528);
+      }
+
+      // ============================================
+      // ACT 2: CRYOGENIC VAULT & BLACK ONION (9.5s -> 18.0s)
+      // ============================================
+      else if (t < 18.0) {
+        const vaultT = t - 9.5;
+        eliGroup.position.set(0, 0, -100 + 6.0); // Inside vault
+        eliGroup.rotation.y = Math.PI;
+
+        // Eli walks slowly towards the pedestal
+        const walkCycle = vaultT * 4.0;
+        leftLegPivot.rotation.x = Math.sin(walkCycle) * 0.3;
+        rightLegPivot.rotation.x = -Math.sin(walkCycle) * 0.3;
+
+        // Onion pulses with energy
+        onionGroup.rotation.y = vaultT * 2.5;
+        ringMesh.rotation.z = vaultT * 3.0;
+
+        if (vaultT > 4.5) {
+          // Eli reaches out right arm to grab the onion!
+          rightArmPivot.rotation.x = -Math.PI * 0.55;
+          // Onion moves to Eli's hand!
+          onionGroup.position.set(eliGroup.position.x + 1.25, 2.8, eliGroup.position.z + 0.6);
+        }
+
+        // Camera: Sci-fi slow orbit around glowing pedestal
+        camera.position.set(Math.sin(vaultT * 0.4) * 8.0, 3.5, -100 + Math.cos(vaultT * 0.4) * 9.0);
+        camera.lookAt(0, 3.2, -100);
+
+        scene.background.setHex(0x0a0614);
+        scene.fog.color.setHex(0x0a0614);
+      }
+
+      // ============================================
+      // ACT 3: WATER TOWER JUMP & HYPERSONIC THROW (18.0s -> 26.0s)
+      // ============================================
+      else if (t < 26.0) {
+        const jumpT = t - 18.0;
+        
+        if (jumpT < 3.5) {
+          // Eli on top of water tower winding up
+          eliGroup.position.set(0, 21.5, -200);
+          eliGroup.rotation.y = Math.PI - 0.2;
+
+          const p = jumpT / 3.5;
+          rightArmPivot.rotation.x = -Math.PI * 0.8 * p;
+          onionGroup.position.set(1.4, 22.5 + p * 0.8, -200 - p * 1.5);
+          onionGroup.rotation.y = t * 8;
+
+          camera.position.set(-4.0, 21.0, -192.0);
+          camera.lookAt(0, 22.0, -200);
+        } else {
+          // LEAP & THROW!
+          const throwT = jumpT - 3.5;
+          // Eli leaps into air
+          eliGroup.position.set(0, 21.5 + Math.sin(throwT * 2.0) * 2.5, -200 - throwT * 8.0);
+          rightArmPivot.rotation.x = Math.PI * 0.4;
+
+          // Black Onion shoots across the sky like a hypersonic missile
+          const missileT = throwT * 22.0;
+          onionGroup.position.set(0, 23.0 + missileT * 0.4 - 0.03 * missileT * missileT, -200 - missileT * 4.5);
+          onionGroup.rotation.x = t * 15;
+          onionGroup.rotation.y = t * 15;
+
+          // Tracking camera rushing with the onion
+          camera.position.set(onionGroup.position.x + 2.5, onionGroup.position.y + 1.0, onionGroup.position.z + 8.0);
+          camera.lookAt(onionGroup.position.x, onionGroup.position.y, onionGroup.position.z - 20.0);
+        }
+
+        scene.background.setHex(0x280e3b);
+        scene.fog.color.setHex(0x280e3b);
+      }
+
+      // ============================================
+      // ACT 4: TITAN TAMED & SECTOR 9 MYSTERY (26.0s -> 38.0s)
+      // ============================================
+      else {
+        const titanT = t - 26.0;
+
+        // Eyes turn Cyan Blue!
+        titanEyeMat.color.setHex(0x00f2fe);
+
+        // Titan drops to ground and rolls over like a puppy
+        const sitP = Math.min(1.0, titanT / 3.0);
+        titanGroup.position.y = -sitP * 14.0;
+        titanGroup.rotation.z = sitP * 0.35; // tilts head playfully
+        titanHead.rotation.x = -0.2;
+
+        // Eli standing near the Titan, looking up
+        eliGroup.position.set(0, 0, -290);
+        eliGroup.rotation.y = 0; // facing titan
+        headMesh.rotation.x = -0.7; // staring up in awe
+        rightArmPivot.rotation.x = -0.5;
+
+        // Camera: cinematic push-in onto the glowing SECTOR 9 collar
+        const camZ = -275 - Math.min(15.0, titanT * 1.5);
+        camera.position.set(0, 18.0 - sitP * 6.0, camZ);
+        camera.lookAt(0, 24.0 - sitP * 8.0, -320);
+
+        scene.background.setHex(0x0f172a);
+        scene.fog.color.setHex(0x0f172a);
+      }
+
+      renderer.render(scene, camera);
+    };
+
+    window.renderFrameAtTime(0);
+  </script>
+</body>
+</html>
