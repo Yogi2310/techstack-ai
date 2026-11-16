@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaleBlox - 3D Viral Shorts Audio Production Suite</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #151d30;
+      --accent: #ffb703;
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9d4edd;
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+      --border: #23314f;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 2rem; min-height: 100vh; }
+    .container { max-width: 900px; margin: 0 auto; }
+    .header { text-align: center; margin-bottom: 2.5rem; }
+    .badge { display: inline-block; background: rgba(255,183,3,0.15); color: var(--accent); padding: 6px 16px; border-radius: 9999px; font-weight: 700; font-size: 0.85rem; letter-spacing: 1px; border: 1px solid rgba(255,183,3,0.3); margin-bottom: 1rem; }
+    h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 0.5rem; background: linear-gradient(135deg, #fff, var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    p.subtitle { color: var(--text-dim); font-size: 1.05rem; }
+
+    .tabs { display: flex; gap: 10px; margin-bottom: 2rem; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+    .tab-btn { background: transparent; border: none; color: var(--text-dim); font-size: 1rem; font-weight: 600; padding: 10px 20px; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
+    .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .tab-btn.active { color: #000; background: var(--accent); font-weight: 700; }
+
+    .player-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .story-title { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .duration-tag { background: rgba(0,242,254,0.15); color: var(--accent-cyan); padding: 4px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; }
+
+    audio { width: 100%; margin: 1rem 0 1.5rem 0; border-radius: 8px; outline: none; }
+    .script-box { background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; max-height: 380px; overflow-y: auto; line-height: 1.7; font-size: 1.05rem; }
+    .script-cue { color: var(--accent-cyan); font-weight: 700; font-size: 0.9rem; margin-top: 1rem; display: block; border-left: 3px solid var(--accent-cyan); padding-left: 8px; }
+    .script-cue:first-child { margin-top: 0; }
+    
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .meta-item { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 1rem; border-radius: 10px; }
+    .meta-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .meta-val { font-size: 1rem; font-weight: 600; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="badge">TALEBLOX ORIGINAL SERIES</span>
+      <h1>Viral Shorts Audio Production Suite</h1>
+      <p class="subtitle">Broadcast-normalized neural voiceover narrations based on the "Golden Cheese" viral formula.</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(0)">🧅 Episode 1: Black Onion</button>
+      <button class="tab-btn" onclick="switchTab(1)">☁️ Episode 2: Sky Fishing</button>
+      <button class="tab-btn" onclick="switchTab(2)">🚜 Episode 3: Vehicle Harvest</button>
+    </div>
+
+    <!-- Episode 1 -->
+    <div class="player-card" id="tab-0">
+      <div class="card-header">
+        <div class="story-title"><span>🧅</span> The Forbidden Black Onion (Eli & Kevin Part 3)</div>
+        <span class="duration-tag">89.7 Seconds</span>
+      </div>
+      <audio controls src="../audio_production/story1_black_onion.wav"></audio>
+      <div class="script-box">
+        <span class="script-cue">[0:00 - 0:08] HOOK & IMMEDIATE THREAT</span>
+        In my town, if you throw food off the mountain, mythical pets come running. Last week, I threw the Golden Cheese and got a golden dragon. But that night... the giants started throwing food back at US.
+        <span class="script-cue">[0:08 - 0:20] ESCALATION & COMEDY</span>
+        A carrot the size of a skyscraper crashed into the town square! Then a steak as big as a football field crushed the mayor's pool. Everyone panicked. My grandma started bench-pressing a military tank just to get ready. And my frog Kevin? He strapped on a tiny titanium helmet and refused to leave my shoulder.
+        <span class="script-cue">[0:20 - 0:35] THE FORBIDDEN ITEM</span>
+        I sprinted to the forbidden vault beneath the pet shop. Locked inside a cryogenic ice cube was a glowing, purple, pulsing vegetable: The Forbidden Black Onion. The shopkeeper grabbed my collar: "Eli, don't! Nobody has thrown that in 500 years. It doesn't attract animals... it wakes up whatever sleeps at the core of the planet!"
+        <span class="script-cue">[0:35 - 0:48] THE THROW</span>
+        I didn't care. The earth split open. A foot made of solid obsidian stomped over our hills. I took a running start, jumped off the water tower, spun three times, and hurled the Black Onion into the storm! It shot across the sky like a purple hypersonic missile!
+        <span class="script-cue">[0:48 - 0:58] THE CLIMAX & TWIST</span>
+        BOOM! It hit the Titan dead in the chest! The giant froze. Its glowing red eyes suddenly flickered into bright neon blue. It slowly looked down at me... and rolled over on its back like an obedient puppy wanting belly rubs!
+        <span class="script-cue">[0:58 - 1:02] THE CLIFFHANGER</span>
+        I just tamed a mountain-sized Colossus! But when I climbed up to check its collar... a silver plaque read: "PROPERTY OF SECTOR 9 - DO NOT RELEASE."
+      </div>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="meta-label">Voice Model</div><div class="meta-val">en-US-GuyNeural (+12%)</div></div>
+        <div class="meta-item"><div class="meta-label">Audio Master</div><div class="meta-val">story1_black_onion.wav</div></div>
+        <div class="meta-item"><div class="meta-label">Viral Hook</div><div class="meta-val">Giants throwing food back at us</div></div>
+      </div>
+    </div>
+
+    <!-- Episode 2 -->
+    <div class="player-card" id="tab-1" style="display:none;">
+      <div class="card-header">
+        <div class="story-title"><span>☁️</span> Sky Fishing: The Cloud Fortress</div>
+        <span class="duration-tag">87.7 Seconds</span>
+      </div>
+      <audio controls src="../audio_production/story2_sky_fishing.wav"></audio>
+      <div class="script-box">
+        <span class="script-cue">[0:00 - 0:08] HOOK & IMMEDIATE RULE</span>
+        In my town, nobody fishes in water. You cast your fishing rod straight up into the clouds. And whatever bites... you better reel in fast before it drags you into the atmosphere.
+        <span class="script-cue">[0:08 - 0:21] THE TIER LIST & COMEDY</span>
+        See that kid? He baited a gummy worm and caught a flying goldfinch. It drops 10 gold coins every hour. My neighbor used a whole roasted chicken on a steel winch and hooked a Thunder Hawk! It powers his whole house with lightning. But my math teacher got greedy with a Thanksgiving turkey, and a Sky Whale dragged him halfway to the stratosphere! We haven't had homework in three weeks.
+        <span class="script-cue">[0:21 - 0:34] THE UNDERDOG SETUP</span>
+        I only had a bent paperclip and dental floss. My first catch was a tiny cloud sprite named Nimbus. He eats raindrops and sneezes mini rainbows. Everyone laughed at me. So I went to the crater where the meteor crashed last winter.
+        <span class="script-cue">[0:34 - 0:48] THE ULTIMATE CAST</span>
+        I forged the Meteorite Harpoon. I attached it to an industrial titanium crane cable. At midnight during the Blood Moon eclipse, when the sky turned violet, I cast straight into the eye of the swirling black hurricane above the mountains!
+        <span class="script-cue">[0:48 - 0:58] THE CLIMAX & REEL</span>
+        The winch started spinning so fast it caught fire! The rod bent in half. I tied the cable to the town hall bell tower. With one final pull... the clouds parted. Out fell a colossal, rusted titanium anchor as big as a battleship!
+        <span class="script-cue">[0:58 - 1:02] THE TWIST & CLIFFHANGER</span>
+        Attached to the anchor was a glowing chain leading 50,000 feet into the sky. And a speaker on the anchor crackled to life: "HUMAN LIFE-SIGNS CONFIRMED. COMMENCING EXTRACTION."
+      </div>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="meta-label">Voice Model</div><div class="meta-val">en-US-GuyNeural (+12%)</div></div>
+        <div class="meta-item"><div class="meta-label">Audio Master</div><div class="meta-val">story2_sky_fishing.wav</div></div>
+        <div class="meta-item"><div class="meta-label">Viral Hook</div><div class="meta-val">Casting fishing rods into the sky</div></div>
+      </div>
+    </div>
+
+    <!-- Episode 3 -->
+    <div class="player-card" id="tab-2" style="display:none;">
+      <div class="card-header">
+        <div class="story-title"><span>🚜</span> Mechanical Garden: Vehicle Harvest</div>
+        <span class="duration-tag">86.7 Seconds</span>
+      </div>
+      <audio controls src="../audio_production/story3_vehicle_harvest.wav"></audio>
+      <div class="script-box">
+        <span class="script-cue">[0:00 - 0:08] HOOK & IMMEDIATE RULE</span>
+        In my town, nobody buys cars or bikes. You dig a hole in your garden, bury scrap metal, water it with motor oil, and wait 24 hours. Whatever sprouts out of the dirt is yours to drive.
+        <span class="script-cue">[0:08 - 0:21] THE TIER LIST & COMEDY</span>
+        Plant a rusty screw? You get a motorized kick-scooter. Plant a lawnmower blade? A racing go-kart sprouts like a watermelon. My neighbor buried a V8 diesel engine, and next morning an armored monster truck was blooming over his fence! The mayor planted a helicopter rotor, and now he lands his private chopper on his roof every evening.
+        <span class="script-cue">[0:21 - 0:34] THE UNDERDOG SETUP</span>
+        I had zero car parts. All I found in my drawer was a dead AA battery and a flashlight bulb. I buried them, watered it with soda, and the next day... a tiny neon hoverboard popped out of the ground! It hovered behind me like an eager puppy. But I wanted to build something the town had never seen.
+        <span class="script-cue">[0:34 - 0:48] THE FORBIDDEN SEED</span>
+        I explored the abandoned Sector 9 military lab outside town. Hidden in a titanium safe was a pulsing black cube: The Quantum Core. I buried it in the middle of our farm, dug a moat around it, and poured a barrel of liquid coolant over the soil.
+        <span class="script-cue">[0:48 - 0:58] THE HARVEST & TWIST</span>
+        At 3:00 AM, the ground erupted into bright blue electric vines! The earth cracked open. Rising from the soil was a 60-foot stealth mech with dual plasma thrusters and obsidian wings!
+        <span class="script-cue">[0:58 - 1:02] THE CLIFFHANGER</span>
+        The cockpit hissed open. A holographic display lit up in front of my face and said: "PILOT IDENTIFIED: ELI. FLEET EMERGENCY PROTOCOL ENGAGED. PREPARE FOR ORBIT."
+      </div>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="meta-label">Voice Model</div><div class="meta-val">en-US-GuyNeural (+12%)</div></div>
+        <div class="meta-item"><div class="meta-label">Audio Master</div><div class="meta-val">story3_vehicle_harvest.wav</div></div>
+        <div class="meta-item"><div class="meta-label">Viral Hook</div><div class="meta-val">Plants sprout into vehicles</div></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(idx) {
+      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.player-card').forEach((card, i) => {
+        card.style.display = (i === idx) ? 'block' : 'none';
+        const aud = card.querySelector('audio');
+        if (aud && i !== idx) aud.pause();
+      });
+    }
+  </script>
+</body>
+</html>
