@@ -228,7 +228,7 @@
 
       <!-- Playlist -->
       <div>
-        <div class="playlist-header">🎬 Master Video Library (<span id="totalVideosCount">5</span> Episodes)</div>
+        <div class="playlist-header">🎬 Master Video Library (<span id="totalVideosCount">6</span> Episodes)</div>
         <div class="playlist-grid" id="playlistGrid">
           <!-- Populated by JS -->
         </div>
@@ -309,6 +309,20 @@
         ytId: "04nx3n98XiI",
         views: "Premiere Tomorrow",
         retention: "Full Retention Script"
+      },
+      {
+        id: "short6",
+        number: "Short #6",
+        tag: "🔥 NEW PRODUCTION (ELI & KEVIN PART 3)",
+        title: "I Threw The Forbidden Black Onion At The Colossus... 🧅😱",
+        desc: "PART 3 DIRECT CONTINUATION! The mountain giants throw skyscraper-sized carrots at the town. Eli breaks into the cryogenic vault, steals the pulsing Black Onion, and hurls it from the water tower. The colossal Titan gets tamed like a puppy... but its collar reveals the secret of SECTOR 9!",
+        src: "../master_videos/SHORT_6_The_Forbidden_Black_Onion.mp4",
+        statusText: "✨ NEW MASTER VIDEO (READY TO PUBLISH)",
+        statusClass: "status-special",
+        duration: "89s • 42.1 MB",
+        ytId: "",
+        views: "Fresh 3D Master",
+        retention: "High-Octane Pacing"
       }
     ];
 
@@ -354,8 +368,17 @@
       stEl.textContent = v.statusText;
       stEl.className = `status-pill ${v.statusClass}`;
 
-      document.getElementById("ytWatchLink").href = `https://youtu.be/${v.ytId}`;
-      document.getElementById("ytShortsLink").href = `https://www.youtube.com/shorts/${v.ytId}`;
+      const wBtn = document.getElementById("ytWatchLink");
+      const sBtn = document.getElementById("ytShortsLink");
+      if (v.ytId) {
+        wBtn.style.display = "inline-flex";
+        sBtn.style.display = "inline-flex";
+        wBtn.href = `https://youtu.be/${v.ytId}`;
+        sBtn.href = `https://www.youtube.com/shorts/${v.ytId}`;
+      } else {
+        wBtn.style.display = "none";
+        sBtn.style.display = "none";
+      }
 
       renderPlaylist();
     }
