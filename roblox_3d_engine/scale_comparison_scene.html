@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaleBlox - 3D Roblox Scale Comparison</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%;
+      background: #020408;
+      overflow: hidden;
+      display: flex; justify-content: center; align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #viewport-container {
+      position: relative;
+      width: 100vw; height: 100vh;
+      max-width: 56.25vh; /* 9:16 vertical */
+      max-height: 177.78vw;
+      background: #000;
+      overflow: hidden;
+    }
+    #canvas3d { width: 100%; height: 100%; display: block; }
+    
+    /* Live Scale HUD */
+    #scale-hud {
+      position: absolute;
+      top: 30px; left: 5%; width: 90%;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 50;
+    }
+    .scale-card {
+      background: rgba(10, 16, 28, 0.85);
+      border: 2px solid #ffd60a;
+      padding: 10px 18px;
+      border-radius: 14px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+    }
+    .scale-title { font-size: 11px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+    .scale-name { font-size: 20px; font-weight: 900; color: #fff; margin-top: 2px; }
+    
+    .meter-badge {
+      background: linear-gradient(135deg, #ffd60a, #ff9f1c);
+      color: #000;
+      font-size: 22px;
+      font-weight: 950;
+      padding: 8px 18px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 214, 10, 0.5);
+    }
+
+    #subtitles {
+      position: absolute;
+      bottom: 75px; left: 5%; width: 90%;
+      text-align: center;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .sub-box {
+      display: inline-block;
+      background: rgba(6, 9, 16, 0.9);
+      border: 2px solid rgba(255, 214, 10, 0.5);
+      padding: 12px 22px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.9);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    .hl-gold { color: #ffd60a; text-shadow: 0 0 18px rgba(255, 214, 10, 0.9); font-size: 24px; }
+    .hl-green { color: #4ade80; text-shadow: 0 0 15px rgba(74, 222, 128, 0.8); }
+    .hl-cyan { color: #00f2fe; text-shadow: 0 0 18px rgba(0, 242, 254, 0.9); }
+    .hl-purple { color: #c084fc; text-shadow: 0 0 20px rgba(192, 132, 252, 0.9); font-size: 25px; }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "../agentic-code/projects/horror_shadow_titan_short/node_modules/three/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="viewport-container">
+    <canvas id="canvas3d"></canvas>
+    <div id="scale-hud">
+      <div class="scale-card">
+        <div class="scale-title">ROBLOX SIZE COMPARISON</div>
+        <div class="scale-name" id="char-name">KEVIN THE FROG</div>
+      </div>
+      <div class="meter-badge" id="meter-counter">0.3 METERS</div>
+    </div>
+    <div id="subtitles">
+      <div id="sub-text" class="sub-box">WHO IS THE BIGGEST IN OUR TOWN?</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    // 1. SETUP CANVAS & RENDERER
+    const canvas = document.getElementById('canvas3d');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    renderer.setSize(720, 1280, false);
+    renderer.setPixelRatio(1.0);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.3;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x060b19);
+    scene.fog = new THREE.FogExp2(0x060b19, 0.003);
+
+    const camera = new THREE.PerspectiveCamera(54, 720 / 1280, 0.1, 2000);
+
+    // 2. LIGHTING
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambientLight);
+
+    const sun = new THREE.DirectionalLight(0xfffaed, 2.2);
+    sun.position.set(80, 250, 100);
+    sun.castShadow = true;
+    sun.shadow.mapSize.width = 2048;
+    sun.shadow.mapSize.height = 2048;
+    sun.shadow.camera.near = 1;
+    sun.shadow.camera.far = 800;
+    sun.shadow.camera.left = -200;
+    sun.shadow.camera.right = 200;
+    sun.shadow.camera.top = 200;
+    sun.shadow.camera.bottom = -200;
+    scene.add(sun);
+
+    // Cyan & Gold Rim Accent Lights
+    const cyanLight = new THREE.PointLight(0x00f2fe, 3.0, 300);
+    cyanLight.position.set(-30, 40, -50);
+    scene.add(cyanLight);
+
+    const goldLight = new THREE.PointLight(0xffd60a, 4.0, 500);
+    goldLight.position.set(50, 80, -100);
+    scene.add(goldLight);
+
+    // 3. SCALE RUNWAY & GRID FLOOR
+    const runwayGeo = new THREE.PlaneGeometry(600, 1200);
+    const runwayMat = new THREE.MeshStandardMaterial({ color: 0x090f1f, roughness: 0.8 });
+    const runway = new THREE.Mesh(runwayGeo, runwayMat);
+    runway.rotation.x = -Math.PI / 2;
+    runway.receiveShadow = true;
+    scene.add(runway);
+
+    // Grid helper overlay
+    const grid = new THREE.GridHelper(600, 60, 0x00f2fe, 0x1e293b);
+    grid.position.y = 0.05;
+    scene.add(grid);
+
+    // 4. ENTITY 1: KEVIN THE FROG (0.3m)
+    const kevinGroup = new THREE.Group();
+    kevinGroup.position.set(-18, 0.15, 0);
+    const frogMat = new THREE.MeshStandardMaterial({ color: 0x4caf50, roughness: 0.5 });
+    const frogBody = new THREE.Mesh(new THREE.SphereGeometry(0.18, 12, 12), frogMat);
+    frogBody.castShadow = true;
+    const helmet = new THREE.Mesh(new THREE.ConeGeometry(0.15, 0.22, 8), new THREE.MeshStandardMaterial({ color: 0xcfd8dc, metalness: 0.9 }));
+    helmet.position.y = 0.22;
+    kevinGroup.add(frogBody, helmet);
+    scene.add(kevinGroup);
+
+    // 5. ENTITY 2: ELI IN BLUE HOODIE (1.5m)
+    const eliGroup = new THREE.Group();
+    eliGroup.position.set(-14, 0, 0);
+    const skinMat = new THREE.MeshStandardMaterial({ color: 0xffcc80 });
+    const blueMat = new THREE.MeshStandardMaterial({ color: 0x1e88e5 });
+    const jeansMat = new THREE.MeshStandardMaterial({ color: 0x1a237e });
+
+    const eliTorso = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.0, 0.5), blueMat);
+    eliTorso.position.y = 1.0; eliTorso.castShadow = true;
+    const eliHead = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 0.6), skinMat);
+    eliHead.position.y = 1.8; eliHead.castShadow = true;
+    const eliLeg1 = new THREE.Mesh(new THREE.BoxGeometry(0.35, 1.0, 0.4), jeansMat);
+    eliLeg1.position.set(-0.22, 0.5, 0);
+    const eliLeg2 = new THREE.Mesh(new THREE.BoxGeometry(0.35, 1.0, 0.4), jeansMat);
+    eliLeg2.position.set(0.22, 0.5, 0);
+    const eliArm1 = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.9, 0.4), blueMat);
+    eliArm1.position.set(-0.6, 1.0, 0);
+    const eliArm2 = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.9, 0.4), blueMat);
+    eliArm2.position.set(0.6, 1.0, 0);
+    eliGroup.add(eliTorso, eliHead, eliLeg1, eliLeg2, eliArm1, eliArm2);
+    scene.add(eliGroup);
+
+    // 6. ENTITY 3: SKYSCRAPER CARROT (28m)
+    const carrotGroup = new THREE.Group();
+    carrotGroup.position.set(-4, 0, 0);
+    const carrotGeo = new THREE.ConeGeometry(4.0, 28.0, 8);
+    const carrotMat = new THREE.MeshStandardMaterial({ color: 0xff6d00, roughness: 0.6 });
+    const carrot = new THREE.Mesh(carrotGeo, carrotMat);
+    carrot.position.y = 14.0;
+    carrot.castShadow = true;
+    // Green leaves top
+    const leafGeo = new THREE.ConeGeometry(2.5, 6.0, 5);
+    const leafMat = new THREE.MeshStandardMaterial({ color: 0x2e7d32 });
+    const leaf = new THREE.Mesh(leafGeo, leafMat);
+    leaf.position.y = 29.0;
+    carrotGroup.add(carrot, leaf);
+    scene.add(carrotGroup);
+
+    // 7. ENTITY 4: THE GOLDEN DRAGON (55m)
+    const dragonGroup = new THREE.Group();
+    dragonGroup.position.set(22, 10, -15);
+    const goldMat = new THREE.MeshStandardMaterial({ color: 0xffb703, metalness: 0.9, roughness: 0.15, emissive: 0xff9100, emissiveIntensity: 0.3 });
+    const dBody = new THREE.Mesh(new THREE.CylinderGeometry(4.0, 5.0, 35.0, 8), goldMat);
+    dBody.rotation.z = Math.PI / 4;
+    dBody.position.y = 25.0;
+    const dHead = new THREE.Mesh(new THREE.ConeGeometry(4.5, 9.0, 6), goldMat);
+    dHead.position.set(16, 38, 0);
+    dHead.rotation.z = -Math.PI / 3;
+
+    // Glowing cyan dragon eyes
+    const eyeMat = new THREE.MeshBasicMaterial({ color: 0x00f2fe });
+    const eye1 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 8, 8), eyeMat);
+    eye1.position.set(15, 40, 2.5);
+    const eye2 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 8, 8), eyeMat);
+    eye2.position.set(15, 40, -2.5);
+
+    // Huge Wings (55m span)
+    const dWingGeo = new THREE.BufferGeometry();
+    dWingGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array([
+      0, 0, 0,
+      -30, 25, -15,
+      -20, -10, 5
+    ]), 3));
+    dWingGeo.computeVertexNormals();
+    const lWing = new THREE.Mesh(dWingGeo, new THREE.MeshStandardMaterial({ color: 0xffd60a, side: THREE.DoubleSide, metalness: 0.7 }));
+    lWing.position.set(0, 30, 0);
+    const rWing = lWing.clone();
+    rWing.scale.z = -1;
+
+    dragonGroup.add(dBody, dHead, eye1, eye2, lWing, rWing);
+    scene.add(dragonGroup);
+
+    // 8. ENTITY 5: THE MOUNTAIN COLOSSUS (180m)
+    const colossusGroup = new THREE.Group();
+    colossusGroup.position.set(85, 0, -60);
+    const stoneMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.9, metalness: 0.4 });
+    const cTorso = new THREE.Mesh(new THREE.BoxGeometry(35, 75, 30), stoneMat);
+    cTorso.position.y = 75;
+    const cHead = new THREE.Mesh(new THREE.BoxGeometry(22, 22, 22), stoneMat);
+    cHead.position.set(0, 125, 0);
+    const cLeg1 = new THREE.Mesh(new THREE.BoxGeometry(14, 75, 14), stoneMat);
+    cLeg1.position.set(-12, 37.5, 0);
+    const cLeg2 = new THREE.Mesh(new THREE.BoxGeometry(14, 75, 14), stoneMat);
+    cLeg2.position.set(12, 37.5, 0);
+    // Glowing red eyes
+    const redEyeMat = new THREE.MeshBasicMaterial({ color: 0xef4444 });
+    const ce1 = new THREE.Mesh(new THREE.SphereGeometry(2.5, 8, 8), redEyeMat);
+    ce1.position.set(-5, 128, 11);
+    const ce2 = new THREE.Mesh(new THREE.SphereGeometry(2.5, 8, 8), redEyeMat);
+    ce2.position.set(5, 128, 11);
+    colossusGroup.add(cTorso, cHead, cLeg1, cLeg2, ce1, ce2);
+    scene.add(colossusGroup);
+
+    // 9. ENTITY 6: SECTOR 9 PLANET TITAN (850m)
+    const titanGroup = new THREE.Group();
+    titanGroup.position.set(280, 0, -220);
+    const darkObsidianMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.95, roughness: 0.1, emissive: 0x4c1d95, emissiveIntensity: 0.4 });
+    
+    // Massive Body (850m height)
+    const tBody = new THREE.Mesh(new THREE.BoxGeometry(120, 360, 100), darkObsidianMat);
+    tBody.position.y = 380;
+    const tHead = new THREE.Mesh(new THREE.BoxGeometry(90, 100, 90), darkObsidianMat);
+    tHead.position.set(0, 610, 0);
+    const tLeg1 = new THREE.Mesh(new THREE.BoxGeometry(50, 380, 50), darkObsidianMat);
+    tLeg1.position.set(-50, 190, 0);
+    const tLeg2 = new THREE.Mesh(new THREE.BoxGeometry(50, 380, 50), darkObsidianMat);
+    tLeg2.position.set(50, 190, 0);
+
+    // Glowing Purple Crown & Eyes
+    const purpleEyeMat = new THREE.MeshBasicMaterial({ color: 0xc084fc });
+    const pe1 = new THREE.Mesh(new THREE.SphereGeometry(12, 8, 8), purpleEyeMat);
+    pe1.position.set(-22, 625, 46);
+    const pe2 = new THREE.Mesh(new THREE.SphereGeometry(12, 8, 8), purpleEyeMat);
+    pe2.position.set(22, 625, 46);
+    
+    // Giant Sector 9 Halo Ring
+    const haloRing = new THREE.Mesh(new THREE.TorusGeometry(80, 8, 8, 32), new THREE.MeshBasicMaterial({ color: 0x00f2fe, wireframe: true }));
+    haloRing.position.set(0, 680, 0);
+    haloRing.rotation.x = Math.PI / 2.5;
+
+    titanGroup.add(tBody, tHead, tLeg1, tLeg2, pe1, pe2, haloRing);
+    scene.add(titanGroup);
+
+    // 10. TIMELINE & ANIMATION FUNCTION
+    const charNameEl = document.getElementById('char-name');
+    const meterEl = document.getElementById('meter-counter');
+    const subTextEl = document.getElementById('sub-text');
+
+    window.renderFrameAtTime = function(t) {
+      // Dragon wing animation
+      lWing.rotation.z = Math.sin(t * 8) * 0.35;
+      rWing.rotation.z = -Math.sin(t * 8) * 0.35;
+      haloRing.rotation.z = t * 1.5;
+
+      // STAGES TIMELINE (0s -> 24s)
+      // Stage 1: Intro & Kevin (0.0s - 4.5s)
+      if (t < 4.5) {
+        charNameEl.textContent = "KEVIN THE FROG";
+        meterEl.textContent = "0.3 METERS";
+        meterEl.style.background = "linear-gradient(135deg, #4ade80, #22c55e)";
+        subTextEl.innerHTML = "AT 0.3 METERS: <span class='hl-green'>KEVIN THE FROG!</span>";
+
+        // Macro close-up on Kevin
+        const p = t / 4.5;
+        camera.position.set(-18 + p * 0.5, 0.45 + p * 0.2, 1.8 + p * 1.5);
+        camera.lookAt(-18, 0.25, 0);
+      }
+      // Stage 2: Eli (4.5s - 8.0s)
+      else if (t < 8.0) {
+        charNameEl.textContent = "ELI (ROBLOX BOY)";
+        meterEl.textContent = "1.5 METERS";
+        meterEl.style.background = "linear-gradient(135deg, #00f2fe, #0284c7)";
+        subTextEl.innerHTML = "AT 1.5 METERS: <span class='hl-cyan'>ELI IN BLUE HOODIE!</span>";
+
+        const p = (t - 4.5) / 3.5;
+        camera.position.set(-16 + p * 1.5, 1.4 + p * 0.8, 4.5 + p * 2.0);
+        camera.lookAt(-15, 1.1, 0);
+      }
+      // Stage 3: Skyscraper Carrot (8.0s - 12.0s)
+      else if (t < 12.0) {
+        charNameEl.textContent = "SKYSCRAPER CARROT";
+        meterEl.textContent = "28 METERS";
+        meterEl.style.background = "linear-gradient(135deg, #fb923c, #ea580c)";
+        subTextEl.innerHTML = "AT 28 METERS: <span class='hl-gold'>THE SKYSCRAPER CARROT!</span>";
+
+        const p = (t - 8.0) / 4.0;
+        camera.position.set(-12 + p * 8.0, 8.0 + p * 12.0, 18.0 + p * 15.0);
+        camera.lookAt(-4, 14.0, 0);
+      }
+      // Stage 4: Golden Dragon (12.0s - 15.5s)
+      else if (t < 15.5) {
+        charNameEl.textContent = "MYTHICAL GOLDEN DRAGON";
+        meterEl.textContent = "55 METERS";
+        meterEl.style.background = "linear-gradient(135deg, #ffd60a, #f59e0b)";
+        subTextEl.innerHTML = "AT 55 METERS: <span class='hl-gold'>THE GOLDEN DRAGON!</span>";
+
+        const p = (t - 12.0) / 3.5;
+        camera.position.set(0 + p * 15.0, 24.0 + p * 15.0, 45.0 + p * 20.0);
+        camera.lookAt(20, 25.0, -15);
+      }
+      // Stage 5: Mountain Colossus (15.5s - 19.5s)
+      else if (t < 19.5) {
+        charNameEl.textContent = "THE MOUNTAIN COLOSSUS";
+        meterEl.textContent = "180 METERS";
+        meterEl.style.background = "linear-gradient(135deg, #ef4444, #b91c1c)";
+        subTextEl.innerHTML = "AT 180 METERS: <span class='hl-gold'>THE MOUNTAIN COLOSSUS!</span>";
+
+        const p = (t - 15.5) / 4.0;
+        camera.position.set(30 + p * 30.0, 60.0 + p * 50.0, 90.0 + p * 60.0);
+        camera.lookAt(85, 75.0, -60);
+      }
+      // Stage 6: Sector 9 Titan (19.5s - 24.0s)
+      else {
+        charNameEl.textContent = "SECTOR 9 PLANET TITAN";
+        meterEl.textContent = "850 METERS";
+        meterEl.style.background = "linear-gradient(135deg, #c084fc, #7c3aed)";
+        subTextEl.innerHTML = "AT 850 METERS: <span class='hl-purple'>SECTOR 9 TITAN! VOTE BELOW!</span>";
+
+        const p = (t - 19.5) / 4.5;
+        // Epic extreme wide angle pulling far back into the sky
+        camera.position.set(80 + p * 50.0, 180.0 + p * 180.0, 240.0 + p * 220.0);
+        camera.lookAt(180, 320.0, -150);
+      }
+
+      renderer.render(scene, camera);
+    };
+
+    window.renderFrameAtTime(0);
+  </script>
+</body>
+</html>

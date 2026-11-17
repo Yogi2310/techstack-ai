@@ -27,6 +27,8 @@ temp_profile_*/
 preview_colossus.html
 agentic-code/projects/horror_shadow_titan_short/*.mp4
 outro_frames/
+roblox_3d_engine/temp_*
+scratch/
 
 # Python
 __pycache__/
