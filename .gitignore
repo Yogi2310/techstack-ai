@@ -32,6 +32,8 @@ outro_frames/
 roblox_3d_engine/temp_*
 scratch/
 zaylento_trending_collection/*.mp4
+Riyo_3D_Roblox_Series/master_videos/SHORT_1[2-9]*.mp4
+Riyo_3D_Roblox_Series/master_videos/SHORT_[2-9][0-9]*.mp4
 
 # Python
 __pycache__/
