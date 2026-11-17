@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TaleBlox • Zaylento Trending Vault</title>
+  <style>
+    :root {
+      --bg: #090c15;
+      --card: #131929;
+      --accent: #ffd60a;
+      --accent-cyan: #00f2fe;
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --active-card: #1e293b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: rgba(19, 25, 41, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: -0.5px;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #ffd60a, #ff9f0a);
+      color: #000;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .stats-badge {
+      background: rgba(0, 242, 254, 0.15);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      color: var(--accent-cyan);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 32px;
+      padding: 32px 36px;
+      max-width: 1700px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
+    }
+
+    .player-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+    .phone-frame {
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 9/16;
+      background: #000;
+      border-radius: 36px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 214, 10, 0.4);
+      position: relative;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.85);
+    }
+    video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .player-meta {
+      width: 100%;
+      max-width: 380px;
+      margin-top: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .pm-views { color: var(--accent); font-weight: 800; font-size: 1.1rem; margin-bottom: 4px; }
+    .pm-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+
+    .library-col { display: flex; flex-direction: column; gap: 16px; }
+    .lib-header { font-size: 1.3rem; font-weight: 800; display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .lib-sub { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 12px; }
+
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .v-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .v-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+    .v-card.active {
+      border-color: var(--accent);
+      background: var(--active-card);
+      box-shadow: 0 0 20px rgba(255, 214, 10, 0.15);
+    }
+    .v-views-tag {
+      background: rgba(255, 214, 10, 0.15);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 8px;
+      align-self: flex-start;
+      border: 1px solid rgba(255, 214, 10, 0.3);
+    }
+    .v-card-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; }
+    .v-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand-title">
+      <span>👑 TaleBlox Creator Studio</span>
+      <span class="brand-badge">Zaylento Trending Vault</span>
+    </div>
+    <div class="stats-badge">🔥 Top 12 Viral Videos Sorted by Views</div>
+  </header>
+
+  <div class="main-layout">
+    
+    <div class="player-col">
+      <div class="phone-frame">
+        <video id="vaultVideo" controls autoplay loop playsinline>
+          <source id="videoSource" src="01_Rich_Live_Above_The_Clouds_Part1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="player-meta">
+        <div class="pm-views" id="activeViews">🔥 1,500,000 Views</div>
+        <div class="pm-title" id="activeTitle">In This Town, The Rich Live Above the Clouds (Part 1)</div>
+      </div>
+    </div>
+
+    <div class="library-col">
+      <div>
+        <div class="lib-header">📂 Zaylento Viral Master Archive</div>
+        <div class="lib-sub">Click any card to immediately load and stream the video in the cinema player:</div>
+      </div>
+      <div class="grid-cards" id="cardsGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const videos = [
+      {
+        rank: "#1",
+        file: "01_Rich_Live_Above_The_Clouds_Part1.mp4",
+        title: "In This Town, The Rich Live Above the Clouds (Part 1)",
+        views: "1,500,000 Views",
+        concept: "The ultimate class division story: the billionaire elite live in the sky, while the ground residents breathe smog."
+      },
+      {
+        rank: "#2",
+        file: "02_Touching_Ground_Costs_10_Dollars.mp4",
+        title: "In This Town, Touching the Ground Costs $10",
+        views: "958,000 Views",
+        concept: "Every step on the street drains your bank account. Parkour is survival!"
+      },
+      {
+        rank: "#3",
+        file: "03_Paid_For_Being_Unlucky.mp4",
+        title: "In This Town, You Get Paid for Being Unlucky",
+        views: "769,000 Views",
+        concept: "Stub your toe, win $500. Get hit by an anvil, become a millionaire!"
+      },
+      {
+        rank: "#4",
+        file: "04_Monster_Only_Moves_In_Dark_Part2.mp4",
+        title: "The Monster Can Only Move in the Dark (Part 2)",
+        views: "681,000 Views",
+        concept: "The viral horror sequel! Keep your flashlight charged or the Shadow Beast strikes."
+      },
+      {
+        rank: "#5",
+        file: "05_Cereal_Golden_Ticket.mp4",
+        title: "In This Town, One Cereal Box Contains a Golden Ticket",
+        views: "581,000 Views",
+        concept: "The Willy Wonka Roblox parody where buying cereal turns into an all-out grocery war."
+      },
+      {
+        rank: "#6",
+        file: "06_Paid_For_Being_Embarrassed.mp4",
+        title: "In This Town, You Get Paid for Being Embarrassed",
+        views: "548,000 Views",
+        concept: "The more cringe things you do in public, the richer you become!"
+      },
+      {
+        rank: "#7",
+        file: "07_Never_Look_At_The_Moon.mp4",
+        title: "In This Town, Nobody Is Allowed to Look at the Moon",
+        views: "504,000 Views",
+        concept: "Looking up turns you into a lunar thrall. Don't look out the window tonight..."
+      },
+      {
+        rank: "#8",
+        file: "08_Poor_People_Become_Invisible.mp4",
+        title: "In This Town, Poor People Become Invisible",
+        views: "462,000 Views",
+        concept: "When your money hits zero, you physically fade from reality."
+      },
+      {
+        rank: "#9",
+        file: "09_Choose_Between_Two_Pills_Part1.mp4",
+        title: "In This Town, Everyone Must Choose Between Two Pills (Part 1)",
+        views: "461,000 Views",
+        concept: "Yellow Pill or Black Pill? The choice changes your body forever."
+      },
+      {
+        rank: "#10",
+        file: "10_Everyone_Lives_In_Backrooms.mp4",
+        title: "In This Town, Everyone Lives Inside the Backrooms",
+        views: "375,000 Views",
+        concept: "Surviving the endless yellow carpet and buzzing fluorescent lights."
+      },
+      {
+        rank: "#11",
+        file: "11_Midnight_Ice_Cream_Truck.mp4",
+        title: "The Ice Cream Truck Only Comes at Midnight",
+        views: "373,000 Views",
+        concept: "The music plays at 12:00 AM, and the treats give you forbidden cursed perks."
+      },
+      {
+        rank: "#12",
+        file: "12_Hunted_For_10_Days.mp4",
+        title: "In This Town, One Person Gets Hunted for 10 Days",
+        views: "351,000 Views",
+        concept: "The entire town is against you. Survive 10 days to win the kingdom."
+      }
+    ];
+
+    let currentIdx = 0;
+    const vPlayer = document.getElementById("vaultVideo");
+    const vSource = document.getElementById("videoSource");
+    const activeViews = document.getElementById("activeViews");
+    const activeTitle = document.getElementById("activeTitle");
+    const grid = document.getElementById("cardsGrid");
+
+    function loadCard(idx) {
+      currentIdx = idx;
+      const v = videos[idx];
+      vSource.src = v.file;
+      vPlayer.load();
+      vPlayer.play().catch(() => {});
+      activeViews.textContent = `🔥 ${v.views}`;
+      activeTitle.textContent = v.title;
+      renderCards();
+    }
+
+    function renderCards() {
+      grid.innerHTML = "";
+      videos.forEach((v, idx) => {
+        const card = document.createElement("div");
+        card.className = `v-card ${idx === currentIdx ? 'active' : ''}`;
+        card.onclick = () => loadCard(idx);
+        card.innerHTML = `
+          <div>
+            <div class="v-views-tag">${v.rank} • ${v.views}</div>
+            <div class="v-card-title" style="margin-top: 8px;">${v.title}</div>
+            <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 6px;">${v.concept}</div>
+          </div>
+          <div class="v-card-footer">
+            <span>📹 MP4 Master</span>
+            <span style="color: var(--accent); font-weight: 700;">▶ Play Video</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    renderCards();
+  </script>
+</body>
+</html>
