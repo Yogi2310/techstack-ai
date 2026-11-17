@@ -15,6 +15,8 @@ ffmpeg_render.log
 .env*
 *.key
 *.pem
+instagram_credentials.json
+instagram_session.json
 
 # Large Binaries & Temporary Downloads
 *.vsix
