@@ -128,6 +128,7 @@ Optimal release slots for TaleBlox: **11:30 AM IST** (Midday peak) & **5:00 PM I
 * **Interactive Player:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\interactive_players\watch_all_videos.html`
 * **Upload Ledger:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\upload_ledger.json`
 * **Batch Uploader Script:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\upload_tools\batch_schedule_shorts.py`
+* **Blender 3D Installation:** `D:\Blender\blender.exe` (Blender 5.3.0, added to User PATH & Desktop shortcut)
 
 ---
 
