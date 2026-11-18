@@ -81,6 +81,12 @@ Optimal release slots for TaleBlox: **11:30 AM IST** (Midday peak) & **5:00 PM I
 * **Location:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\upload_ledger.json`
 * Automatically tracks every video's status (`published`, `scheduled`, `replaced`), YouTube Video ID, release slot, and timestamps to prevent any accidental duplicate uploads.
 
+### 2. Official Channel Playlist
+* **Playlist Title:** `TaleBlox: 3D Roblox Stories`
+* **Playlist ID:** `PLVggEv6GO86E`
+* **Direct URL:** [https://www.youtube.com/playlist?list=PLVggEv6GO86E](https://www.youtube.com/playlist?list=PLVggEv6GO86E)
+* Contains all live episodes and automatically receives future scheduled episodes as they go public!
+
 ### 2. Batch Scheduler Script (`batch_schedule_shorts.py`)
 * **Location:** `D:\Antigravity\Pro\Riyo_3D_Roblox_Series\upload_tools\batch_schedule_shorts.py`
 * **Features:**
