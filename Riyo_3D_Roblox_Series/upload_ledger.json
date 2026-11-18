@@ -1,0 +1,85 @@
+{
+  "SHORT_1_Throw_Food_For_Pets_Part1.mp4": {
+    "status": "published",
+    "video_id": "existing"
+  },
+  "SHORT_2_100_Year_Ocean_Tide.mp4": {
+    "status": "published",
+    "video_id": "existing"
+  },
+  "SHORT_3_The_Colossus_Awakens_Part2.mp4": {
+    "status": "published",
+    "video_id": "existing"
+  },
+  "SHORT_4_Video_Game_Town_Level_999.mp4": {
+    "status": "published",
+    "video_id": "existing"
+  },
+  "SHORT_5_Ages_Backwards_Grandpa_Egg.mp4": {
+    "status": "published",
+    "video_id": "existing"
+  },
+  "SHORT_11_The_Rich_Live_Above_The_Clouds.mp4": {
+    "status": "published",
+    "video_id": "oxX9R_XLZd4"
+  },
+  "SHORT_12_Touching_the_Ground_Costs_10.mp4": {
+    "status": "scheduled",
+    "video_id": "n8EViLFGln0",
+    "publish_at": "2026-11-18T03:30:00Z"
+  },
+  "SHORT_6_The_Forbidden_Black_Onion.mp4": {
+    "status": "replaced",
+    "video_id": "nGH6JHUbUpM",
+    "title": "The Forbidden Black Onion \ud83c\udfae\ud83d\udd25 (Roblox 3D Story) #shorts #roblox",
+    "publish_at": "2026-11-18T11:30:00Z",
+    "slot_label": "Today (Wed Nov 18) @ 5:00 PM IST",
+    "scheduled_at": "2026-11-18T04:39:58.705766Z"
+  },
+  "SHORT_7_Roblox_Eli_Golden_Cheese_Full_Motion.mp4": {
+    "status": "replaced",
+    "video_id": "5qXWPOMyRpk",
+    "title": "Roblox Eli Golden Cheese Full Motion \ud83c\udfae\ud83d\udd25 (Roblox 3D Story) #shorts #roblox",
+    "publish_at": "2026-11-19T06:00:00Z",
+    "slot_label": "Thu Nov 19 @ 11:30 AM IST",
+    "scheduled_at": "2026-11-18T04:40:05.095597Z"
+  },
+  "SHORT_10_Everyone_Is_A_Ninja.mp4": {
+    "status": "scheduled",
+    "video_id": "QCXJbCi3Kjs",
+    "title": "Everyone Is A Ninja Except Me \ud83e\udd77\u26e9\ufe0f (Roblox 3D Story) #shorts #roblox",
+    "publish_at": "2026-11-19T11:30:00Z",
+    "slot_label": "Thu Nov 19 @ 5:00 PM IST",
+    "scheduled_at": "2026-11-18T04:40:35.717161Z"
+  },
+  "SHORT_13_You_Get_Paid_for_Being_Unlucky.mp4": {
+    "status": "scheduled",
+    "video_id": "3jWlpNZdzaY",
+    "title": "You Get Paid For Being Unlucky \ud83c\udf40\ud83d\udcb0 (Roblox 3D Story) #shorts #roblox",
+    "publish_at": "2026-11-20T06:00:00Z",
+    "slot_label": "Fri Nov 20 @ 11:30 AM IST",
+    "scheduled_at": "2026-11-18T04:41:08.340550Z"
+  },
+  "SHORT_14_the_Monster_Can_Only_Move_in_the_Dark_Pa.mp4": {
+    "status": "scheduled",
+    "video_id": "gerL4dYdPws",
+    "title": "The Monster Can Only Move In The Dark! \ud83c\udf11\ud83d\udc41\ufe0f (Part 1) #shorts #roblox",
+    "publish_at": "2026-11-20T11:30:00Z",
+    "slot_label": "Fri Nov 20 @ 5:00 PM IST",
+    "scheduled_at": "2026-11-18T04:41:39.084412Z"
+  },
+  "SHORT_15_One_Cereal_Box_Contains_a_Golden_Ticket.mp4": {
+    "status": "scheduled",
+    "video_id": "Z5P3HwzEgD4",
+    "title": "One Cereal Box Contains A Golden Ticket! \ud83e\udd63\ud83c\udfab (Roblox 3D Story) #shorts #roblox",
+    "publish_at": "2026-11-18T11:30:00Z",
+    "slot_label": "Today (Wed Nov 18) @ 5:00 PM IST"
+  },
+  "SHORT_16_You_Get_Paid_for_Being_Embarrassed.mp4": {
+    "status": "scheduled",
+    "video_id": "IxgtoW8k3s0",
+    "title": "You Get Paid For Being Embarrassed! \ud83d\ude33\ud83d\udcb8 (Roblox 3D Story) #shorts #roblox",
+    "publish_at": "2026-11-19T06:00:00Z",
+    "slot_label": "Thu Nov 19 @ 11:30 AM IST"
+  }
+}
