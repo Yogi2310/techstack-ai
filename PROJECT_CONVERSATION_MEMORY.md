@@ -13,9 +13,9 @@
 ## 📌 Executive Summary & Key Milestones
 
 1. **Massive Algorithmic Growth:**
-   - **Subscriber Growth:** Grew from 28 to **351+ subscribers** (and rapidly growing).
+   - **Subscriber Growth:** Grew from 28 to **445+ subscribers** (+94 in a single day, rapidly marching toward 1,000!).
    - **Viral Breakout:** Short #1 (*"In This Town, You Throw Food To Get Pets... 😱"*) surged to **106,000+ views** with an 87.6% retention rate.
-   - **High-Performing Catalog:** Over **150,000+ total views** generated across the top stories.
+   - **High-Performing Catalog:** Over **162,900+ total views** generated across the top stories.
    - **Pivoted to 100% 3D Roblox Shorts:** Abandoned standard screen recordings and low-performing devlogs in favor of high-energy, vertical 3D CGI stories with cinema watermarks and outro cards.
 
 2. **Channel Rebranding to TaleBlox:**
@@ -50,10 +50,11 @@
 | **In This Town, You Throw Food To Get Pets... 😱** | `23UgMKnyiWw` | **106,000 views** | 🟢 **Live (Anchor Viral Hit)** |
 | **The Giant Carrot Woke Up The Titan... 😱🥕 (P-2)** | `qlE3DMDswn8` | **23,000 views** | 🟢 **Live** |
 | **The Entire Ocean Just Vanished for 24 Hours 🌊😱** | `8uqNHiG5wzo` | **15,000 views** | 🟢 **Live** |
-| **In This Town, Everyone Ages Backwards 👶👴** | `04nx3n98XiI` | **2,000 views** | 🟢 **Live** |
+| **Touching The Ground Costs $10 💸🏃** | `n8EViLFGln0` | **8,400 views** | 🟢 **Live (Breakout Surge)** |
+| **In This Town, The Rich Live Above The Clouds ☁️🏙️** | `oxX9R_XLZd4` | **3,200 views** | 🟢 **Live** |
+| **In This Town, Everyone Ages Backwards 👶👴** | `04nx3n98XiI` | **3,100 views** | 🟢 **Live** |
+| **One Cereal Box Contains A Golden Ticket! 🥣🎫** | `Z5P3HwzEgD4` | **2,400 views** | 🟢 **Live (2.4K in <3 Hours!)** |
 | **In My Town, Everything Works Like A Video Game 🎮** | `j0fBOXT8yjE` | **1,800 views** | 🟢 **Live** |
-| **In This Town, The Rich Live Above The Clouds ☁️🏙️** | `oxX9R_XLZd4` | **1,700 views** | 🟢 **Live** |
-| **Touching The Ground Costs $10 💸🏃** | `n8EViLFGln0` | **827+ views** | 🟢 **Live (Nov 18 Morning Drop)** |
 
 ---
 
